@@ -580,7 +580,7 @@ input[role="combobox"] {
 .tiles .tile {
   font-size: 10px;
   min-height: 64px;
-  animation: reveal 0.4s both;
+  animation: none;
 }
 .tiles small {
   display: none;
@@ -1776,5 +1776,94 @@ dialog {
   }
   .primary {
     padding: 14px 12px;
+  }
+}
+
+/* Each clue starts face-down, then turns over in submission order. */
+.comparison-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  padding: 0;
+  perspective: 700px;
+  background: transparent;
+  border: 0;
+}
+.flip-inner {
+  display: grid;
+  width: 100%;
+  min-height: 76px;
+  transform-style: preserve-3d;
+  transform: rotateX(180deg);
+}
+.flip-face {
+  grid-area: 1/1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  padding: 12px 5px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-front {
+  background: var(--card);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  transform: rotateX(0deg);
+}
+.flip-back {
+  transform: rotateX(180deg);
+}
+.flip-face small {
+  font-size: 8px;
+  letter-spacing: 0.7px;
+  margin-bottom: 7px;
+}
+.unrevealed-mark {
+  font:
+    18px Georgia,
+    serif;
+  color: #8c1d2c;
+  opacity: 0.4;
+}
+.is-flipping .flip-inner {
+  animation: clue-turn var(--flip-duration) cubic-bezier(0.45, 0, 0.55, 1)
+    var(--flip-delay) both;
+}
+.comparison-flip[data-explain]:not([data-explain=""]):after {
+  content: attr(data-explain);
+  position: absolute;
+  background: var(--navy);
+  color: var(--card);
+  padding: 10px;
+  bottom: 90%;
+  width: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 11px;
+}
+@keyframes clue-turn {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(180deg);
+  }
+}
+[data-motion="off"] .flip-inner {
+  animation: none !important;
+  transform: rotateX(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner {
+    animation: none !important;
+    transform: rotateX(180deg);
   }
 }

@@ -1,12 +1,17 @@
+import { ComparisonTile } from "./ComparisonTile";
 import { colleges, compare, type College } from "../game/engine";
 export function Board({
   ids,
   answer,
   hard,
+  revealId,
+  onRevealComplete,
 }: {
   ids: string[];
   answer: College;
   hard: boolean;
+  revealId: string | null;
+  onRevealComplete: () => void;
 }) {
   return (
     <div className="board">
@@ -31,41 +36,23 @@ export function Board({
               </div>
               <div className="tiles">
                 {compare(c, answer, hard).map((t, i) => (
-                  <button
+                  <ComparisonTile
                     key={i}
-                    type="button"
-                    className={`tile ${t.color}`}
-                    style={{ animationDelay: `${i * 110}ms` }}
-                    title={t.hint}
-                    aria-label={`${["State", "Type", "Students", "Rank", "Division", "Conference"][i]}: ${t.value}. ${t.hint}`}
-                    onClick={(e) => {
-                      const el = e.currentTarget;
-                      el.dataset.explain = el.dataset.explain ? "" : t.hint;
-                    }}
-                  >
-                    <small>
-                      {
-                        [
-                          "State",
-                          "Type",
-                          "Students",
-                          "Rank",
-                          "Division",
-                          "Conference",
-                        ][i]
-                      }
-                    </small>
-                    <b>{t.value}</b>
-                    <span className="indicator">
-                      {t.color === "green"
-                        ? "✓"
-                        : t.color === "yellow"
-                          ? "≈"
-                          : t.color === "neutral"
-                            ? "—"
-                            : "×"}
-                    </span>
-                  </button>
+                    tile={t}
+                    label={
+                      [
+                        "State",
+                        "Type",
+                        "Students",
+                        "Rank",
+                        "Division",
+                        "Conference",
+                      ][i]
+                    }
+                    index={i}
+                    animate={id === revealId}
+                    onComplete={i === 5 ? onRevealComplete : undefined}
+                  />
                 ))}
               </div>
             </div>

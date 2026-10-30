@@ -111,3 +111,47 @@ test("social preview", async ({ page }) => {
   await page.goto("/branding/social.svg");
   await page.screenshot({ path: "public/og-image.png" });
 });
+
+test("new clues flip in order, saved rows remain revealed", async ({
+  page,
+}) => {
+  await page.goto("/#practice");
+  const answerId = await page.evaluate(() => JSON.parse(localStorage.getItem("cg-v1-practice")!).answer);
+  const incorrectSchool = dataset.find(c => c.id !== answerId)!;
+  await page.getByRole("combobox").fill(incorrectSchool.name);
+  await page.getByRole("option").first().click();
+  await page.getByRole("button", { name: /Submit Guess/ }).click();
+  const tiles = page.locator(".guess-row").first().locator(".comparison-flip");
+  await expect(tiles).toHaveCount(6);
+  await expect(tiles.last()).toHaveAttribute(
+    "aria-label",
+    "Revealing Conference clue",
+  );
+  await expect(page.getByRole("combobox")).toBeDisabled();
+  await expect(tiles.first()).toHaveAttribute("aria-label", /^State:/);
+  await expect(tiles.last()).toHaveAttribute(
+    "aria-label",
+    "Revealing Conference clue",
+  );
+  await expect(tiles.last()).toHaveAttribute("aria-label", /^Conference:/);
+  await expect(page.getByRole("combobox")).toBeEnabled();
+  await page.reload();
+  await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
+  await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
+    "aria-label",
+    /^Conference:/,
+  );
+});
+
+test("reduced motion reveals clues immediately", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#practice");
+  await page.getByRole("combobox").fill("Harvard");
+  await page.getByRole("option").first().click();
+  await page.getByRole("button", { name: /Submit Guess/ }).click();
+  await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
+  await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
+    "aria-label",
+    /^Conference:/,
+  );
+});

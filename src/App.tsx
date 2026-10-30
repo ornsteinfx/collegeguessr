@@ -69,6 +69,7 @@ export function App() {
         : "home",
   );
   const [modal, setModal] = useState("");
+  const [revealingId, setRevealingId] = useState<string | null>(null);
   const [settings, setSettings] = useState(() =>
     load<SettingsType>(
       "cg-v1-settings",
@@ -155,6 +156,7 @@ export function App() {
       setRound(load(`cg-v1-${dateKey()}`, fresh("daily"), validRound));
   }, [now, round]);
   function navigate(p: string) {
+    setRevealingId(null);
     setPage(p);
     location.hash = p === "home" ? "" : p;
     if (p === "daily" || p === "practice") {
@@ -167,6 +169,12 @@ export function App() {
     }
     setModal("");
   }
+  useEffect(() => {
+    if (revealingId && !settings.motion) {
+      setRevealingId(null);
+      if (status(round) !== "playing") setModal("result");
+    }
+  }, [settings.motion, revealingId, round]);
   const answer = colleges.find((c) => c.id === round.answer)!;
   const end = status(round);
   const records = Object.values(history).filter((r) => r.mode === "daily");
@@ -229,6 +237,7 @@ export function App() {
     }
   }
   function newPractice() {
+    setRevealingId(null);
     setRound(fresh("practice", round.answer));
     setModal("");
   }
@@ -335,11 +344,16 @@ export function App() {
               )}
               <Search
                 excluded={round.guesses}
-                disabled={end !== "playing"}
+                disabled={end !== "playing" || revealingId !== null}
                 onGuess={(id) => {
                   const r = guess(round, id);
+                  if (r === round) return;
+                  const animate =
+                    settings.motion &&
+                    !matchMedia("(prefers-reduced-motion: reduce)").matches;
+                  setRevealingId(animate ? id : null);
                   setRound(r);
-                  if (status(r) !== "playing") setModal("result");
+                  if (!animate && status(r) !== "playing") setModal("result");
                 }}
               />
               <div className="legend">
@@ -357,8 +371,20 @@ export function App() {
                 </span>
                 <span>↑ Higher · ↓ Lower · — Unavailable</span>
               </div>
-              <Board ids={round.guesses} answer={answer} hard={settings.hard} />
-              {end !== "playing" && (
+              <Board
+                key={
+                  round.roundId ?? `${round.mode}-${round.date}-${round.answer}`
+                }
+                ids={round.guesses}
+                answer={answer}
+                hard={settings.hard}
+                revealId={settings.motion ? revealingId : null}
+                onRevealComplete={() => {
+                  setRevealingId(null);
+                  if (status(round) !== "playing") setModal("result");
+                }}
+              />
+              {end !== "playing" && !revealingId && (
                 <div className="completed">
                   <strong>
                     {end === "won" ? "You found it!" : "Better luck tomorrow."}{" "}

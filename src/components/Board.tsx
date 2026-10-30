@@ -73,14 +73,14 @@ export function Board({
         })
       ) : (
         <div className="empty">
-          <img src="/branding/crest.svg" alt="" />
-          <h3>Every school has a story.</h3>
+          <img src={`${import.meta.env.BASE_URL}branding/crest.svg`} alt="" />
+          <h3>No guesses recorded.</h3>
           <p>
             Your first guess is the first clue.
             <br />
             Start with a college you know.
           </p>
-          <span>STATE · SIZE · SPORTS · AND A LITTLE INTUITION</span>
+          <span>LOCATION · ENROLLMENT · INSTITUTION · ATHLETICS</span>
         </div>
       )}
     </div>

@@ -2,7 +2,7 @@
 
 Guess the school. Decode the clues.
 
-A React + TypeScript + Vite static college guessing game, with an original SVG academic crest, ivory/navy design, responsive clue cards, fuzzy college search, Daily and unlimited Practice.
+A React + TypeScript + Vite static college guessing game, with an original SVG academic crest, crimson and parchment academic design, responsive clue cards, fuzzy college search, Daily and unlimited Practice.
 
 **Status: working v1 with a documented data limitation.** There are 500 real IPEDS institutions and **427 eligible mystery answers**, exceeding the minimum 250. The remaining 73 lack an unambiguous current NCAA match and cannot become mystery answers. All numeric rankings remain unavailable because no licensed ranking source was imported; ranking clues display neutral N/A. Enrollment is sourced from Fall 2023, athletics from the official NCAA 2026–27 active-member directory. No statistics or rankings are fabricated.
 
@@ -72,3 +72,8 @@ Epoch: October 30, 2026, puzzle #1. America/New_York defines the date. `schedule
 Both SVG artwork and a 1200×630 PNG Open Graph image are included. Configure an absolute canonical deployment URL and og:image URL before public launch. Fonts load from Google Fonts with system fallbacks. CSS is custom rather than Tailwind; animations use CSS rather than Motion to keep runtime dependencies small.
 
 CollegeGuessr is independently developed and is not affiliated with any listed university, conference, ranking organization or NCES. NCES source data is attributed above. Branding artwork is original to this project.
+
+
+## GitHub Pages
+
+The live site is https://ornsteinfx.github.io/collegeguessr/. GitHub Pages must use **GitHub Actions** as its publishing source. `.github/workflows/pages.yml` installs dependencies, runs unit tests, builds Vite with `--base=/collegeguessr/`, and deploys the compiled `dist` artifact. Never publish the repository root as an unbuilt static site: browsers cannot execute the TypeScript/React entry point directly. All public assets resolve through Vite's configured base path. Local and Vercel builds retain the default `/` base. The round identifier also falls back safely when `crypto.randomUUID` is unavailable.

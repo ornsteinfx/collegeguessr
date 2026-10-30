@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
 :root {
   font-family: "DM Sans", sans-serif;
@@ -992,4 +993,751 @@ mark {
 
 .tile b {
   overflow-wrap: anywhere;
+}
+/* College Guessr institutional identity */
+
+:root {
+  --bg: #faf8f2;
+  --card: #fffdf8;
+  --navy: #791b2b;
+  --text: #292622;
+  --muted: #746d64;
+  --border: #d8d2c6;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Source Sans 3", "DM Sans", Arial, sans-serif;
+}
+body {
+  border-top: 7px solid #791b2b;
+}
+h1,
+h2,
+h3 {
+  font-family: "Source Serif 4", Georgia, serif;
+  color: var(--text);
+}
+button {
+  border-radius: 0 !important;
+}
+.primary {
+  background: #791b2b;
+  border: 1px solid #791b2b;
+  color: #fffdf8;
+  letter-spacing: 0.2px;
+  padding: 16px 24px;
+  font-size: 14px;
+}
+.primary:hover {
+  background: #571321;
+}
+.secondary {
+  border-color: var(--border);
+  color: var(--text);
+  background: transparent;
+}
+.primary:focus-visible,
+button:focus-visible {
+  outline-color: #a77b3d;
+}
+header {
+  max-width: 1280px;
+  padding: 25px 44px 24px;
+  border-bottom: 0;
+  align-items: center;
+}
+.brand {
+  gap: 17px;
+}
+.brand img {
+  width: 77px;
+  height: 84px;
+}
+.brand > span {
+  font:
+    38px "Source Serif 4",
+    Georgia,
+    serif;
+  color: #681725;
+  letter-spacing: -1px;
+}
+.brand small {
+  color: #716252;
+  font-size: 8px;
+  letter-spacing: 2.6px;
+  margin-top: 5px;
+}
+nav {
+  gap: 27px;
+}
+nav button {
+  font-size: 14px;
+  color: #493b34;
+}
+nav .selected {
+  border-color: #8c1d2c;
+}
+nav button:hover {
+  color: #8c1d2c;
+}
+main {
+  max-width: 1192px;
+  padding: 0 0;
+}
+.edition-line {
+  border-top: 1px solid #8b2837;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-family: Georgia, serif;
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  color: #74665c;
+}
+.edition-line span:last-child {
+  letter-spacing: 1px;
+}
+.academic-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 70px;
+  padding: 50px 0 48px;
+}
+.hero-copy {
+  padding-top: 25px;
+}
+.section-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  color: #8c1d2c;
+}
+.hero-copy h1 {
+  font-size: 58px;
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -1.7px;
+  max-width: 540px;
+  margin: 22px 0;
+}
+.hero-copy h1 em {
+  color: #8c1d2c;
+  font-weight: 400;
+}
+.red-rule {
+  width: 47px;
+  height: 2px;
+  background: #8c1d2c;
+  margin: 24px 0;
+}
+.hero-copy > p {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 18px;
+  color: #685e53;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 370px;
+}
+.academic-actions {
+  display: flex;
+  gap: 27px;
+  align-items: center;
+  margin-top: 29px;
+}
+.text-action {
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid #a58b73;
+  color: #6c1a29;
+  white-space: nowrap;
+}
+.issue-caption {
+  font-size: 10px;
+  color: #8b7e70;
+  margin-top: 19px;
+}
+.issue-caption span {
+  margin: 0 7px;
+}
+.college-plate {
+  border: 1px solid #d7cabc;
+  outline: 1px solid #d7cabc;
+  outline-offset: -8px;
+  background: #f2ecdf;
+  padding: 23px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 476px;
+}
+.plate-heading {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  font-family: Georgia, serif;
+  color: #8b7163;
+}
+.plate-seal {
+  width: 150px;
+  height: 164px;
+  margin-top: 19px;
+}
+.campus-engraving {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  margin-top: -7px;
+}
+.plate-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  color: #8a7667;
+}
+.plate-caption > span {
+  font-size: 8px;
+  letter-spacing: 3px;
+}
+.plate-caption i {
+  font-family: Georgia, serif;
+  font-size: 12px;
+}
+.academic-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 3px double #b5a693;
+  border-bottom: 1px solid #b5a693;
+  padding: 23px 0 25px;
+}
+.academic-facts > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-right: 1px solid var(--border);
+}
+.academic-facts > div:first-child {
+  justify-content: start;
+}
+.academic-facts > div:last-child {
+  border-right: 0;
+}
+.academic-facts b {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 35px;
+  font-weight: 400;
+  color: #791b2b;
+}
+.academic-facts span {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #6c6156;
+  max-width: 95px;
+}
+.academic-guide {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: 60px;
+  padding: 47px 0 40px;
+}
+.guide-title h2 {
+  font-size: 30px;
+  line-height: 1.17;
+  letter-spacing: -0.5px;
+  margin: 15px 0 21px;
+}
+.guide-title .text-action {
+  font-size: 10px;
+}
+.guide-content > p {
+  font:
+    17px/1.7 "Source Serif 4",
+    Georgia,
+    serif;
+  color: #6b5f53;
+  margin: 0 0 25px;
+  max-width: 650px;
+}
+.guide-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  border-top: 1px solid var(--border);
+  padding-top: 19px;
+}
+.guide-number {
+  font:
+    italic 19px Georgia,
+    serif;
+  color: #8c1d2c;
+}
+.guide-steps h3 {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 8px 0;
+}
+.guide-steps p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #7a6d60;
+  margin: 0;
+}
+.guide-steps .dot {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px 1px;
+}
+.data-banner {
+  max-width: none;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  padding: 17px 0;
+  font-size: 10px;
+  color: #817568;
+  margin: 0;
+}
+.data-banner b {
+  color: #791b2b;
+}
+footer {
+  max-width: none;
+  background: #661b29;
+  border-top: 4px double #b5987d;
+  color: #eddfd1;
+  padding: 29px max(30px, calc((100% - 1192px) / 2));
+  margin: 0;
+  flex-wrap: wrap;
+}
+footer button {
+  color: #eddfd1;
+}
+footer i {
+  color: #d5b993;
+}
+footer small {
+  color: #d4bdae;
+}
+.game-heading {
+  padding: 39px 0 25px;
+  border-top: 1px solid #8c1d2c;
+}
+.game-heading .eyebrow {
+  color: #8c1d2c;
+}
+.game-heading h1 {
+  font-size: 37px;
+}
+.game-heading p {
+  font:
+    16px Georgia,
+    serif;
+  color: var(--muted);
+}
+.game-card {
+  border-radius: 0;
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: none;
+  border-top: 3px solid #791b2b;
+  padding: 27px;
+}
+.input-wrap,
+.suggestions {
+  border-radius: 0;
+}
+.board-head {
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+}
+.empty img {
+  width: 90px;
+  opacity: 0.55;
+}
+.empty {
+  padding: 32px 0;
+}
+.empty h3 {
+  font-size: 21px;
+}
+.empty > span {
+  letter-spacing: 1px;
+}
+.game-toolbar {
+  font-family: Georgia, serif;
+}
+.progress .filled {
+  background: #8c1d2c;
+}
+.onboarding {
+  border-radius: 0;
+  background: #f5f0e5;
+}
+.tile {
+  border-radius: 0;
+}
+.game-bottom {
+  margin: 20px 0 37px;
+}
+.reveal img {
+  width: 110px;
+}
+.brand img {
+  filter: none !important;
+}
+dialog {
+  border-radius: 0;
+  border-top: 4px solid #8c1d2c;
+  background: var(--card);
+}
+.modal-top h2 {
+  font-family: "Source Serif 4", Georgia, serif;
+}
+.settings input {
+  accent-color: #8c1d2c;
+}
+[data-theme="dark"] {
+  --bg: #201d1b;
+  --card: #292422;
+  --text: #eee5d9;
+  --muted: #b8aa9b;
+  --border: #52483f;
+  --navy: #e1b9b6;
+  background: var(--bg);
+}
+[data-theme="dark"] .brand > span {
+  color: #eeddd0;
+}
+[data-theme="dark"] .brand small,
+[data-theme="dark"] nav button {
+  color: #d6c4b6;
+}
+[data-theme="dark"] .primary {
+  background: #8c293b;
+  border-color: #a44856;
+  color: #fff8ef;
+}
+[data-theme="dark"] .college-plate {
+  background: #eae0cd;
+}
+[data-theme="dark"] .hero-copy > p,
+[data-theme="dark"] .guide-content > p,
+[data-theme="dark"] .guide-steps p,
+[data-theme="dark"] .academic-facts span {
+  color: #c1b0a1;
+}
+[data-theme="dark"] .academic-facts b,
+[data-theme="dark"] .section-kicker,
+[data-theme="dark"] .hero-copy h1 em,
+[data-theme="dark"] .text-action,
+[data-theme="dark"] .guide-number {
+  color: #dda5a9;
+}
+[data-theme="dark"] .onboarding {
+  background: #332a25;
+}
+[data-theme="dark"] .data-banner {
+  color: #b9a897;
+}
+[data-theme="dark"] .data-banner b {
+  color: #dfa7a9;
+}
+@media (max-width: 1250px) {
+  main {
+    margin: 0 38px;
+  }
+  .academic-hero {
+    gap: 40px;
+  }
+  .hero-copy h1 {
+    font-size: 51px;
+  }
+  .academic-actions {
+    gap: 20px;
+  }
+  .primary {
+    padding: 15px 18px;
+  }
+}
+@media (max-width: 850px) {
+  header {
+    padding: 20px 25px;
+  }
+  .brand > span {
+    font-size: 29px;
+  }
+  .brand img {
+    width: 60px;
+    height: 67px;
+  }
+  .brand small {
+    font-size: 6px;
+  }
+  nav {
+    gap: 16px;
+  }
+  .academic-hero {
+    gap: 30px;
+  }
+  .hero-copy h1 {
+    font-size: 44px;
+  }
+  .academic-actions {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+  }
+  .college-plate {
+    min-height: 440px;
+  }
+  .academic-guide {
+    gap: 30px;
+    grid-template-columns: 1fr 2fr;
+  }
+  .academic-facts > div {
+    gap: 9px;
+  }
+  .academic-facts b {
+    font-size: 29px;
+  }
+}
+@media (max-width: 700px) {
+  body {
+    border-top-width: 5px;
+  }
+  header {
+    padding: 19px 20px 0;
+    justify-content: center;
+    gap: 15px;
+  }
+  .brand {
+    gap: 11px;
+  }
+  .brand > span {
+    font-size: 33px;
+  }
+  .brand img {
+    width: 65px;
+    height: 73px;
+  }
+  .brand small {
+    font-size: 6px;
+    letter-spacing: 2px;
+  }
+  nav {
+    padding: 4px 0 6px;
+    gap: 24px;
+    justify-content: center;
+  }
+  nav button {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  main {
+    margin: 0 22px;
+    padding: 0;
+  }
+  .edition-line {
+    font-size: 7px;
+    padding: 11px 0;
+    letter-spacing: 1px;
+    gap: 10px;
+  }
+  .edition-line span:last-child {
+    white-space: nowrap;
+    letter-spacing: 0;
+  }
+  .academic-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
+    padding: 28px 0;
+  }
+  .hero-copy {
+    padding: 0;
+  }
+  .hero-copy h1 {
+    font-size: 45px;
+    line-height: 1.08;
+    letter-spacing: -1.1px;
+    max-width: 400px;
+    margin: 17px 0;
+  }
+  .hero-copy > p {
+    font-size: 17px;
+  }
+  .red-rule {
+    margin: 20px 0;
+  }
+  .academic-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 19px;
+    margin-top: 24px;
+  }
+  .primary {
+    font-size: 12px;
+    padding: 15px 16px;
+  }
+  .text-action {
+    font-size: 11px;
+  }
+  .issue-caption {
+    font-size: 9px;
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+  .college-plate {
+    min-height: 394px;
+    padding: 23px 17px 19px;
+  }
+  .plate-seal {
+    width: 125px;
+    height: 137px;
+    margin-top: 18px;
+  }
+  .campus-engraving {
+    height: 185px;
+    margin-top: -2px;
+  }
+  .plate-heading {
+    font-size: 6px;
+    letter-spacing: 1.1px;
+  }
+  .plate-caption i {
+    font-size: 11px;
+  }
+  .plate-caption > span {
+    font-size: 7px;
+  }
+  .academic-facts {
+    grid-template-columns: 1fr 1fr;
+    padding: 8px 0;
+  }
+  .academic-facts > div,
+  .academic-facts > div:first-child {
+    padding: 14px 0;
+    justify-content: start;
+    gap: 13px;
+  }
+  .academic-facts > div:nth-child(even) {
+    border-right: 0;
+    padding-left: 18px;
+  }
+  .academic-facts > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
+  .academic-facts b {
+    font-size: 30px;
+  }
+  .academic-facts span {
+    font-size: 10px;
+    max-width: 80px;
+  }
+  .academic-guide {
+    display: block;
+    padding: 31px 0;
+  }
+  .guide-title h2 {
+    font-size: 31px;
+    margin: 14px 0;
+  }
+  .guide-title h2 br {
+    display: none;
+  }
+  .guide-title .text-action {
+    margin-bottom: 20px;
+  }
+  .guide-content > p {
+    font-size: 16px;
+  }
+  .guide-steps {
+    display: block;
+    padding-top: 5px;
+  }
+  .guide-steps > div {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 0 10px;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .guide-steps h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .guide-steps p {
+    grid-column: 2;
+    font-size: 12px;
+  }
+  .guide-number {
+    grid-row: 1/3;
+  }
+  .data-banner {
+    padding: 16px 0;
+    font-size: 9px;
+  }
+  .game-heading {
+    padding: 28px 0 20px;
+  }
+  .game-heading h1 {
+    font-size: 30px;
+  }
+  .game-heading p {
+    font-size: 13px;
+  }
+  .game-card {
+    padding: 17px 12px;
+  }
+  .game-toolbar {
+    font-size: 11px;
+  }
+  .game-toolbar > span {
+    white-space: nowrap;
+  }
+  .empty {
+    padding: 28px 0;
+  }
+  .empty img {
+    width: 90px;
+  }
+  .empty h3 {
+    font-size: 19px;
+  }
+  .empty > span {
+    font-size: 7px;
+  }
+  .input-wrap input {
+    font-size: 12px;
+  }
+  .onboarding {
+    padding: 10px;
+  }
+  .tile {
+    font-size: 11px;
+  }
+  .game-bottom {
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+  footer {
+    padding: 23px 22px;
+    margin: 0;
+    font-size: 9px;
+    gap: 12px;
+  }
+  footer > span {
+    font-size: 9px;
+  }
+  .data-banner b {
+    font-size: 8px;
+  }
 }

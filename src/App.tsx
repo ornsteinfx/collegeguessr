@@ -1,9 +1,9 @@
+import { Home } from "./components/Home";
 import { useEffect, useState } from "react";
 import {
   BarChart3,
   Settings,
   HelpCircle,
-  ArrowUpRight,
   CalendarDays,
   Infinity as InfinityIcon,
 } from "lucide-react";
@@ -48,7 +48,9 @@ const validRound = (v: unknown): v is Round => {
 function fresh(mode: "daily" | "practice", previous = ""): Round {
   const pool = answerPool.filter((c) => c.id !== previous);
   return {
-    roundId: crypto.randomUUID(),
+    roundId:
+      globalThis.crypto?.randomUUID?.() ??
+      `round-${Date.now()}-${Math.random().toString(36).slice(2)}`,
     mode,
     date: dateKey(),
     answer:
@@ -234,9 +236,12 @@ export function App() {
     <>
       <header>
         <button className="brand" onClick={() => navigate("home")}>
-          <img src="/branding/crest.svg" alt="CollegeGuessr crest" />
+          <img
+            src={`${import.meta.env.BASE_URL}branding/crest.svg`}
+            alt="CollegeGuessr crest"
+          />
           <span>
-            CollegeGuessr<small>THE DAILY COLLEGE CHALLENGE</small>
+            College Guessr<small>KNOWLEDGE • DISCOVERY • TRADITION</small>
           </span>
         </button>
         <nav aria-label="Main navigation">
@@ -266,112 +271,7 @@ export function App() {
       </header>
       <main>
         {page === "home" ? (
-          <>
-            <section className="hero">
-              <div className="eyebrow">
-                <span /> A LITTLE KNOWLEDGE. A NEW DISCOVERY.
-              </div>
-              <h1>
-                How well do you know
-                <br />
-                America’s <em>colleges?</em>
-              </h1>
-              <p>
-                Guess the mystery university using clues about enrollment,
-                <br className="desktop" /> rankings, location, and college
-                sports.
-              </p>
-              <div className="hero-actions">
-                <button className="primary" onClick={() => navigate("daily")}>
-                  Play Today’s College <ArrowUpRight size={17} />
-                </button>
-                <button
-                  className="secondary"
-                  onClick={() => navigate("practice")}
-                >
-                  Practice Unlimited <span>→</span>
-                </button>
-              </div>
-              <div className="hero-meta">
-                <span>
-                  <CalendarDays size={14} /> One new school every day
-                </span>
-                <i />
-                Free to play. No account needed.
-              </div>
-            </section>
-            <section className="feature-board">
-              <div className="feature-title">
-                <div>
-                  <span className="eyebrow">THE ART OF THE EDUCATED GUESS</span>
-                  <h2>Follow the clues. Find your college.</h2>
-                </div>
-                <span className="mini-crest">✦</span>
-              </div>
-              <div className="example">
-                <strong>
-                  YOUR GUESS
-                  <br />
-                  <b>Boston University</b>
-                </strong>
-                <div className="tile yellow">
-                  <small>STATE</small>
-                  <b>MA ≈</b>
-                </div>
-                <div className="tile green">
-                  <small>TYPE</small>
-                  <b>Private ✓</b>
-                </div>
-                <div className="tile yellow">
-                  <small>STUDENTS</small>
-                  <b>36,624 ↑</b>
-                </div>
-                <div className="tile neutral">
-                  <small>RANK</small>
-                  <b>N/A —</b>
-                </div>
-              </div>
-              <p className="example-note">
-                Illustrative color example · Schools and figures in actual
-                rounds come from IPEDS.
-              </p>
-              <div className="how">
-                <div>
-                  <span className="dot green" />
-                  <strong>A match</strong>
-                  <p>
-                    You’re right on target,
-                    <br />
-                    or very close.
-                  </p>
-                </div>
-                <div>
-                  <span className="dot yellow" />
-                  <strong>Getting warmer</strong>
-                  <p>
-                    A neighboring state
-                    <br />
-                    or a similar number.
-                  </p>
-                </div>
-                <div>
-                  <span className="dot gray" />
-                  <strong>Keep exploring</strong>
-                  <p>
-                    Use the differences
-                    <br />
-                    to guide your next guess.
-                  </p>
-                </div>
-              </div>
-            </section>
-            <div className="below">
-              <span>500 real institutions. Countless connections.</span>
-              <button onClick={() => setModal("data")}>
-                Explore our data methodology →
-              </button>
-            </div>
-          </>
+          <Home navigate={navigate} onData={() => setModal("data")} />
         ) : (
           <>
             <section className="game-heading">
@@ -686,7 +586,10 @@ export function App() {
           {modal === "result" && (
             <>
               <div className="reveal">
-                <img src="/branding/crest.svg" alt="" />
+                <img
+                  src={`${import.meta.env.BASE_URL}branding/crest.svg`}
+                  alt=""
+                />
                 <span>
                   {end === "won"
                     ? `Solved in ${round.guesses.length} guesses`

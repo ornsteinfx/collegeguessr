@@ -1,15 +1,22 @@
 {
-  "version": "2026-27-v1",
-  "total": 500,
-  "eligible": 427,
-  "selection": "Curated pool, not a ranking: Carnegie 2021 classifications 15\u201323, public/private nonprofit four-year undergraduate institutions. Prioritize baccalaureate arts/sciences, then R1/R2, then remaining institutions by descending total fall enrollment; UNITID breaks ties. Take 500.",
-  "enrollment": "IPEDS EF2023A EFALEVEL=1 EFTOTLT, total fall enrollment 2023",
-  "missing": "No licensed ranking source: every rank is null. Unmatched institutions retain unknown division and primary conference and are excluded as mystery answers.",
+  "version": "d1-academic-2023-v1",
+  "total": 150,
+  "eligible": 150,
+  "qualifiedD1": 359,
+  "selection": "The 150 highest-scoring uniquely matched NCAA Division I institutions with complete official NCES metrics. Score = 0.65 \u00d7 six-year bachelor graduation rate + 0.35 \u00d7 full-time retention rate (both percentages). Sort descending score, then graduation rate, then retention rate; UNITID breaks remaining ties. Rank is ordinal among the qualified D1 candidate pool, not a published national all-college rank.",
+  "ranking": "CollegeGuessr Academic Outcomes Index, 2023-v1. A custom outcomes index approved by the user; not a US News ranking or a comprehensive assessment of academic quality.",
+  "enrollment": "IPEDS EF2023A EFALEVEL=1, EFTOTLT: total Fall 2023 enrollment",
+  "graduation": "IPEDS DRVGR2023 GBA6RTT: six-year graduation rate, full-time first-time bachelor-seeking 2017 cohort",
+  "retention": "IPEDS DRVEF2023 RET_PCF: full-time retention rate in Fall 2023, following the prior fall cohort",
+  "athletics": "Official NCAA active-member directory, academicYear=2027 (2026\u201327), retrieved October 30, 2026; institutional primary conference, not football-only membership",
+  "missing": "No selected school is missing a comparison field. Candidate schools without complete metrics or unambiguous NCAA identity are excluded. The index measures these two outcomes only; it does not measure faculty quality, research, selectivity or student learning, and is affected by student mix, resources and allowable exclusions.",
   "sources": [
     "https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip",
     "https://nces.ed.gov/ipeds/datacenter/data/EF2023A.zip",
-    "https://nces.ed.gov/ipeds/datacenter/data/IC2023.zip",
-    "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  ],
-  "athletics": "Official NCAA active-member directory, academicYear=2027 (2026\u201327), retrieved 2026-10-30"
+    "https://nces.ed.gov/ipeds/datacenter/data/DRVGR2023.zip",
+    "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2023.zip",
+    "https://web3.ncaa.org/directory/api/directory/memberList?type=1",
+    "https://nces.ed.gov/ipeds/datacenter/data/DRVGR2023_Dict.zip",
+    "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2023_Dict.zip"
+  ]
 }

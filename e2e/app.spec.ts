@@ -8,13 +8,14 @@ const dataset = JSON.parse(
 import { test, expect } from "@playwright/test";
 test("home, guess, persistence, settings and modal", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /How well/ })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Guess the college." }),
+  ).toBeVisible();
   await page.screenshot({
     path: `screenshots/home-${test.info().project.name}.png`,
     fullPage: true,
     animations: "disabled",
   });
-  await page.getByRole("button", { name: "Play Today’s College" }).click();
   const input = page.getByRole("combobox");
   await input.fill("Harvard");
   await input.press("ArrowDown");
@@ -24,10 +25,12 @@ test("home, guess, persistence, settings and modal", async ({ page }) => {
   await page.reload();
   await expect(page.locator(".guess-row")).toHaveCount(1);
   await page.getByRole("button", { name: "Settings", exact: true }).click();
-  await page.getByLabel("Dark appearance").check();
+  await page.getByLabel("Hard mode · hide arrows").check();
   await page.getByRole("button", { name: "Close dialog" }).click();
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await expect(page.getByLabel("Hard mode · hide arrows")).toBeChecked();
+  await page.getByRole("button", { name: "Close dialog" }).click();
   await page.getByRole("button", { name: "How to play" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
@@ -47,7 +50,7 @@ test("home, guess, persistence, settings and modal", async ({ page }) => {
 test("exact answer wins, statistics and practice restart", async ({ page }) => {
   await page.goto("/#practice");
   const answer = await page.evaluate(
-    () => JSON.parse(localStorage.getItem("cg-v1-practice")!).answer,
+    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
   );
   const data = { default: dataset };
   const school = data.default.find((c) => c.id === answer)!;
@@ -66,14 +69,16 @@ test("exact answer wins, statistics and practice restart", async ({ page }) => {
   await expect(page.locator(".guess-row")).toHaveCount(0);
   expect(
     await page.evaluate(
-      () => JSON.parse(localStorage.getItem("cg-v1-practice")!).answer,
+      () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
     ),
   ).not.toBe(answer);
 });
 test("daily loss reveals answer", async ({ page }) => {
   await page.goto("/#daily");
   await page.evaluate(() => {
-    const key = Object.keys(localStorage).find((k) => /^cg-v1-\d{4}-/.test(k))!;
+    const key = Object.keys(localStorage).find((k) =>
+      /^cg-d1-2023-v1-\d{4}-/.test(k),
+    )!;
     const r = JSON.parse(localStorage.getItem(key)!);
     (window as unknown as { savedRound: unknown }).savedRound = r;
   });
@@ -86,7 +91,7 @@ test("daily loss reveals answer", async ({ page }) => {
   await page.evaluate(
     ({ r, ids }) => {
       localStorage.setItem(
-        "cg-v1-" + r.date,
+        "cg-d1-2023-v1-" + r.date,
         JSON.stringify({ ...r, mode: "daily", guesses: ids }),
       );
     },
@@ -116,13 +121,15 @@ test("new clues flip in order, saved rows remain revealed", async ({
   page,
 }) => {
   await page.goto("/#practice");
-  const answerId = await page.evaluate(() => JSON.parse(localStorage.getItem("cg-v1-practice")!).answer);
-  const incorrectSchool = dataset.find(c => c.id !== answerId)!;
+  const answerId = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+  );
+  const incorrectSchool = dataset.find((c) => c.id !== answerId)!;
   await page.getByRole("combobox").fill(incorrectSchool.name);
   await page.getByRole("option").first().click();
   await page.getByRole("button", { name: /Submit Guess/ }).click();
   const tiles = page.locator(".guess-row").first().locator(".comparison-flip");
-  await expect(tiles).toHaveCount(6);
+  await expect(tiles).toHaveCount(5);
   await expect(tiles.last()).toHaveAttribute(
     "aria-label",
     "Revealing Conference clue",
@@ -154,4 +161,30 @@ test("reduced motion reveals clues immediately", async ({ page }) => {
     "aria-label",
     /^Conference:/,
   );
+});
+
+test("white background, five clues and functional academic rank", async ({
+  page,
+}) => {
+  await page.goto("/#practice");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const answerId = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+  );
+  const school = dataset.find((c) => c.id !== answerId)!;
+  await page.getByRole("combobox").fill(school.name);
+  await page.getByRole("option").first().click();
+  await page.getByRole("button", { name: /Submit Guess/ }).click();
+  await expect(page.locator(".comparison-flip")).toHaveCount(5);
+  const rank = page.getByRole("button", { name: /^Academic rank:/ });
+  await expect(rank).toHaveAttribute("aria-label", /#[0-9]+/);
+  await expect(rank).not.toHaveAttribute("aria-label", /N\/A/);
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).backgroundColor,
+    ),
+  ).toBe("rgb(255, 255, 255)");
+  await page.getByRole("button", { name: "Sources & methodology" }).click();
+  await page.getByRole("button", { name: "View all 150 schools" }).click();
+  await expect(page.locator(".pool-list>div")).toHaveCount(150);
 });

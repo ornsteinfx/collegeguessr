@@ -69,35 +69,22 @@ describe("comparison boundaries", () => {
     ).toBe("neutral");
     expect(compare(a(), { ...a(), rank: null })[3].value).toBe("N/A");
   });
-  it.each([
-    ["I", "green"],
-    ["II", "yellow"],
-    ["III", "gray"],
-  ])("division I vs %s", (d, c) =>
-    expect(compare(a(), { ...a(), ncaaDivision: d } as College)[4].color).toBe(
-      c,
-    ),
-  );
-  it("division II III close", () =>
-    expect(
-      compare(
-        { ...a(), ncaaDivision: "II" } as College,
-        { ...a(), ncaaDivision: "III" } as College,
-      )[4].color,
-    ).toBe("yellow"));
-  it("conference", () => {
-    expect(compare(a(), a())[5].color).toBe("green");
-    expect(compare(a(), { ...a(), conference: "B" } as College)[5].color).toBe(
-      "yellow",
-    );
-    expect(
-      compare(a(), { ...a(), ncaaDivision: "III" } as College)[5].color,
-    ).toBe("gray");
+  it("conference is exact-match only in a D1 pool", () => {
+    expect(compare(a(), a())[4].color).toBe("green");
+    expect(compare(a(), { ...a(), conference: "B" })[4].color).toBe("gray");
+    expect(compare({ ...a(), conference: null }, a())[4].color).toBe("neutral");
   });
-  it("unknown divisions do not imply absence", () =>
-    expect(compare({ ...a(), ncaaDivision: null }, a())[4].color).toBe(
-      "neutral",
-    ));
+  it("all 150 schools are D1 and have comparable ranks", () => {
+    expect(colleges).toHaveLength(150);
+    expect(new Set(colleges.map((c) => c.rank)).size).toBe(150);
+    for (const c of colleges) {
+      expect(c.ncaaDivision).toBe("I");
+      expect(c.rank).toBeGreaterThan(0);
+      expect(c.rank).toBeLessThanOrEqual(150);
+      expect(compare(c, colleges[0])[3].color).not.toBe("neutral");
+      expect(compare(c, colleges[0])).toHaveLength(5);
+    }
+  });
   it("state map symmetric", () => {
     for (const [s, ns] of Object.entries(states))
       for (const n of ns.split(" ").filter(Boolean))
@@ -130,11 +117,11 @@ describe("rounds", () => {
     for (const c of colleges.slice(1, 12)) r = guess(r, c.id);
     expect(status(r)).toBe("playing");
   });
-  it("share conceals answer and has six tiles", () => {
+  it("share conceals answer and has five tiles", () => {
     const r = guess(round(), colleges[1].id);
     const s = share(r);
     expect(s).not.toContain(colleges[0].name);
-    expect([...s.split("\n")[2]].length).toBe(6);
+    expect([...s.split("\n")[2]].length).toBe(5);
   });
   it("daily deterministic", () =>
     expect(dailyAnswer("2026-10-30")).toEqual(dailyAnswer("2026-10-30")));

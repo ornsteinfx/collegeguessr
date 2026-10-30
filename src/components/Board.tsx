@@ -17,7 +17,7 @@ export function Board({
     <div className="board">
       <div className="board-head">
         <span>COLLEGE</span>
-        {["STATE", "TYPE", "STUDENTS", "RANK", "DIVISION", "CONFERENCE"].map(
+        {["STATE", "TYPE", "STUDENTS", "ACADEMIC RANK", "CONFERENCE"].map(
           (x) => (
             <span key={x}>{x}</span>
           ),
@@ -44,14 +44,13 @@ export function Board({
                         "State",
                         "Type",
                         "Students",
-                        "Rank",
-                        "Division",
+                        "Academic rank",
                         "Conference",
                       ][i]
                     }
                     index={i}
                     animate={id === revealId}
-                    onComplete={i === 5 ? onRevealComplete : undefined}
+                    onComplete={i === 4 ? onRevealComplete : undefined}
                   />
                 ))}
               </div>
@@ -60,14 +59,8 @@ export function Board({
         })
       ) : (
         <div className="empty">
-          <img src={`${import.meta.env.BASE_URL}branding/crest.svg`} alt="" />
-          <h3>No guesses recorded.</h3>
-          <p>
-            Your first guess is the first clue.
-            <br />
-            Start with a college you know.
-          </p>
-          <span>LOCATION · ENROLLMENT · INSTITUTION · ATHLETICS</span>
+          <p>Your first clue starts with a college.</p>
+          <span>Search any school in the 150-college pool.</span>
         </div>
       )}
     </div>

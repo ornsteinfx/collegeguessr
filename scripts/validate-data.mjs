@@ -1,53 +1,51 @@
 import fs from "node:fs";
 import assert from "node:assert/strict";
-const data = JSON.parse(
-  fs.readFileSync(new URL("../src/data/colleges.json", import.meta.url)),
-);
-const athletics = JSON.parse(
-  fs.readFileSync(
-    new URL("../src/data/athleticsManifest.json", import.meta.url),
-  ),
-);
-const schedule = JSON.parse(
-  fs.readFileSync(new URL("../src/data/schedule-v1.json", import.meta.url)),
-);
-assert.equal(data.length, 500);
-assert.equal(new Set(data.map((c) => c.id)).size, data.length);
-const states = new Set(
-  "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(
-    " ",
-  ),
+const read = (name) =>
+  JSON.parse(fs.readFileSync(new URL("../src/data/" + name, import.meta.url)));
+const data = read("colleges.json"),
+  audit = read("academicRanking.json"),
+  athletics = read("athleticsManifest.json"),
+  schedule = read("schedule-d1-v1.json");
+assert.equal(data.length, 150);
+assert.equal(new Set(data.map((c) => c.id)).size, 150);
+assert.equal(new Set(data.map((c) => c.ncaaId)).size, 150);
+assert.equal(new Set(data.map((c) => c.rank)).size, 150);
+assert.deepEqual(
+  data.map((c) => c.id),
+  audit.candidates.slice(0, 150).map((c) => c.id),
 );
 for (const c of data) {
-  assert(c.ipedsId === c.id);
-  assert(Number.isInteger(c.enrollment) && c.enrollment > 0);
-  assert(states.has(c.state));
-  assert(["public", "private"].includes(c.institutionType));
-  assert(c.sourceUrls.length >= 2);
-  assert(c.rank === null || (c.rankSource && c.rankCategory && c.rankYear));
-  if (c.eligibleAsAnswer) {
-    assert(
-      c.dataVerified &&
-        ["I", "II", "III"].includes(c.ncaaDivision) &&
-        c.conference &&
-        c.athleticsSeason === "2026–27",
-    );
-    assert(
-      athletics.some(
-        (m) =>
-          m.ipedsId === c.id &&
-          m.ncaaId === c.ncaaId &&
-          m.division === c.ncaaDivision &&
-          m.conference === c.conference,
-      ),
-    );
-  }
+  assert.equal(c.ncaaDivision, "I");
+  assert.equal(c.athleticAssociation, "NCAA");
+  assert(c.eligibleAsAnswer && c.dataVerified);
+  assert.equal(c.rankYear, "2023-v1");
+  assert.equal(c.rankSource, "CollegeGuessr Academic Outcomes Index");
+  assert.equal(c.rankCategory, "NCAA Division I academic outcomes");
+  assert(c.rank >= 1 && c.rank <= 150);
+  assert(c.enrollment > 0 && Number.isInteger(c.enrollment));
+  assert(c.conference);
+  assert(c.graduationRate >= 0 && c.graduationRate <= 100);
+  assert(c.retentionRate >= 0 && c.retentionRate <= 100);
+  assert.equal(
+    c.academicScore,
+    Math.round((0.65 * c.graduationRate + 0.35 * c.retentionRate) * 100) / 100,
+  );
+  assert(
+    athletics.some(
+      (m) =>
+        m.ipedsId === c.id &&
+        m.ncaaId === c.ncaaId &&
+        m.division === "I" &&
+        m.conference === c.conference,
+    ),
+  );
+  const a = audit.candidates.find((a) => a.id === c.id);
+  assert.equal(c.rank, a.rank);
+  assert.equal(c.academicScore, a.academicScore);
 }
-const eligible = data.filter((c) => c.eligibleAsAnswer).length;
-assert.equal(new Set(schedule).size, schedule.length);
-for (const id of schedule)
-  assert(data.some((c) => c.id === id && c.eligibleAsAnswer));
-const report = `# Data quality report\n\nInstitutions: ${data.length}\n\nEligible mystery answers: ${eligible}\n\nEnrollment: IPEDS EF2023A total fall enrollment, Fall 2023. 2024 bulk endpoint returned 404 during collection. Values may include NCES imputations.\n\nAthletics: official NCAA active members directory, academicYear 2027 (2026–27), retrieved October 30, 2026. Unique name/domain plus state matches only. See athleticsManifest.json for each match and source.\n\nMissing: all 500 numeric rankings (no licensed ranking imported); ${data.length - eligible} institutions without an unambiguous current NCAA match. These institutions are guessable but excluded as answers. Historical basketball conferences are audit-only.\n\nProduction dataset minimum: ${eligible >= 250 ? "PASS" : "FAIL"} (250 required). Preferred 500 fully eligible answers: not met. State adjacency is manually encoded, symmetric and tested; authoritative boundary audit remains a limitation. No missing numeric rankings are fabricated; rank comparison is neutral.\n`;
+assert.equal(schedule.length, 150);
+assert.equal(new Set(schedule).size, 150);
+assert.deepEqual([...schedule].sort(), data.map((c) => c.id).sort());
+const report = `# Data quality report\n\nActive schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.\n\nRanking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from ${audit.candidates.length} uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.\n\nEnrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.\n\nValidation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.\n`;
 fs.writeFileSync(new URL("../DATA-QUALITY.md", import.meta.url), report);
 console.log(report);
-if (process.argv.includes("--production") && eligible < 250) process.exit(1);

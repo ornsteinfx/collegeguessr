@@ -1,3 +1,4 @@
+import { conferenceName } from "./conference";
 import raw from "../data/colleges.json";
 export interface College {
   id: string;
@@ -14,6 +15,9 @@ export interface College {
   rankCategory: string | null;
   rankSource: string | null;
   rankYear: string | null;
+  academicScore: number;
+  graduationRate: number;
+  retentionRate: number;
   athleticAssociation: string | null;
   ncaaDivision: string | null;
   conference: string | null;
@@ -129,16 +133,6 @@ export function compare(a: College, b: College, hard = false): Tile[] {
     !b.athleticAssociation ||
     (a.athleticAssociation === "NCAA" && !a.ncaaDivision) ||
     (b.athleticAssociation === "NCAA" && !b.ncaaDivision);
-  const ord: Record<string, number> = { I: 1, II: 2, III: 3 };
-  const dc = divMissing
-    ? "neutral"
-    : sameDivision
-      ? "green"
-      : a.athleticAssociation === "NCAA" &&
-          b.athleticAssociation === "NCAA" &&
-          Math.abs(ord[a.ncaaDivision!] - ord[b.ncaaDivision!]) === 1
-        ? "yellow"
-        : "gray";
   return [
     {
       value: a.state,
@@ -172,36 +166,23 @@ export function compare(a: College, b: College, hard = false): Tile[] {
       value: rankOK ? `#${a.rank} ${hard ? "" : rk.arrow}` : "N/A",
       color: rk.color,
       hint: rankOK
-        ? `Rank ${rk.hint}`
+        ? `Academic rank ${rk.hint}`
         : "Comparable verified rankings unavailable",
     },
     {
-      value: a.ncaaDivision ? `NCAA ${a.ncaaDivision}` : "N/A",
-      color: dc,
-      hint: divMissing
-        ? "Current division not verified"
-        : sameDivision
-          ? "Same NCAA division"
-          : "Different athletic divisions or associations",
-    },
-    {
-      value: a.conference ?? "N/A",
+      value: a.conference ? conferenceName(a.conference) : "N/A",
       color:
         divMissing || !a.conference || !b.conference
           ? "neutral"
           : a.conference === b.conference && sameDivision
             ? "green"
-            : sameDivision
-              ? "yellow"
-              : "gray",
+            : "gray",
       hint:
         divMissing || !a.conference || !b.conference
           ? "Current primary conference or division not verified"
           : a.conference === b.conference && sameDivision
             ? "Same athletic conference"
-            : sameDivision
-              ? "Different conferences, same division"
-              : "Different divisions",
+            : "Different athletic conferences",
     },
   ];
 }
@@ -218,7 +199,7 @@ export const puzzleNumber = (date = dateKey()) =>
       86400000,
   ) + 1;
 // Frozen ID order is committed independently of future dataset ordering.
-import schedule from "../data/schedule-v1.json";
+import schedule from "../data/schedule-d1-v1.json";
 export const dailyAnswer = (date = dateKey()) =>
   colleges.find(
     (c) =>

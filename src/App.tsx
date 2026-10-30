@@ -1,4 +1,3 @@
-import { Home } from "./components/Home";
 import { useEffect, useState } from "react";
 import {
   BarChart3,
@@ -24,9 +23,8 @@ import {
   type Round,
 } from "./game/engine";
 import manifest from "./data/dataManifest.json";
-type SettingsType = { dark: boolean; motion: boolean; hard: boolean };
+type SettingsType = { motion: boolean; hard: boolean };
 const defaultSettings = {
-  dark: matchMedia("(prefers-color-scheme: dark)").matches,
   motion: !matchMedia("(prefers-reduced-motion: reduce)").matches,
   hard: false,
 };
@@ -62,55 +60,50 @@ function fresh(mode: "daily" | "practice", previous = ""): Round {
 }
 export function App() {
   const [page, setPage] = useState(
-    location.hash === "#practice"
-      ? "practice"
-      : location.hash === "#daily"
-        ? "daily"
-        : "home",
+    location.hash === "#practice" ? "practice" : "daily",
   );
   const [modal, setModal] = useState("");
   const [revealingId, setRevealingId] = useState<string | null>(null);
   const [settings, setSettings] = useState(() =>
     load<SettingsType>(
-      "cg-v1-settings",
+      "cg-d1-2023-v1-settings",
       defaultSettings,
       (v) =>
         !!v &&
-        typeof (v as SettingsType).dark === "boolean" &&
         typeof (v as SettingsType).motion === "boolean" &&
         typeof (v as SettingsType).hard === "boolean",
     ),
   );
   const [round, setRound] = useState(() =>
     load<Round>(
-      `cg-v1-${page === "practice" ? "practice" : dateKey()}`,
+      `cg-d1-2023-v1-${page === "practice" ? "practice" : dateKey()}`,
       fresh(page === "practice" ? "practice" : "daily"),
       validRound,
     ),
   );
   const [history, setHistory] = useState(() =>
     load<Record<string, Round>>(
-      "cg-v1-history",
+      "cg-d1-2023-v1-history",
       {},
       (v) => !!v && typeof v === "object" && Object.values(v).every(validRound),
     ),
   );
   const [notice, setNotice] = useState("");
-  const [onboarding, setOnboarding] = useState(
-    () => !load("cg-onboarded", false),
-  );
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, []);
   useEffect(() => {
-    document.documentElement.dataset.theme = settings.dark ? "dark" : "light";
+    document.documentElement.dataset.theme = "light";
     document.documentElement.dataset.motion = settings.motion ? "on" : "off";
-    save("cg-v1-settings", settings);
+    save("cg-d1-2023-v1-settings", settings);
   }, [settings]);
   useEffect(() => {
-    save(`cg-v1-${round.mode === "daily" ? round.date : "practice"}`, round);
+    save(
+      `cg-d1-2023-v1-${round.mode === "daily" ? round.date : "practice"}`,
+      round,
+    );
     if (status(round) !== "playing") {
       setHistory((h) => {
         const next = {
@@ -120,7 +113,7 @@ export function App() {
             : `practice-${round.roundId ?? round.answer + "-" + round.date + "-" + round.guesses.join(".")}`]:
             round,
         };
-        save("cg-v1-history", next);
+        save("cg-d1-2023-v1-history", next);
         return next;
       });
     }
@@ -128,7 +121,8 @@ export function App() {
   useEffect(() => {
     const sync = (e: StorageEvent) => {
       if (
-        e.key === `cg-v1-${round.mode === "daily" ? round.date : "practice"}` &&
+        e.key ===
+          `cg-d1-2023-v1-${round.mode === "daily" ? round.date : "practice"}` &&
         e.newValue
       ) {
         try {
@@ -136,10 +130,10 @@ export function App() {
           if (validRound(r)) setRound(r);
         } catch {}
       }
-      if (e.key === "cg-v1-history")
+      if (e.key === "cg-d1-2023-v1-history")
         setHistory(
           load(
-            "cg-v1-history",
+            "cg-d1-2023-v1-history",
             {},
             (v) =>
               !!v &&
@@ -153,7 +147,7 @@ export function App() {
   }, [round.mode, round.date]);
   useEffect(() => {
     if (round.mode === "daily" && round.date !== dateKey(new Date(now)))
-      setRound(load(`cg-v1-${dateKey()}`, fresh("daily"), validRound));
+      setRound(load(`cg-d1-2023-v1-${dateKey()}`, fresh("daily"), validRound));
   }, [now, round]);
   function navigate(p: string) {
     setRevealingId(null);
@@ -161,7 +155,7 @@ export function App() {
     location.hash = p === "home" ? "" : p;
     if (p === "daily" || p === "practice") {
       const r = load<Round>(
-        `cg-v1-${p === "daily" ? dateKey() : "practice"}`,
+        `cg-d1-2023-v1-${p === "daily" ? dateKey() : "practice"}`,
         fresh(p),
         validRound,
       );
@@ -244,14 +238,12 @@ export function App() {
   return (
     <>
       <header>
-        <button className="brand" onClick={() => navigate("home")}>
+        <button className="brand" onClick={() => navigate("daily")}>
           <img
             src={`${import.meta.env.BASE_URL}branding/crest.svg`}
             alt="CollegeGuessr crest"
           />
-          <span>
-            College Guessr<small>KNOWLEDGE • DISCOVERY • TRADITION</small>
-          </span>
+          <span>College Guessr</span>
         </button>
         <nav aria-label="Main navigation">
           <button
@@ -279,148 +271,118 @@ export function App() {
         </nav>
       </header>
       <main>
-        {page === "home" ? (
-          <Home navigate={navigate} onData={() => setModal("data")} />
-        ) : (
-          <>
-            <section className="game-heading">
-              <div className="eyebrow">
+        <>
+          <section className="game-heading">
+            <div className="eyebrow">
+              {page === "daily"
+                ? `DAILY No. ${String(puzzleNumber()).padStart(3, "0")}`
+                : "UNLIMITED PRACTICE"}
+            </div>
+            <h1>
+              {page === "daily"
+                ? "Guess the college."
+                : "Practice your college knowledge."}
+            </h1>
+            <p>
+              {page === "daily"
+                ? "150 Division I schools. Eight guesses. A new college every day."
+                : "The same 150 schools. As many guesses as you need."}
+            </p>
+          </section>
+          <section className="game-card">
+            <div className="game-toolbar">
+              <span>
+                {page === "daily" ? (
+                  <CalendarDays size={16} />
+                ) : (
+                  <InfinityIcon size={18} />
+                )}{" "}
                 {page === "daily"
-                  ? "A NEW DISCOVERY, EVERY DAY"
-                  : "CURIOSITY HAS NO LIMIT"}
+                  ? `Guess ${Math.min(round.guesses.length + 1, 8)} of 8`
+                  : `${round.guesses.length} ${round.guesses.length === 1 ? "guess" : "guesses"}`}
+              </span>
+              <div className="progress">
+                {page === "daily" &&
+                  Array.from({ length: 8 }, (_, i) => (
+                    <i
+                      key={i}
+                      className={i < round.guesses.length ? "filled" : ""}
+                    />
+                  ))}
               </div>
-              <h1>
-                {page === "daily"
-                  ? `Daily College #${String(puzzleNumber()).padStart(3, "0")}`
-                  : "The practice grounds"}
-              </h1>
-              <p>
-                {page === "daily"
-                  ? "One mystery school. Eight educated guesses."
-                  : "A fresh school. As many guesses as you need."}
-              </p>
-            </section>
-            <section className="game-card">
-              <div className="game-toolbar">
-                <span>
-                  {page === "daily" ? (
-                    <CalendarDays size={16} />
-                  ) : (
-                    <InfinityIcon size={18} />
-                  )}{" "}
-                  {page === "daily"
-                    ? `Guess ${Math.min(round.guesses.length + 1, 8)} of 8`
-                    : `${round.guesses.length} guesses`}
-                </span>
-                <div className="progress">
-                  {page === "daily" &&
-                    Array.from({ length: 8 }, (_, i) => (
-                      <i
-                        key={i}
-                        className={i < round.guesses.length ? "filled" : ""}
-                      />
-                    ))}
-                </div>
-                {page === "practice" && (
-                  <button onClick={newPractice}>New College ↻</button>
-                )}
-              </div>
-              {onboarding && (
-                <div className="onboarding">
-                  <p>
-                    <b>Your first educated guess.</b> Pick any college you know.
-                    Submit it, then use the colors and arrows to narrow your
-                    search.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setOnboarding(false);
-                      save("cg-onboarded", true);
-                    }}
-                  >
-                    Got it
-                  </button>
-                </div>
-              )}
-              <Search
-                excluded={round.guesses}
-                disabled={end !== "playing" || revealingId !== null}
-                onGuess={(id) => {
-                  const r = guess(round, id);
-                  if (r === round) return;
-                  const animate =
-                    settings.motion &&
-                    !matchMedia("(prefers-reduced-motion: reduce)").matches;
-                  setRevealingId(animate ? id : null);
-                  setRound(r);
-                  if (!animate && status(r) !== "playing") setModal("result");
-                }}
-              />
-              <div className="legend">
-                <span>
-                  <i className="dot green" />
-                  Match / close
-                </span>
-                <span>
-                  <i className="dot yellow" />
-                  Similar
-                </span>
-                <span>
-                  <i className="dot gray" />
-                  Far away
-                </span>
-                <span>↑ Higher · ↓ Lower · — Unavailable</span>
-              </div>
-              <Board
-                key={
-                  round.roundId ?? `${round.mode}-${round.date}-${round.answer}`
-                }
-                ids={round.guesses}
-                answer={answer}
-                hard={settings.hard}
-                revealId={settings.motion ? revealingId : null}
-                onRevealComplete={() => {
-                  setRevealingId(null);
-                  if (status(round) !== "playing") setModal("result");
-                }}
-              />
-              {end !== "playing" && !revealingId && (
-                <div className="completed">
-                  <strong>
-                    {end === "won" ? "You found it!" : "Better luck tomorrow."}{" "}
-                    {answer.name}
-                  </strong>
-                  <button
-                    className="primary"
-                    onClick={() => setModal("result")}
-                  >
-                    View results
-                  </button>
-                </div>
-              )}
-            </section>
-            <div className="game-bottom">
-              <button onClick={() => setModal("rules")}>
-                ⓘ A little help with the clues
-              </button>
-              {page === "daily" && (
-                <span>
-                  Next college in <b>{countdown}</b> ET
-                </span>
+              {page === "practice" && (
+                <button onClick={newPractice}>New College ↻</button>
               )}
             </div>
-          </>
-        )}
-        <div className="data-banner">
-          <b>THE COLLEGE POOL</b> {colleges.length} sourced schools ·{" "}
-          {colleges.filter((c) => c.eligibleAsAnswer).length} eligible answers ·
-          Fall 2023 enrollment · 2026–27 NCAA membership. Rankings unavailable.{" "}
-          <button onClick={() => setModal("data")}>Details</button>
-        </div>
+            <Search
+              excluded={round.guesses}
+              disabled={end !== "playing" || revealingId !== null}
+              onGuess={(id) => {
+                const r = guess(round, id);
+                if (r === round) return;
+                const animate =
+                  settings.motion &&
+                  !matchMedia("(prefers-reduced-motion: reduce)").matches;
+                setRevealingId(animate ? id : null);
+                setRound(r);
+                if (!animate && status(r) !== "playing") setModal("result");
+              }}
+            />
+            <div className="legend">
+              <span>
+                <i className="dot green" />
+                Match / close
+              </span>
+              <span>
+                <i className="dot yellow" />
+                Close
+              </span>
+              <span>
+                <i className="dot gray" />
+                Far away
+              </span>
+              <span>↑ Higher · ↓ Lower</span>
+            </div>
+            <Board
+              key={
+                round.roundId ?? `${round.mode}-${round.date}-${round.answer}`
+              }
+              ids={round.guesses}
+              answer={answer}
+              hard={settings.hard}
+              revealId={settings.motion ? revealingId : null}
+              onRevealComplete={() => {
+                setRevealingId(null);
+                if (status(round) !== "playing") setModal("result");
+              }}
+            />
+            {end !== "playing" && !revealingId && (
+              <div className="completed">
+                <strong>
+                  {end === "won" ? "You found it!" : "Better luck tomorrow."}{" "}
+                  {answer.name}
+                </strong>
+                <button className="primary" onClick={() => setModal("result")}>
+                  View results
+                </button>
+              </div>
+            )}
+          </section>
+          <div className="game-bottom">
+            <button onClick={() => setModal("rules")}>
+              ⓘ A little help with the clues
+            </button>
+            {page === "daily" && (
+              <span>
+                Next college in <b>{countdown}</b> ET
+              </span>
+            )}
+          </div>
+        </>
       </main>
       <footer>
         <span>
-          CollegeGuessr <i>✦</i> Guess the school. Decode the clues.
+          150 Division I schools · CollegeGuessr Academic Outcomes Index
         </span>
         <button onClick={() => setModal("data")}>Sources & methodology</button>
         <small>Independent. Not affiliated with any university.</small>
@@ -435,10 +397,12 @@ export function App() {
                 : modal === "settings"
                   ? "Make yourself at home"
                   : modal === "data"
-                    ? "Behind the clues"
-                    : end === "won"
-                      ? "You found it!"
-                      : "Better luck tomorrow."
+                    ? "Sources & academic rankings"
+                    : modal === "pool"
+                      ? "The 150-college pool"
+                      : end === "won"
+                        ? "You found it!"
+                        : "Better luck tomorrow."
           }
           onClose={() => setModal("")}
         >
@@ -451,13 +415,11 @@ export function App() {
               </p>
               <p>
                 <b>✓ Green:</b> same state or type; enrollment within 2,500;
-                comparable rank within 10; same NCAA division or primary
-                conference.
+                comparable rank within 10; same primary conference.
               </p>
               <p>
                 <b>≈ Gold:</b> neighboring states; enrollment within 10,000;
-                rank within 25; adjacent NCAA divisions; different conference in
-                the same division.
+                academic rank within 25. Different conferences are gray.
               </p>
               <p>
                 <b>× Gray:</b> farther away or different. <b>— Neutral:</b>{" "}
@@ -470,9 +432,10 @@ export function App() {
               </p>
               <p>
                 Daily gives you eight attempts, resetting at midnight Eastern.
-                Practice has unlimited attempts. Rank clues are neutral where
-                licensed comparable rankings are unavailable. Some guessed
-                schools have unverified athletics; those clues remain neutral.
+                Practice has unlimited attempts. The 150-school pool is ranked
+                by the CollegeGuessr Academic Outcomes Index: 65% six-year
+                graduation rate and 35% full-time retention, using NCES 2023
+                data. This is our index, not a published national ranking.
               </p>
               <button
                 className="primary"
@@ -537,7 +500,6 @@ export function App() {
               <div className="settings">
                 {(
                   [
-                    ["dark", "Dark appearance"],
                     ["motion", "Reveal animations"],
                     ["hard", "Hard mode · hide arrows"],
                   ] as const
@@ -564,7 +526,7 @@ export function App() {
                     )
                   ) {
                     setHistory({});
-                    save("cg-v1-history", {});
+                    save("cg-d1-2023-v1-history", {});
                   }
                 }}
               >
@@ -575,26 +537,25 @@ export function App() {
           {modal === "data" && (
             <div className="prose">
               <p>
-                <b>
-                  {manifest.total} real colleges; {manifest.eligible}{" "}
-                  production-eligible answers.
-                </b>{" "}
-                Mystery answers require verified enrollment, location, type and
-                current NCAA division and conference. Schools without athletics
-                matches can be guessed but cannot become answers.
+                <b>150 Division I schools. One comparable academic ranking.</b>
               </p>
               <p>{manifest.selection}</p>
+              <p>{manifest.ranking}</p>
               <p>
-                Enrollment: {manifest.enrollment}. The 2024 bulk fall enrollment
-                endpoint returned 404 during collection; 2023 is the reliably
-                accessible snapshot used here.
+                <b>Score = 65% graduation + 35% retention.</b> Both inputs are
+                percentages. The highest scores form the 150-school pool; every
+                school's rank is comparable with every other school's.
               </p>
               <p>
-                {manifest.missing} Current athletics come from the official NCAA
-                active-member directory, academic year 2027 (2026–27).
-                Historical basketball membership is retained only for audit,
-                never substituted for primary conference.
+                {manifest.graduation}. {manifest.retention}.
               </p>
+              <p>
+                {manifest.enrollment}. {manifest.athletics}.
+              </p>
+              <p>{manifest.missing}</p>
+              <button className="secondary" onClick={() => setModal("pool")}>
+                View all 150 schools
+              </button>
               {manifest.sources.map((s) => (
                 <p key={s}>
                   <a href={s} target="_blank" rel="noreferrer">
@@ -603,10 +564,29 @@ export function App() {
                 </p>
               ))}
               <p>
-                Static client-side answers can be inspected. CollegeGuessr is
-                independently developed and is not affiliated with any
-                institution, conference, or ranking organization.
+                Independently developed. Not affiliated with Cornell or any
+                university, conference, NCES, or ranking publisher. A static
+                game is not cheat-proof.
               </p>
+            </div>
+          )}
+          {modal === "pool" && (
+            <div className="pool-list">
+              <p className="muted">
+                CollegeGuessr Academic Outcomes Index · NCES 2023. Higher score
+                ranks first.
+              </p>
+              {colleges.map((c) => (
+                <div key={c.id}>
+                  <b>#{c.rank}</b>
+                  <span>
+                    {c.name}
+                    <small>
+                      {c.conference} · Index score {c.academicScore.toFixed(2)}
+                    </small>
+                  </span>
+                </div>
+              ))}
             </div>
           )}
           {modal === "result" && (
@@ -626,14 +606,10 @@ export function App() {
                   {answer.city}, {answer.state} · {answer.institutionType}
                 </p>
                 <p>{answer.enrollment.toLocaleString()} students · Fall 2023</p>
-                <p>
-                  {answer.ncaaDivision
-                    ? `NCAA Division ${answer.ncaaDivision}`
-                    : "Not verified"}{" "}
-                  · {answer.conference ?? "Not verified"}
-                </p>
+                <p>{answer.conference}</p>
                 <p className="muted">
-                  2026–27 NCAA membership · Rank unavailable
+                  Academic rank #{answer.rank} · CollegeGuessr Academic Outcomes
+                  Index
                 </p>
                 <a
                   href={answer.officialWebsite}

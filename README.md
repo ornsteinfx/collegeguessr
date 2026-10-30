@@ -1,79 +1,67 @@
-# CollegeGuessr
+# College Guessr
 
-Guess the school. Decode the clues.
+A daily guessing game featuring **150 NCAA Division I institutions**, ranked by a transparent, reproducible academic outcomes index. White backgrounds, red academic branding, vibrant green/yellow clue tiles, and sequential flip reveals.
 
-A React + TypeScript + Vite static college guessing game, with an original SVG academic crest, crimson and parchment academic design, responsive clue cards, fuzzy college search, Daily and unlimited Practice.
+Live: https://ornsteinfx.github.io/collegeguessr/
 
-**Status: working v1 with a documented data limitation.** There are 500 real IPEDS institutions and **427 eligible mystery answers**, exceeding the minimum 250. The remaining 73 lack an unambiguous current NCAA match and cannot become mystery answers. All numeric rankings remain unavailable because no licensed ranking source was imported; ranking clues display neutral N/A. Enrollment is sourced from Fall 2023, athletics from the official NCAA 2026–27 active-member directory. No statistics or rankings are fabricated.
+## Run
 
-![CollegeGuessr homepage](screenshots/home-desktop.png)
-
-## Run locally
-
-Node 22.12+ recommended.
+Node 24 recommended.
 
 ```sh
 npm ci
 npm run dev
 npm run build
-npm run preview
 npm test
 npm run test:e2e
 npm run audit:data
-node scripts/validate-data.mjs --production
 ```
 
-The last command enforces the 250 verified-answer minimum. It passes for the committed dataset. Install Chromium for browser tests with `npx playwright install chromium`. Tests run desktop and 375px mobile viewports. Screenshots are saved under `screenshots/`.
+Install the test browser with `npx playwright install chromium`. Browser tests use compiled production assets on desktop and mobile. GitHub Actions builds with `--base=/collegeguessr/` and deploys `dist`; never publish uncompiled React source. Vercel uses the default root base with the included configuration.
 
-## Features
+## Pool and academic ranking
 
-- Daily: eight guesses, Eastern calendar, deterministic frozen schedule, next-midnight countdown, local saved rounds, cross-tab progress updates.
-- Practice: unlimited guesses and new rounds, avoiding immediate repeats.
-- Search: fuzzy names and aliases, eight results, keyboard arrows/Enter/Escape, duplicate filtering. Ambiguous abbreviations require explicit selection.
-- Six comparison functions, with unavailable data rendered neutral. Enrollment/rank arrows and hard mode preference.
-- Win/loss reveal, native share or clipboard, answer-free emoji grids, manual text fallback.
-- Daily win distribution, win-only average, Eastern streaks, practice solved counts.
-- Dark appearance, animation preference, system reduced-motion support, permanent non-color symbols, modal focus handling, reset confirmation.
-- Original vector crest, horizontal wordmark variants, favicon and social artwork.
+This edition replaces the larger mixed-division pool at the user's request. **Only 150 schools can be searched, guessed or selected as answers. All are verified NCAA Division I institutions.** Selection and ranks use the user-approved **CollegeGuessr Academic Outcomes Index, 2023-v1**, not a US News or other publisher's national ranking.
 
-Not implemented: speedrun, conference challenge, audio, accounts, backend, licensed numeric rankings. First-time players see an inline introduction; detailed rules remain available in the help menu. Search highlights name substrings; alias-only matches display the full institutional name.
+`score = 0.65 × six-year bachelor graduation rate + 0.35 × full-time retention rate`
 
-## Data and selection
+Both inputs are NCES percentages on a 0–100 scale. Rank 359 qualifying D1 institutions by descending score, then graduation rate, retention rate, and UNITID to break exact ties; keep the first 150. Ranks are ordinal within this qualified D1 candidate population. They are not national ranks among all US colleges. The index measures two student outcomes; it does not measure faculty quality, academic rigor, selectivity, student learning or research. Rates reflect institutional resources, student mix and statutory exclusions. The full candidate ordering, rejected matches, reviewed campus crosswalks, source URLs and input checksums are committed in `src/data/academicRanking.json`.
 
-Sources: [IPEDS HD2023](https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip), [EF2023A](https://nces.ed.gov/ipeds/datacenter/data/EF2023A.zip), [IC2023](https://nces.ed.gov/ipeds/datacenter/data/IC2023.zip), and its published [dictionary](https://nces.ed.gov/ipeds/datacenter/data/IC2023_Dict.zip).
+Source definitions:
 
-Enrollment is **Fall 2023 total fall enrollment**, EF2023A EFALEVEL=1, EFTOTLT. The 2024 bulk fall-enrollment download endpoint returned HTTP 404 during collection, so the reliably accessible 2023 snapshot is used. Ownership and institutional identity come from HD2023. Stable IDs are IPEDS UNITIDs. IPEDS enrollment values can include NCES imputations; the current import does not label imputation flags separately, which needs attention before production verification.
+- [IPEDS DRVGR2023](https://nces.ed.gov/ipeds/datacenter/data/DRVGR2023.zip): GBA6RTT, six-year graduation rate for the full-time, first-time bachelor-seeking **2017 cohort**. The [NCES dictionary](https://nces.ed.gov/ipeds/datacenter/data/DRVGR2023_Dict.zip) documents allowable cohort exclusions.
+- [IPEDS DRVEF2023](https://nces.ed.gov/ipeds/datacenter/data/DRVEF2023.zip): RET_PCF, full-time retention in Fall 2023 from the prior fall's full-time cohort. See the [retention dictionary](https://nces.ed.gov/ipeds/datacenter/data/DRVEF2023_Dict.zip).
+- [IPEDS EF2023A](https://nces.ed.gov/ipeds/datacenter/data/EF2023A.zip): EFALEVEL=1, EFTOTLT, total Fall 2023 enrollment. This is a pinned historical snapshot; NCES records can include imputations.
+- [IPEDS HD2023](https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip): UNITID, official name, location, ownership, institutional website and aliases.
+- [Official NCAA active-member directory](https://web3.ncaa.org/directory/api/directory/memberList?type=1): division and institutional conference, academicYear=2027 (**2026–27**), retrieved October 30, 2026. Conference is primary institutional membership, not a football-only conference. The identifiers, division and canonical conference are retained in the per-school manifest. Familiar display abbreviations such as ACC, SEC and Big Ten are presentation labels; matching uses canonical conference names.
 
-This is a **curated college pool**, not an official top-500 ranking. Filter HD2023 for four-year undergraduate institutions with public/private nonprofit control, in the states/DC, Carnegie 2021 basic classifications 15–23, and positive enrollment. Prioritize classification 21 (baccalaureate arts/sciences), then 15/16 (R1/R2), then remaining classifications. Within priority groups sort descending enrollment, UNITID breaks ties. Take 500. This favors recognized research institutions and liberal arts colleges while retaining regional institutions; it does not guarantee every example in the original brief. The per-record selectionReason and classification fields form the reproducible inclusion manifest.
+Identity joins require matching state and a unique normalized exact name or exact institutional website host. Multiple NCES campuses cannot share a single NCAA identity. Explicitly reviewed main-campus crosswalks handle Rutgers–New Brunswick, Kent State at Kent, Miami University–Oxford and Ohio University–Main Campus; branch campuses are excluded. Missing or ambiguous identities/metrics are excluded rather than inferred. Four active D1 records do not qualify; this is a top 150 **among the 359 documented qualified institutions**, not a claim that every current D1 institution has complete inputs.
 
-All rank fields are null: no licensed comparable ranking source was imported. Historical basketball conference labels from IC2023 CONFNO2 remain audit-only. Current NCAA association, division and primary conference come from the [official NCAA active-member feed](https://web3.ncaa.org/directory/api/directory/memberList?type=1), academicYear 2027 (2026–27), retrieved October 30, 2026. The public directory presents these as the institution's conference, separately from sport-specific memberships. A unique match requires identical state and normalized exact institutional name or exact website host. Ambiguous or absent matches remain ineligible. `athleticsManifest.json` records each of the 427 joins, NCAA organization ID, source name, division, conference and source URL. Empty conferences mean Independent according to the directory's own rendering. See DATA-QUALITY.md.
+## Reproduce/update data
 
-To update, create a Python virtual environment, install `openpyxl`, then run `python scripts/import-ipeds.py`. It downloads the specified public NCES files to ignored scripts/cache/. The importer is pinned to the documented 2023 edition. Update field mappings and source year together when adopting a newer edition. Then run `python scripts/import-athletics.py` to download the official NCAA directory and merge unique matches. Delete the ignored NCAA cache file before refreshing the feed; review academicYear and matching changes before accepting a new season. Never infer primary conference from football or basketball without verification. Re-run audits and review diffs. Neither importer overwrites the production schedule-v1.json. The athletics importer creates it only if absent. Preserve published schedules and all referenced IDs.
+```sh
+python3 scripts/build-d1-pool.py
+npm run audit:data
+```
 
-## Comparison rules
+The standard-library-only Python importer downloads pinned public NCES ZIPs and the NCAA feed into ignored `scripts/cache`. It preserves the committed schedule; never delete or regenerate that file after publication. Review NCAA season before refreshing its cached feed. The script records source checksums, computes the complete ranking, selects the top 150, and writes comparison data and manifests. The audit verifies exactly 150 unique IPEDS/NCAA identities, Division I eligibility, rank completeness, score arithmetic, selection ordering and schedule integrity. The versioned snapshot is the comparison source; changing it requires deliberate review and a new edition if the selected pool changes.
 
-- State: same green, adjacent gold, other gray. DC neighbors MD/VA. The adjacency map includes shared water boundaries for IL/MI, MI/MN and NY/RI, and Four Corners contacts AZ/CO and NM/UT; excludes RI/NJ and MI/OH lake-only additions beyond their existing land boundary. The map is manually encoded and symmetry tested; an authoritative source audit remains required before production.
-- Type: same green, different gray.
-- Enrollment: absolute difference ≤2,500 green, ≤10,000 gold, otherwise gray. Arrow points toward mystery value.
-- Rank: same source/year/category only; ≤10 green, ≤25 gold, otherwise gray. ↑ means higher numeric/worse rank. Missing/incompatible rankings are neutral.
-- NCAA division: same green, I/II or II/III gold, I/III gray. Different known associations gray; unknown fields neutral.
-- Conference: same verified conference and NCAA division green; different conference in same division gold; different divisions gray. Missing fields neutral.
+## Five clue rules
 
-Only an exact ID wins. Invalid or repeated guesses consume no attempts. Tooltip differences disclose relative distances, never the hidden school's direct value. A static game is not cheat-proof.
+1. **State:** same green, neighboring yellow, other gray. DC neighbors MD/VA. The manually encoded adjacency map includes shared water boundaries IL/MI, MI/MN and NY/RI, and Four Corners point contacts AZ/CO and NM/UT. It is symmetry tested; an authoritative boundary audit remains a limitation.
+2. **Type:** same green, different gray.
+3. **Students:** absolute difference ≤2,500 green, ≤10,000 yellow, otherwise gray. ↑ means the answer has more students.
+4. **Academic rank:** same source/year/category required. Difference ≤10 green, ≤25 yellow, otherwise gray. ↓ points toward a smaller, better numeric rank; ↑ toward a larger rank. Every active school has a comparable rank. N/A remains a defensive fallback for invalid future data.
+5. **Conference:** same canonical primary conference green, different gray. Division is not a displayed clue because the entire pool is D1.
 
-## Daily schedule and persistence
+An exact institutional ID wins; all-green clues alone do not. Daily allows eight guesses, Practice unlimited. Submitting a new row turns over five clue tiles at 320ms intervals with 620ms flips. Input is disabled during the reveal, and results open after the final tile. Saved rows do not replay; animation settings and reduced-motion preferences are respected. Colors also have symbols and tap/focus explanations. Shared grids now have five squares per guess and never expose the school name.
 
-Epoch: October 30, 2026, puzzle #1. America/New_York defines the date. `schedule-v1.json` is a committed, fixed permutation of the 427 eligible IDs, generated with Python Random(827631). The index advances once per Eastern calendar day, cycling after 427 days, with no repeats less than 427 days apart. Preserve the file and all referenced institution IDs across future imports; the v1 storage namespace is separate from the early preview. Progress uses localStorage `cg-v1-*`; no account or server sync is provided. LocalStorage failures leave the session playable. Concurrent tab submissions are last-write-wins; the app synchronizes storage events but does not provide transactional locking.
+## Daily schedule, progress and statistics
 
-## Deployment preparation
+`schedule-d1-v1.json` is the fixed permutation of the 150 active IDs (Python Random(827631), IDs sorted before shuffling). The Eastern calendar advances its index each day from October 30, 2026, puzzle #1, cycling after 150 days. The app uses America/New_York for puzzles, countdown and streaks.
 
-`vercel.json` sets the Vite build and dist output; hash routes avoid deep-link routing requirements. Connect the private GitHub repository to Vercel, use `npm ci` / `npm run build`, review the documented data limitations, and publish after explicit authorization. No environment variables are required. No domain has been purchased or assumed available. No production site is deployed.
+The deliberate pool/ranking change starts a new **D1 edition** under `cg-d1-2023-v1-*` localStorage keys. Old edition progress remains stored separately and does not contaminate the smaller pool or its statistics. Earlier schedules/data remain available in Git history. No accounts/server sync; localStorage failures leave the session playable. Concurrent tab submissions are last-write-wins. Static client-side answers are inspectable; this is not cheat-proof.
 
-Both SVG artwork and a 1200×630 PNG Open Graph image are included. Configure an absolute canonical deployment URL and og:image URL before public launch. Fonts load from Google Fonts with system fallbacks. CSS is custom rather than Tailwind; animations use CSS rather than Motion to keep runtime dependencies small.
+Local statistics include daily plays/wins, win rate, streaks, win-only average, guess distribution and practice solves. Settings retain animation and hard-mode preferences. The site is white by design. Optional speedrun, conference challenge, accounts and sound are not implemented.
 
-CollegeGuessr is independently developed and is not affiliated with any listed university, conference, ranking organization or NCES. NCES source data is attributed above. Branding artwork is original to this project.
-
-
-## GitHub Pages
-
-The live site is https://ornsteinfx.github.io/collegeguessr/. GitHub Pages must use **GitHub Actions** as its publishing source. `.github/workflows/pages.yml` installs dependencies, runs unit tests, builds Vite with `--base=/collegeguessr/`, and deploys the compiled `dist` artifact. Never publish the repository root as an unbuilt static site: browsers cannot execute the TypeScript/React entry point directly. All public assets resolve through Vite's configured base path. Local and Vercel builds retain the default `/` base. The round identifier also falls back safely when `crypto.randomUUID` is unavailable.
+Original College Guessr branding is inspired by academic design, with a red shield/book/compass seal. It does not use Cornell's crest or claim Cornell affiliation. Independently developed; not affiliated with Cornell, any listed university, conference, NCES, or ranking publisher.

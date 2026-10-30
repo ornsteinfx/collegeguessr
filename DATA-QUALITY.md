@@ -1,13 +1,9 @@
 # Data quality report
 
-Institutions: 500
+Active schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.
 
-Eligible mystery answers: 427
+Ranking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from 359 uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.
 
-Enrollment: IPEDS EF2023A total fall enrollment, Fall 2023. 2024 bulk endpoint returned 404 during collection. Values may include NCES imputations.
+Enrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.
 
-Athletics: official NCAA active members directory, academicYear 2027 (2026–27), retrieved October 30, 2026. Unique name/domain plus state matches only. See athleticsManifest.json for each match and source.
-
-Missing: all 500 numeric rankings (no licensed ranking imported); 73 institutions without an unambiguous current NCAA match. These institutions are guessable but excluded as answers. Historical basketball conferences are audit-only.
-
-Production dataset minimum: PASS (250 required). Preferred 500 fully eligible answers: not met. State adjacency is manually encoded, symmetric and tested; authoritative boundary audit remains a limitation. No missing numeric rankings are fabricated; rank comparison is neutral.
+Validation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.

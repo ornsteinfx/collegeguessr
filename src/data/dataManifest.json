@@ -1,0 +1,13 @@
+{
+  "version": "2023-preview-v1",
+  "total": 500,
+  "eligible": 0,
+  "selection": "Curated pool, not a ranking: Carnegie 2021 classifications 15\u201323, public/private nonprofit four-year undergraduate institutions. Prioritize baccalaureate arts/sciences, then R1/R2, then remaining institutions by descending total fall enrollment; UNITID breaks ties. Take 500.",
+  "enrollment": "IPEDS EF2023A EFALEVEL=1 EFTOTLT, total fall enrollment 2023",
+  "missing": "All ranks, current divisions and current primary conferences. Historical basketball conference retained for audit only. Production release blocked. Preview rounds use the complete enrollment/location/type fields.",
+  "sources": [
+    "https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip",
+    "https://nces.ed.gov/ipeds/datacenter/data/EF2023A.zip",
+    "https://nces.ed.gov/ipeds/datacenter/data/IC2023.zip"
+  ]
+}

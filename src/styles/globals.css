@@ -1741,3 +1741,40 @@ dialog {
     font-size: 8px;
   }
 }
+@media (max-width: 360px) {
+  .brand > span {
+    font-size: 28px;
+  }
+  .brand img {
+    width: 56px;
+    height: 63px;
+  }
+  .brand small {
+    font-size: 5.5px;
+    letter-spacing: 1.6px;
+  }
+  nav {
+    gap: 18px;
+  }
+  .academic-actions {
+    gap: 12px;
+  }
+  .hero-copy h1 {
+    font-size: 41px;
+  }
+  .game-toolbar {
+    gap: 8px;
+  }
+  .progress {
+    gap: 3px;
+  }
+  .progress i {
+    width: 10px;
+  }
+  .edition-line {
+    font-size: 6px;
+  }
+  .primary {
+    padding: 14px 12px;
+  }
+}

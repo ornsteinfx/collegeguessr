@@ -1,4 +1,4 @@
-import { puzzleNumber, dateKey } from "../game/engine";
+import { puzzleNumber, dateKey, colleges, answerPool } from "../game/engine";
 export function Home({
   navigate,
   onData,
@@ -73,11 +73,11 @@ export function Home({
       </section>
       <section className="academic-facts" aria-label="Game overview">
         <div>
-          <b>500</b>
+          <b>{colleges.length}</b>
           <span>American institutions</span>
         </div>
         <div>
-          <b>427</b>
+          <b>{answerPool.length}</b>
           <span>Eligible mystery colleges</span>
         </div>
         <div>

@@ -1,2 +1,88 @@
-import{colleges,compare,type College}from'../game/engine';
-export function Board({ids,answer,hard}:{ids:string[];answer:College;hard:boolean}){return <div className="board"><div className="board-head"><span>COLLEGE</span>{['STATE','TYPE','STUDENTS','RANK','DIVISION','CONFERENCE'].map(x=><span key={x}>{x}</span>)}</div>{ids.length?ids.map((id,index)=>{const c=colleges.find(x=>x.id===id)!;return <div className="guess-row" key={id}><div className="school"><span className="row-num">{String(index+1).padStart(2,'0')}</span><strong>{c.shortName}</strong></div><div className="tiles">{compare(c,answer,hard).map((t,i)=><button key={i} type="button" className={`tile ${t.color}`} style={{animationDelay:`${i*110}ms`}} title={t.hint} aria-label={`${['State','Type','Students','Rank','Division','Conference'][i]}: ${t.value}. ${t.hint}`} onClick={e=>{const el=e.currentTarget;el.dataset.explain=el.dataset.explain?'':t.hint;}}><small>{['State','Type','Students','Rank','Division','Conference'][i]}</small><b>{t.value}</b><span className="indicator">{t.color==='green'?'✓':t.color==='yellow'?'≈':t.color==='neutral'?'—':'×'}</span></button>)}</div></div>}):<div className="empty"><img src="/branding/crest.svg" alt=""/><h3>Every school has a story.</h3><p>Your first guess is the first clue.<br/>Start with a college you know.</p><span>STATE · SIZE · SPORTS · AND A LITTLE INTUITION</span></div>}</div>}
+import { colleges, compare, type College } from "../game/engine";
+export function Board({
+  ids,
+  answer,
+  hard,
+}: {
+  ids: string[];
+  answer: College;
+  hard: boolean;
+}) {
+  return (
+    <div className="board">
+      <div className="board-head">
+        <span>COLLEGE</span>
+        {["STATE", "TYPE", "STUDENTS", "RANK", "DIVISION", "CONFERENCE"].map(
+          (x) => (
+            <span key={x}>{x}</span>
+          ),
+        )}
+      </div>
+      {ids.length ? (
+        ids.map((id, index) => {
+          const c = colleges.find((x) => x.id === id)!;
+          return (
+            <div className="guess-row" key={id}>
+              <div className="school">
+                <span className="row-num">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong>{c.shortName}</strong>
+              </div>
+              <div className="tiles">
+                {compare(c, answer, hard).map((t, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`tile ${t.color}`}
+                    style={{ animationDelay: `${i * 110}ms` }}
+                    title={t.hint}
+                    aria-label={`${["State", "Type", "Students", "Rank", "Division", "Conference"][i]}: ${t.value}. ${t.hint}`}
+                    onClick={(e) => {
+                      const el = e.currentTarget;
+                      el.dataset.explain = el.dataset.explain ? "" : t.hint;
+                    }}
+                  >
+                    <small>
+                      {
+                        [
+                          "State",
+                          "Type",
+                          "Students",
+                          "Rank",
+                          "Division",
+                          "Conference",
+                        ][i]
+                      }
+                    </small>
+                    <b>{t.value}</b>
+                    <span className="indicator">
+                      {t.color === "green"
+                        ? "✓"
+                        : t.color === "yellow"
+                          ? "≈"
+                          : t.color === "neutral"
+                            ? "—"
+                            : "×"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div className="empty">
+          <img src="/branding/crest.svg" alt="" />
+          <h3>Every school has a story.</h3>
+          <p>
+            Your first guess is the first clue.
+            <br />
+            Start with a college you know.
+          </p>
+          <span>STATE · SIZE · SPORTS · AND A LITTLE INTUITION</span>
+        </div>
+      )}
+    </div>
+  );
+}

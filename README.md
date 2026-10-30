@@ -6,6 +6,8 @@ A React + TypeScript + Vite static college guessing game, with an original SVG a
 
 **Status: working v1 with a documented data limitation.** There are 500 real IPEDS institutions and **427 eligible mystery answers**, exceeding the minimum 250. The remaining 73 lack an unambiguous current NCAA match and cannot become mystery answers. All numeric rankings remain unavailable because no licensed ranking source was imported; ranking clues display neutral N/A. Enrollment is sourced from Fall 2023, athletics from the official NCAA 2026–27 active-member directory. No statistics or rankings are fabricated.
 
+![CollegeGuessr homepage](screenshots/home-desktop.png)
+
 ## Run locally
 
 Node 22.12+ recommended.

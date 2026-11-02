@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { geoAlbersUsa, geoPath } from "d3-geo";
 import { select } from "d3-selection";
 import {
@@ -104,10 +111,14 @@ export default function CollegeMap({
 }) {
   const svg = useRef<SVGSVGElement>(null),
     container = useRef<HTMLDivElement>(null),
+    canvas = useRef<HTMLDivElement>(null),
+    popup = useRef<HTMLDivElement>(null),
+    panForPopup = useRef(false),
     behavior = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [view, setView] = useState<ZoomTransform>(zoomIdentity),
     [width, setWidth] = useState(960),
     [active, setActive] = useState<string[]>([]),
+    [activePoint, setActivePoint] = useState<[number, number] | null>(null),
     [tip, setTip] = useState("");
   useEffect(() => {
     if (!container.current) return;
@@ -189,6 +200,8 @@ export default function CollegeMap({
       select(svg.current).call(behavior.current.scaleBy, multiplier);
   }
   function activate(cluster: Cluster) {
+    setActivePoint([cluster.x, cluster.y]);
+    panForPopup.current = true;
     setActive(cluster.schools.map((c) => c.id));
     setTip("");
     if (
@@ -209,6 +222,57 @@ export default function CollegeMap({
   const activeSchools = colleges
     .filter((c) => active.includes(c.id))
     .sort((a, b) => a.name.localeCompare(b.name));
+  // Use the SVG screen transform so the popup also tracks mobile letterboxing.
+  const matrix = svg.current?.getScreenCTM();
+  const bounds = canvas.current?.getBoundingClientRect();
+  const screen =
+    activePoint && matrix
+      ? new DOMPoint(...view.apply(activePoint)).matrixTransform(matrix)
+      : null;
+  const anchor =
+    screen && bounds
+      ? { x: screen.x - bounds.left, y: screen.y - bounds.top }
+      : null;
+  const popupWidth = Math.min(340, (bounds?.width ?? width) - 16);
+  const popupLeft =
+    anchor && bounds
+      ? Math.max(
+          popupWidth / 2 + 8,
+          Math.min(bounds.width - popupWidth / 2 - 8, anchor.x),
+        )
+      : 0;
+  const popupVisible =
+    anchor &&
+    bounds &&
+    anchor.x >= 0 &&
+    anchor.x <= bounds.width &&
+    anchor.y >= 0 &&
+    anchor.y <= (svg.current?.clientHeight ?? bounds.height);
+  useLayoutEffect(() => {
+    if (
+      !active.length ||
+      !anchor ||
+      !matrix ||
+      !popup.current ||
+      !panForPopup.current
+    )
+      return;
+    panForPopup.current = false;
+    const minimumY = popup.current.getBoundingClientRect().height + 40;
+    const maximumY = (svg.current?.clientHeight ?? 300) - 12;
+    const shiftY = Math.max(minimumY, Math.min(maximumY, anchor.y)) - anchor.y;
+    const shiftX = bounds
+      ? Math.max(24, Math.min(bounds.width - 24, anchor.x)) - anchor.x
+      : 0;
+    if ((shiftY || shiftX) && svg.current && behavior.current) {
+      select(svg.current).call(
+        behavior.current.transform,
+        zoomIdentity
+          .translate(view.x + shiftX / matrix.a, view.y + shiftY / matrix.d)
+          .scale(view.k),
+      );
+    }
+  }, [active, anchor?.x, anchor?.y, view, width]);
   return (
     <div className="college-map" ref={container}>
       <div className="map-toolbar">
@@ -244,7 +308,7 @@ export default function CollegeMap({
           </button>
         </div>
       </div>
-      <div className="map-canvas">
+      <div className="map-canvas" ref={canvas}>
         <svg
           ref={svg}
           viewBox={`0 0 ${W} ${H}`}
@@ -367,50 +431,81 @@ export default function CollegeMap({
             </g>
           </g>
         </svg>
+        {activeSchools.length > 0 && (
+          <div
+            className="map-selection"
+            ref={popup}
+            aria-label="Colleges at selected pin"
+            style={
+              {
+                left: popupLeft,
+                top: (anchor?.y ?? 0) - 32,
+                width: popupWidth,
+                visibility: popupVisible ? "visible" : "hidden",
+                "--pin-offset": `${(anchor?.x ?? 0) - popupLeft}px`,
+              } as CSSProperties
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                e.stopPropagation();
+                setActive([]);
+              }
+            }}
+          >
+            <div className="map-selection-heading">
+              <strong>
+                {activeSchools.length === 1
+                  ? "Selected college"
+                  : `${activeSchools.length} colleges in this area`}
+              </strong>
+              <button
+                type="button"
+                aria-label="Close map selection"
+                onClick={() => setActive([])}
+              >
+                ×
+              </button>
+            </div>
+            <div
+              className="map-selection-list"
+              style={{
+                maxHeight: Math.min(
+                  210,
+                  (svg.current?.clientHeight ?? 300) - 115,
+                ),
+              }}
+            >
+              {activeSchools.map((c) => (
+                <div key={c.id}>
+                  <span>
+                    <b>{c.name}</b>
+                    <small>
+                      {c.city}, {c.state}
+                    </small>
+                  </span>
+                  <button
+                    type="button"
+                    className="secondary"
+                    disabled={disabled || excluded.includes(c.id)}
+                    onClick={() => {
+                      onSelect(c);
+                      setActive([]);
+                    }}
+                  >
+                    {excluded.includes(c.id)
+                      ? "Already guessed"
+                      : "Choose college"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <span className="map-hover" role="status">
           {tip ||
             "Drag to pan · Scroll or pinch to zoom · Grouped pins separate as you zoom"}
         </span>
       </div>
-      {activeSchools.length > 0 && (
-        <div className="map-selection" aria-label="Colleges at selected pin">
-          <div className="map-selection-heading">
-            <strong>
-              {activeSchools.length === 1
-                ? "Selected college"
-                : `${activeSchools.length} colleges in this area`}
-            </strong>
-            <button
-              type="button"
-              aria-label="Close map selection"
-              onClick={() => setActive([])}
-            >
-              ×
-            </button>
-          </div>
-          {activeSchools.map((c) => (
-            <div key={c.id}>
-              <span>
-                <b>{c.name}</b>
-                <small>
-                  {c.city}, {c.state}
-                </small>
-              </span>
-              <button
-                type="button"
-                className="secondary"
-                disabled={disabled || excluded.includes(c.id)}
-                onClick={() => {
-                  onSelect(c);
-                  setActive([]);
-                }}
-              >
-                {excluded.includes(c.id) ? "Already guessed" : "Choose college"}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
       <div className="map-attribution">
         Campus locations: NCES · Boundaries: US Census / us-atlas · Cities:
         Natural Earth

@@ -236,6 +236,26 @@ test("map search zooms, shows city labels and chooses a real school", async ({
   await page.locator(".map-pin").first().focus();
   await page.locator(".map-pin").first().press("Enter");
   await expect(page.getByLabel("Colleges at selected pin")).toBeVisible();
+  const popup = page.getByLabel("Colleges at selected pin");
+  const popupBounds = await popup.boundingBox();
+  const canvasBounds = await page.locator(".map-canvas").boundingBox();
+  expect(popupBounds!.y).toBeGreaterThanOrEqual(canvasBounds!.y);
+  expect(popupBounds!.x).toBeGreaterThanOrEqual(canvasBounds!.x);
+  expect(popupBounds!.x + popupBounds!.width).toBeLessThanOrEqual(
+    canvasBounds!.x + canvasBounds!.width,
+  );
+  // Its arrow points to the clicked map position, above the pin rather than below the map.
+  const anchorY = await popup.evaluate(
+    (el) => parseFloat((el as HTMLElement).style.top) + 32,
+  );
+  expect(popupBounds!.y + popupBounds!.height).toBeLessThan(
+    canvasBounds!.y + anchorY,
+  );
+  await page.screenshot({
+    path: `screenshots/map-popup-${test.info().project.name}.png`,
+    fullPage: true,
+  });
+
   await page
     .getByRole("button", { name: "Choose college", exact: true })
     .first()

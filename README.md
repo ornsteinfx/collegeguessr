@@ -51,7 +51,7 @@ The standard-library-only Python importer downloads pinned public NCES ZIPs and 
 1. **State:** same green, neighboring yellow, other gray. DC neighbors MD/VA. The manually encoded adjacency map includes shared water boundaries IL/MI, MI/MN and NY/RI, and Four Corners point contacts AZ/CO and NM/UT. It is symmetry tested; an authoritative boundary audit remains a limitation.
 2. **Type:** same green, different gray.
 3. **Students:** absolute difference ≤2,500 green, ≤10,000 yellow, otherwise gray. ↑ means the answer has more students.
-4. **Academic rank:** same source/year/category required. Difference ≤10 green, ≤25 yellow, otherwise gray. ↓ points toward a smaller, better numeric rank; ↑ toward a larger rank. Every active school has a comparable rank. N/A remains a defensive fallback for invalid future data.
+4. **Academic rank:** same source/year/category required. Difference ≤10 green, ≤25 yellow, otherwise gray. The clue shows proximity and an arrow, never a numeric rank. ↓ points toward a smaller, better numeric rank; ↑ toward a larger rank. Every active school has a comparable rank. N/A remains a defensive fallback for invalid future data.
 5. **Conference:** same canonical primary conference green, different gray. Division is not a displayed clue because the entire pool is D1.
 
 An exact institutional ID wins; all-green clues alone do not. Daily allows eight guesses, Practice unlimited. Submitting a new row turns over five clue tiles at 320ms intervals with 620ms flips. Input is disabled during the reveal, and results open after the final tile. Saved rows do not replay; animation settings and reduced-motion preferences are respected. Colors also have symbols and tap/focus explanations. Shared grids now have five squares per guess and never expose the school name.
@@ -65,3 +65,12 @@ The deliberate pool/ranking change starts a new **D1 edition** under `cg-d1-2023
 Local statistics include daily plays/wins, win rate, streaks, win-only average, guess distribution and practice solves. Settings retain animation and hard-mode preferences. The site is white by design. Optional speedrun, conference challenge, accounts and sound are not implemented.
 
 Original College Guessr branding is inspired by academic design, with a red shield/book/compass seal. It does not use Cornell's crest or claim Cornell affiliation. Independently developed; not affiliated with Cornell, any listed university, conference, NCES, or ranking publisher.
+
+
+## Map search and spoiler-free feedback
+
+The name/map selector opens a lazy-loaded, locally rendered SVG United States map: gray states, white water, state borders, red school pins, state names and major city labels as you zoom in. Drag, wheel/pinch, zoom buttons and reset are supported. Nearby campuses group into numbered pins; activating a group zooms to the area and provides an alphabetical choice list. Pin selection fills the normal guess input and does not submit an attempt. Previously guessed schools are marked and cannot be selected again. Keyboard users can focus pins and activate them with Enter/Space; name search remains available. The map never receives the mystery answer ID.
+
+Coordinates are institutional locations from NCES HD2023 matched by UNITID. State boundaries are US Census-derived us-atlas v3 10m data; Alaska and Hawaii use the standard Albers USA insets. Contextual city labels are Natural Earth populated places, filtered by population and zoom with overlap suppression; they are not current official city-population estimates. All geographic data is bundled, no map key or external tile service is needed. Reproduce with `python3 scripts/build-map-data.py`; source URLs, hashes and attribution are in `src/data/mapManifest.json`, and the us-atlas ISC license is included in `public/map/`.
+
+Exact numerical differences are never exposed in clue titles, tap explanations or accessible labels. Enrollment explanations use only ≤2,500 / >2,500–10,000 / >10,000 bands. Rank explanations use only ≤10 / >10–25 / >25 bands. Exact rank numbers and academic scores are hidden from clue tiles, the alphabetically sorted school pool, map popups and post-round profiles. Exact equality no longer produces a zero-difference hint. The source dataset remains auditable in this public, client-side project; these are gameplay disclosure rules, not anti-cheating security.

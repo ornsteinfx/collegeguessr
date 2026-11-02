@@ -46,6 +46,20 @@ for (const c of data) {
 assert.equal(schedule.length, 150);
 assert.equal(new Set(schedule).size, 150);
 assert.deepEqual([...schedule].sort(), data.map((c) => c.id).sort());
-const report = `# Data quality report\n\nActive schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.\n\nRanking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from ${audit.candidates.length} uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.\n\nEnrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.\n\nValidation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.\n`;
+const locations = read("campusLocations.json");
+const cities = read("mapCities.json");
+assert.equal(Object.keys(locations).length, data.length);
+for (const c of data) {
+  const p = locations[c.id];
+  assert(
+    p &&
+      p.latitude >= 18 &&
+      p.latitude <= 72 &&
+      p.longitude >= -180 &&
+      p.longitude <= -60,
+  );
+}
+assert(cities.length > 100);
+const report = `# Data quality report\n\nActive schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.\n\nRanking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from ${audit.candidates.length} uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.\n\nEnrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.\n\nMap: ${Object.keys(locations).length} NCES campus locations and ${cities.length} contextual Natural Earth city labels, with bundled Census/us-atlas boundaries.\n\nValidation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.\n`;
 fs.writeFileSync(new URL("../DATA-QUALITY.md", import.meta.url), report);
 console.log(report);

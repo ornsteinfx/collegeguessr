@@ -46,7 +46,7 @@ describe("comparison boundaries", () => {
   it.each([
     [20, 30, "↑"],
     [30, 20, "↓"],
-    [20, 20, "="],
+    [20, 20, ""],
   ])("arrow %i %i", (x, y, s) =>
     expect(numeric(Number(x), Number(y), 1, 2).arrow).toBe(s),
   );
@@ -133,4 +133,26 @@ describe("rounds", () => {
     expect(JSON.parse(JSON.stringify(guess(round(), colleges[1].id)))).toEqual(
       guess(round(), colleges[1].id),
     ));
+});
+
+describe("no exact numerical giveaways", () => {
+  it("enrollment explanations contain only threshold bands", () => {
+    const r = compare(
+      { ...a(), enrollment: 30000 },
+      { ...a(), enrollment: 34219 },
+    );
+    expect(r[2].hint).toBe("Enrollment More than 2,500 and within 10,000");
+    expect(r[2].hint).not.toContain("4,219");
+  });
+  it("rank clues never show either school rank or exact gap", () => {
+    const r = compare({ ...a(), rank: 53 }, { ...a(), rank: 71 });
+    expect(r[3].value).toBe("Near ↑");
+    expect(r[3].hint).toContain("within 25");
+    expect(r[3].hint).not.toMatch(/53|71|18/);
+  });
+  it("the exact-equality case remains a range, not a zero-difference giveaway", () => {
+    const r = numeric(10000, 10000, 2500, 10000);
+    expect(r.hint).toBe("Within 2,500");
+    expect(r.arrow).toBe("");
+  });
 });

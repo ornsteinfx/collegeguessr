@@ -107,8 +107,13 @@ export function numeric(
   const d = Math.abs(a - b);
   return {
     color: (d <= lo ? "green" : d <= hi ? "yellow" : "gray") as Tile["color"],
-    arrow: b > a ? "↑" : b < a ? "↓" : "=",
-    hint: `Difference: ${d.toLocaleString()}`,
+    arrow: b > a ? "↑" : b < a ? "↓" : "",
+    hint:
+      d <= lo
+        ? `Within ${lo.toLocaleString()}`
+        : d <= hi
+          ? `More than ${lo.toLocaleString()} and within ${hi.toLocaleString()}`
+          : `More than ${hi.toLocaleString()}`,
   };
 }
 export function compare(a: College, b: College, hard = false): Tile[] {
@@ -163,10 +168,12 @@ export function compare(a: College, b: College, hard = false): Tile[] {
       hint: `Enrollment ${en.hint}`,
     },
     {
-      value: rankOK ? `#${a.rank} ${hard ? "" : rk.arrow}` : "N/A",
+      value: rankOK
+        ? `${rk.color === "green" ? "Close" : rk.color === "yellow" ? "Near" : "Far"} ${hard ? "" : rk.arrow}`
+        : "N/A",
       color: rk.color,
       hint: rankOK
-        ? `Academic rank ${rk.hint}`
+        ? `Academic ranking: ${rk.hint.toLowerCase()} places; exact ranks are hidden`
         : "Comparable verified rankings unavailable",
     },
     {

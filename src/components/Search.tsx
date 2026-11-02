@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
+const CollegeMap = lazy(() => import("./CollegeMap"));
 import Fuse from "fuse.js";
 import { colleges, type College } from "../game/engine";
 function highlight(name: string, q: string) {
@@ -27,6 +28,7 @@ export function Search({
     [open, setOpen] = useState(false),
     [selected, setSelected] = useState<College | null>(null),
     [error, setError] = useState("");
+  const [method, setMethod] = useState<"text" | "map">("text");
   const fuse = useMemo(
     () =>
       new Fuse(colleges, {
@@ -48,6 +50,7 @@ export function Search({
     setQ(c.name);
     setOpen(false);
     setError("");
+    setMethod("text");
   }
   function submit() {
     if (!selected) {
@@ -62,6 +65,29 @@ export function Search({
   }
   return (
     <div className="search-wrap">
+      <div
+        className="search-methods"
+        role="group"
+        aria-label="College search method"
+      >
+        <button
+          type="button"
+          aria-pressed={method === "text"}
+          onClick={() => setMethod("text")}
+        >
+          Search by name
+        </button>
+        <button
+          type="button"
+          aria-pressed={method === "map"}
+          onClick={() => {
+            setMethod("map");
+            setOpen(false);
+          }}
+        >
+          Search the map
+        </button>
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -124,7 +150,23 @@ export function Search({
           Submit Guess <span>↵</span>
         </button>
       </form>
-      {open && q && !selected && (
+      {method === "map" && (
+        <Suspense
+          fallback={
+            <p className="map-loading" role="status">
+              Loading college map…
+            </p>
+          }
+        >
+          <CollegeMap
+            excluded={excluded}
+            selected={selected?.id ?? null}
+            onSelect={select}
+            disabled={disabled}
+          />
+        </Suspense>
+      )}
+      {method === "text" && open && q && !selected && (
         <div id="suggestions" role="listbox" className="suggestions">
           {results.length ? (
             results.map((c, i) => (

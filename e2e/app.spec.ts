@@ -177,7 +177,7 @@ test("white background, five clues and functional academic rank", async ({
   await page.getByRole("button", { name: /Submit Guess/ }).click();
   await expect(page.locator(".comparison-flip")).toHaveCount(5);
   const rank = page.getByRole("button", { name: /^Academic rank:/ });
-  await expect(rank).toHaveAttribute("aria-label", /#[0-9]+/);
+  await expect(rank).not.toHaveAttribute("aria-label", /#[0-9]+/);
   await expect(rank).not.toHaveAttribute("aria-label", /N\/A/);
   expect(
     await page.evaluate(
@@ -187,4 +187,54 @@ test("white background, five clues and functional academic rank", async ({
   await page.getByRole("button", { name: "Sources & methodology" }).click();
   await page.getByRole("button", { name: "View all 150 schools" }).click();
   await expect(page.locator(".pool-list>div")).toHaveCount(150);
+});
+
+test("map search zooms, shows city labels and chooses a real school", async ({
+  page,
+}) => {
+  await page.goto("/#practice");
+  await page
+    .getByRole("button", { name: "Search the map", exact: true })
+    .click();
+  const map = page.getByRole("group", {
+    name: /Interactive United States college map/,
+  });
+  await expect(map).toBeVisible();
+  await expect(page.locator(".map-state")).toHaveCount(51);
+  expect(await page.locator(".map-pin").count()).toBeGreaterThan(0);
+  await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await expect(page.locator(".map-cities text").first()).toBeAttached();
+  expect(Number(await map.getAttribute("data-zoom"))).toBeGreaterThan(2);
+  await page.locator(".map-pin").first().focus();
+  await page.locator(".map-pin").first().press("Enter");
+  await expect(page.getByLabel("Colleges at selected pin")).toBeVisible();
+  await page
+    .getByRole("button", { name: "Choose college", exact: true })
+    .first()
+    .click();
+  await expect(page.getByRole("combobox")).not.toHaveValue("");
+  await expect(page.locator(".college-map")).toHaveCount(0);
+  await page.getByRole("button", { name: /Submit Guess/ }).click();
+  await expect(page.locator(".guess-row")).toHaveCount(1);
+  await expect(
+    page.getByRole("button", { name: /^Academic rank:/ }),
+  ).not.toHaveAttribute("aria-label", /#[0-9]+|Difference:/);
+});
+
+test("school list is alphabetical without ranks or academic scores", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Sources & methodology" }).click();
+  await page.getByRole("button", { name: "View all 150 schools" }).click();
+  await expect(page.locator(".pool-list")).not.toContainText(
+    /Index score|#[0-9]+/,
+  );
+  const names = await page
+    .locator(".pool-list>div>span")
+    .evaluateAll((els) =>
+      els.map((el) => el.childNodes[0].textContent!.trim()),
+    );
+  expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
 });

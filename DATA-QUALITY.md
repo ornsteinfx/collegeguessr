@@ -6,4 +6,6 @@ Ranking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year ba
 
 Enrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.
 
+Map: 150 NCES campus locations and 336 contextual Natural Earth city labels, with bundled Census/us-atlas boundaries.
+
 Validation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.

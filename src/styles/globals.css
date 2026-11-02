@@ -856,3 +856,229 @@ dialog::backdrop {
     margin-top: 4px;
   }
 }
+.search-methods {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #e8e8e8;
+  margin: 0 0 15px;
+}
+.search-methods button {
+  padding: 8px 0 11px;
+  font-size: 12px;
+  color: #777;
+  border-bottom: 2px solid transparent;
+}
+.search-methods button[aria-pressed="true"] {
+  color: #b31b1b;
+  border-bottom-color: #b31b1b;
+}
+.search-methods button:hover {
+  color: #b31b1b;
+}
+.suggestions {
+  top: 101px;
+}
+.college-map {
+  margin-top: 15px;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  background: white;
+}
+.map-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+  font-size: 11px;
+  color: #777;
+}
+.map-toolbar > div {
+  display: flex;
+  gap: 5px;
+}
+.map-toolbar button {
+  min-width: 33px;
+  min-height: 33px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  font-size: 17px;
+  color: #333;
+}
+.map-toolbar button:last-child {
+  font-size: 11px;
+  padding: 0 9px;
+}
+.map-canvas {
+  position: relative;
+  overflow: hidden;
+  background: white;
+}
+.map-canvas svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 270px;
+  touch-action: none;
+  cursor: grab;
+}
+.map-canvas svg:active {
+  cursor: grabbing;
+}
+.map-state {
+  fill: #d9dcdf;
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+.map-state-label {
+  fill: #8a8f94;
+  stroke: #fff;
+  paint-order: stroke;
+  stroke-linejoin: round;
+  pointer-events: none;
+  font-weight: 500;
+}
+.map-cities circle {
+  fill: #969a9f;
+}
+.map-cities text {
+  fill: #60666c;
+  stroke: #fff;
+  paint-order: stroke;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.map-pin {
+  cursor: pointer;
+  outline: none;
+}
+.pin-body {
+  fill: #b31b1b;
+  stroke: white;
+  stroke-width: 1.2;
+}
+.pin-school {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+.pin-count {
+  fill: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.map-pin:hover .pin-body,
+.map-pin:focus .pin-body,
+.map-pin.chosen .pin-body {
+  fill: #7f1010;
+  stroke: #222;
+  stroke-width: 2;
+}
+.map-pin.guessed .pin-body {
+  fill: #9b9fa4;
+}
+.map-hover {
+  display: block;
+  min-height: 28px;
+  padding: 6px 11px;
+  color: #777;
+  font-size: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+.map-attribution {
+  padding: 8px 11px;
+  color: #999;
+  font-size: 9px;
+  border-top: 1px solid #eee;
+}
+.map-selection {
+  border-top: 1px solid #ddd;
+  padding: 11px 13px;
+  max-height: 260px;
+  overflow: auto;
+}
+.map-selection-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.map-selection-heading > button {
+  font-size: 22px;
+  min-height: 34px;
+  min-width: 34px;
+}
+.map-selection > div:not(.map-selection-heading) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.map-selection b {
+  font-size: 12px;
+}
+.map-selection small {
+  display: block;
+  font-size: 10px;
+  color: #888;
+  margin-top: 3px;
+}
+.map-selection .secondary {
+  font-size: 11px;
+  padding: 9px 12px;
+  min-height: 37px;
+  white-space: nowrap;
+}
+.map-loading {
+  padding: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+}
+.pool-list > div {
+  gap: 0;
+}
+@media (max-width: 700px) {
+  .map-toolbar {
+    align-items: start;
+    font-size: 10px;
+    padding: 8px;
+    line-height: 1.6;
+  }
+  .map-toolbar > span {
+    max-width: 150px;
+  }
+  .map-toolbar button {
+    min-height: 36px;
+    min-width: 32px;
+  }
+  .map-canvas svg {
+    min-height: 300px;
+  }
+  .map-selection {
+    padding: 9px;
+  }
+  .map-selection b {
+    font-size: 11px;
+  }
+  .map-selection .secondary {
+    font-size: 10px;
+    padding: 8px;
+  }
+  .map-hover,
+  .map-attribution {
+    font-size: 8px;
+  }
+  .search-methods {
+    margin-bottom: 12px;
+  }
+  .suggestions {
+    top: 96px;
+  }
+}

@@ -426,6 +426,8 @@ export function App() {
                 verified data unavailable or incompatible rankings.
               </p>
               <p>
+                Clue explanations show threshold ranges, never exact
+                differences. Academic rank numbers and scores stay hidden.
                 Arrows point toward the answer’s number: ↑ means more students
                 or a higher (worse) rank. The tile displays your guessed
                 college’s value. Tap a tile for an explanation.
@@ -573,20 +575,21 @@ export function App() {
           {modal === "pool" && (
             <div className="pool-list">
               <p className="muted">
-                CollegeGuessr Academic Outcomes Index · NCES 2023. Higher score
-                ranks first.
+                The college pool, listed alphabetically. Academic ranks and
+                scores are hidden.
               </p>
-              {colleges.map((c) => (
-                <div key={c.id}>
-                  <b>#{c.rank}</b>
-                  <span>
-                    {c.name}
-                    <small>
-                      {c.conference} · Index score {c.academicScore.toFixed(2)}
-                    </small>
-                  </span>
-                </div>
-              ))}
+              {[...colleges]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((c) => (
+                  <div key={c.id}>
+                    <span>
+                      {c.name}
+                      <small>
+                        {c.city}, {c.state} · {c.conference}
+                      </small>
+                    </span>
+                  </div>
+                ))}
             </div>
           )}
           {modal === "result" && (
@@ -607,10 +610,7 @@ export function App() {
                 </p>
                 <p>{answer.enrollment.toLocaleString()} students · Fall 2023</p>
                 <p>{answer.conference}</p>
-                <p className="muted">
-                  Academic rank #{answer.rank} · CollegeGuessr Academic Outcomes
-                  Index
-                </p>
+                <p className="muted">CollegeGuessr Academic Outcomes Index</p>
                 <a
                   href={answer.officialWebsite}
                   target="_blank"

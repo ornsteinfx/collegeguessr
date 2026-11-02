@@ -5,25 +5,27 @@ const read = (name) =>
 const data = read("colleges.json"),
   audit = read("academicRanking.json"),
   athletics = read("athleticsManifest.json"),
-  schedule = read("schedule-d1-v1.json");
-assert.equal(data.length, 150);
-assert.equal(new Set(data.map((c) => c.id)).size, 150);
-assert.equal(new Set(data.map((c) => c.ncaaId)).size, 150);
-assert.equal(new Set(data.map((c) => c.rank)).size, 150);
+  schedule = read("schedule-requested-v1.json"),
+  locations = read("campusLocations.json"),
+  requested = read("requestedColleges.json");
+assert.equal(data.length, 169);
+assert.equal(new Set(data.map((c) => c.id)).size, 169);
+assert.equal(new Set(data.map((c) => c.rank)).size, 169);
+for (const r of requested) assert(data.some((c) => c.name === r.name));
+assert.equal(data.filter((c) => c.liberalArts).length, 20);
 assert.deepEqual(
   data.map((c) => c.id),
-  audit.candidates.slice(0, 150).map((c) => c.id),
+  audit.candidates.map((c) => c.id),
 );
 for (const c of data) {
-  assert.equal(c.ncaaDivision, "I");
-  assert.equal(c.athleticAssociation, "NCAA");
   assert(c.eligibleAsAnswer && c.dataVerified);
-  assert.equal(c.rankYear, "2023-v1");
-  assert.equal(c.rankSource, "CollegeGuessr Academic Outcomes Index");
-  assert.equal(c.rankCategory, "NCAA Division I academic outcomes");
-  assert(c.rank >= 1 && c.rank <= 150);
+  assert.equal(c.enrollmentMetric, "undergraduate");
   assert(c.enrollment > 0 && Number.isInteger(c.enrollment));
   assert(c.conference);
+  assert(["I", "II", "III"].includes(c.ncaaDivision));
+  assert.equal(c.rankCategory, "Selected college academic outcomes");
+  assert.equal(c.rankYear, "2023-ug-v1");
+  assert(c.rank >= 1 && c.rank <= 169);
   assert(c.graduationRate >= 0 && c.graduationRate <= 100);
   assert(c.retentionRate >= 0 && c.retentionRate <= 100);
   assert.equal(
@@ -35,21 +37,10 @@ for (const c of data) {
       (m) =>
         m.ipedsId === c.id &&
         m.ncaaId === c.ncaaId &&
-        m.division === "I" &&
+        m.division === c.ncaaDivision &&
         m.conference === c.conference,
     ),
   );
-  const a = audit.candidates.find((a) => a.id === c.id);
-  assert.equal(c.rank, a.rank);
-  assert.equal(c.academicScore, a.academicScore);
-}
-assert.equal(schedule.length, 150);
-assert.equal(new Set(schedule).size, 150);
-assert.deepEqual([...schedule].sort(), data.map((c) => c.id).sort());
-const locations = read("campusLocations.json");
-const cities = read("mapCities.json");
-assert.equal(Object.keys(locations).length, data.length);
-for (const c of data) {
   const p = locations[c.id];
   assert(
     p &&
@@ -59,7 +50,11 @@ for (const c of data) {
       p.longitude <= -60,
   );
 }
-assert(cities.length > 100);
-const report = `# Data quality report\n\nActive schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.\n\nRanking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from ${audit.candidates.length} uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.\n\nEnrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.\n\nMap: ${Object.keys(locations).length} NCES campus locations and ${cities.length} contextual Natural Earth city labels, with bundled Census/us-atlas boundaries.\n\nValidation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.\n`;
+assert.equal(schedule.length, 365);
+for (const id of schedule) assert(data.some((c) => c.id === id));
+for (let start = 0; start < 338; start += 169)
+  assert.equal(new Set(schedule.slice(start, start + 169)).size, 169);
+for (let i = 1; i < 365; i++) assert.notEqual(schedule[i], schedule[i - 1]);
+const report = `# Data quality report\n\n169 schools: every one of the 149 supplied universities plus 20 liberal arts colleges. Includes Divisions I, II and III.\n\nEnrollment: undergraduate only, Fall 2023. Builder requires IPEDS DRVEF2023 EFUG to equal EF2023A EFALEVEL=2 EFTOTLT for every school. Approximate total counts and unsourced ranks in the user input are never used as game metrics.\n\nAcademic outcomes: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions relative to the selected pool; no numerical ranks or scores shown in gameplay. Not a published national ranking.\n\nConference: official NCAA primary all-sports membership, 2026–27. Claremont McKenna and Harvey Mudd share a verified joint athletics program; Pomona uses Pomona-Pitzer membership.\n\n365 generated daily answers from November 2, 2026. Each complete 169-school cycle contains every school exactly once. No adjacent repeat across cycle boundaries. Year cycles thereafter; admin date overrides are optional.\n\nMap: all 169 campuses have NCES coordinates.\n\nValidation PASS: pool coverage, undergraduate metric, unique IDs and positions, outcomes scores, conferences, map locations, and annual schedule.\n`;
 fs.writeFileSync(new URL("../DATA-QUALITY.md", import.meta.url), report);
 console.log(report);

@@ -6,6 +6,8 @@ import {
   CalendarDays,
   Infinity as InfinityIcon,
 } from "lucide-react";
+import { BugReport } from "./components/BugReport";
+import { API_URL, initializeService, configuredAnswer } from "./service";
 import { Board } from "./components/Board";
 import { Search } from "./components/Search";
 import { Modal } from "./components/Modal";
@@ -66,7 +68,7 @@ export function App() {
   const [revealingId, setRevealingId] = useState<string | null>(null);
   const [settings, setSettings] = useState(() =>
     load<SettingsType>(
-      "cg-d1-2023-v1-settings",
+      "cg-requested-ug-v1-settings",
       defaultSettings,
       (v) =>
         !!v &&
@@ -76,14 +78,14 @@ export function App() {
   );
   const [round, setRound] = useState(() =>
     load<Round>(
-      `cg-d1-2023-v1-${page === "practice" ? "practice" : dateKey()}`,
+      `cg-requested-ug-v1-${page === "practice" ? "practice" : dateKey()}`,
       fresh(page === "practice" ? "practice" : "daily"),
       validRound,
     ),
   );
   const [history, setHistory] = useState(() =>
     load<Record<string, Round>>(
-      "cg-d1-2023-v1-history",
+      "cg-requested-ug-v1-history",
       {},
       (v) => !!v && typeof v === "object" && Object.values(v).every(validRound),
     ),
@@ -97,11 +99,11 @@ export function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = "light";
     document.documentElement.dataset.motion = settings.motion ? "on" : "off";
-    save("cg-d1-2023-v1-settings", settings);
+    save("cg-requested-ug-v1-settings", settings);
   }, [settings]);
   useEffect(() => {
     save(
-      `cg-d1-2023-v1-${round.mode === "daily" ? round.date : "practice"}`,
+      `cg-requested-ug-v1-${round.mode === "daily" ? round.date : "practice"}`,
       round,
     );
     if (status(round) !== "playing") {
@@ -113,7 +115,7 @@ export function App() {
             : `practice-${round.roundId ?? round.answer + "-" + round.date + "-" + round.guesses.join(".")}`]:
             round,
         };
-        save("cg-d1-2023-v1-history", next);
+        save("cg-requested-ug-v1-history", next);
         return next;
       });
     }
@@ -122,7 +124,7 @@ export function App() {
     const sync = (e: StorageEvent) => {
       if (
         e.key ===
-          `cg-d1-2023-v1-${round.mode === "daily" ? round.date : "practice"}` &&
+          `cg-requested-ug-v1-${round.mode === "daily" ? round.date : "practice"}` &&
         e.newValue
       ) {
         try {
@@ -130,10 +132,10 @@ export function App() {
           if (validRound(r)) setRound(r);
         } catch {}
       }
-      if (e.key === "cg-d1-2023-v1-history")
+      if (e.key === "cg-requested-ug-v1-history")
         setHistory(
           load(
-            "cg-d1-2023-v1-history",
+            "cg-requested-ug-v1-history",
             {},
             (v) =>
               !!v &&
@@ -146,16 +148,28 @@ export function App() {
     return () => window.removeEventListener("storage", sync);
   }, [round.mode, round.date]);
   useEffect(() => {
-    if (round.mode === "daily" && round.date !== dateKey(new Date(now)))
-      setRound(load(`cg-d1-2023-v1-${dateKey()}`, fresh("daily"), validRound));
-  }, [now, round]);
-  function navigate(p: string) {
+    let active = true;
+    if (round.mode === "daily" && round.date !== dateKey(new Date(now))) {
+      initializeService().then(() => {
+        if (active)
+          setRound(
+            load(`cg-requested-ug-v1-${dateKey()}`, fresh("daily"), validRound),
+          );
+      });
+    }
+    return () => {
+      active = false;
+    };
+  }, [dateKey(new Date(now)), round.mode, round.date]);
+  async function navigate(p: string) {
+    if (p === "daily" && !configuredAnswer(dateKey()))
+      await initializeService();
     setRevealingId(null);
     setPage(p);
     location.hash = p === "home" ? "" : p;
     if (p === "daily" || p === "practice") {
       const r = load<Round>(
-        `cg-d1-2023-v1-${p === "daily" ? dateKey() : "practice"}`,
+        `cg-requested-ug-v1-${p === "daily" ? dateKey() : "practice"}`,
         fresh(p),
         validRound,
       );
@@ -285,8 +299,8 @@ export function App() {
             </h1>
             <p>
               {page === "daily"
-                ? "150 Division I schools. Eight guesses. A new college every day."
-                : "The same 150 schools. As many guesses as you need."}
+                ? "169 colleges. Eight guesses. A new college every day."
+                : "Universities and liberal arts colleges. Unlimited guesses."}
             </p>
           </section>
           <section className="game-card">
@@ -382,30 +396,37 @@ export function App() {
       </main>
       <footer>
         <span>
-          150 Division I schools · CollegeGuessr Academic Outcomes Index
+          169 universities & liberal arts colleges · Undergraduate enrollment
         </span>
         <button onClick={() => setModal("data")}>Sources & methodology</button>
+        <button onClick={() => setModal("bug")}>Report a bug</button>
+        <a href={API_URL + "/admin"} target="_blank" rel="noreferrer">
+          Admin
+        </a>
         <small>Independent. Not affiliated with any university.</small>
       </footer>
       {modal && (
         <Modal
           title={
-            modal === "rules"
-              ? "An educated guess starts here."
-              : modal === "stats"
-                ? "Your college record"
-                : modal === "settings"
-                  ? "Make yourself at home"
-                  : modal === "data"
-                    ? "Sources & academic rankings"
-                    : modal === "pool"
-                      ? "The 150-college pool"
-                      : end === "won"
-                        ? "You found it!"
-                        : "Better luck tomorrow."
+            modal === "bug"
+              ? "Report a bug"
+              : modal === "rules"
+                ? "An educated guess starts here."
+                : modal === "stats"
+                  ? "Your college record"
+                  : modal === "settings"
+                    ? "Make yourself at home"
+                    : modal === "data"
+                      ? "Sources & academic rankings"
+                      : modal === "pool"
+                        ? "The 169-college pool"
+                        : end === "won"
+                          ? "You found it!"
+                          : "Better luck tomorrow."
           }
           onClose={() => setModal("")}
         >
+          {modal === "bug" && <BugReport mode={round.mode} date={round.date} />}
           {modal === "rules" && (
             <div className="prose">
               <p>
@@ -414,12 +435,14 @@ export function App() {
                 doesn’t win.
               </p>
               <p>
-                <b>✓ Green:</b> same state or type; enrollment within 2,500;
-                comparable rank within 10; same primary conference.
+                <b>✓ Green:</b> same state or type; undergraduate enrollment
+                within 2,500; comparable rank within 10; same primary
+                conference.
               </p>
               <p>
-                <b>≈ Gold:</b> neighboring states; enrollment within 10,000;
-                academic rank within 25. Different conferences are gray.
+                <b>≈ Gold:</b> neighboring states; undergraduate enrollment
+                within 10,000; academic rank within 25. Different conferences
+                are gray.
               </p>
               <p>
                 <b>× Gray:</b> farther away or different. <b>— Neutral:</b>{" "}
@@ -434,7 +457,7 @@ export function App() {
               </p>
               <p>
                 Daily gives you eight attempts, resetting at midnight Eastern.
-                Practice has unlimited attempts. The 150-school pool is ranked
+                Practice has unlimited attempts. The 169-school pool is ranked
                 by the CollegeGuessr Academic Outcomes Index: 65% six-year
                 graduation rate and 35% full-time retention, using NCES 2023
                 data. This is our index, not a published national ranking.
@@ -528,7 +551,7 @@ export function App() {
                     )
                   ) {
                     setHistory({});
-                    save("cg-d1-2023-v1-history", {});
+                    save("cg-requested-ug-v1-history", {});
                   }
                 }}
               >
@@ -539,14 +562,14 @@ export function App() {
           {modal === "data" && (
             <div className="prose">
               <p>
-                <b>150 Division I schools. One comparable academic ranking.</b>
+                <b>169 universities and liberal arts colleges.</b>
               </p>
               <p>{manifest.selection}</p>
               <p>{manifest.ranking}</p>
               <p>
                 <b>Score = 65% graduation + 35% retention.</b> Both inputs are
-                percentages. The highest scores form the 150-school pool; every
-                school's rank is comparable with every other school's.
+                percentages. Positions are relative to this selected college
+                pool.
               </p>
               <p>
                 {manifest.graduation}. {manifest.retention}.
@@ -556,7 +579,7 @@ export function App() {
               </p>
               <p>{manifest.missing}</p>
               <button className="secondary" onClick={() => setModal("pool")}>
-                View all 150 schools
+                View all 169 schools
               </button>
               {manifest.sources.map((s) => (
                 <p key={s}>
@@ -608,7 +631,10 @@ export function App() {
                 <p>
                   {answer.city}, {answer.state} · {answer.institutionType}
                 </p>
-                <p>{answer.enrollment.toLocaleString()} students · Fall 2023</p>
+                <p>
+                  {answer.enrollment.toLocaleString()} undergraduates · Fall
+                  2023
+                </p>
                 <p>{answer.conference}</p>
                 <p className="muted">CollegeGuessr Academic Outcomes Index</p>
                 <a

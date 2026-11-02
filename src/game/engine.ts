@@ -1,4 +1,5 @@
 import { conferenceName } from "./conference";
+import { configuredAnswer } from "../service";
 import raw from "../data/colleges.json";
 export interface College {
   id: string;
@@ -165,7 +166,7 @@ export function compare(a: College, b: College, hard = false): Tile[] {
     {
       value: `${a.enrollment?.toLocaleString() ?? "N/A"} ${hard ? "" : en.arrow}`,
       color: en.color,
-      hint: `Enrollment ${en.hint}`,
+      hint: `Undergraduate enrollment ${en.hint}`,
     },
     {
       value: rankOK
@@ -202,19 +203,20 @@ export const dateKey = (d = new Date()) =>
   }).format(d);
 export const puzzleNumber = (date = dateKey()) =>
   Math.floor(
-    (Date.parse(date + "T12:00:00Z") - Date.parse("2026-10-30T12:00:00Z")) /
+    (Date.parse(date + "T12:00:00Z") - Date.parse("2026-11-02T12:00:00Z")) /
       86400000,
   ) + 1;
 // Frozen ID order is committed independently of future dataset ordering.
-import schedule from "../data/schedule-d1-v1.json";
+import schedule from "../data/schedule-requested-v1.json";
 export const dailyAnswer = (date = dateKey()) =>
   colleges.find(
     (c) =>
       c.id ===
-      schedule[
-        (((puzzleNumber(date) - 1) % schedule.length) + schedule.length) %
-          schedule.length
-      ],
+      (configuredAnswer(date) ??
+        schedule[
+          (((puzzleNumber(date) - 1) % schedule.length) + schedule.length) %
+            schedule.length
+        ]),
   )!;
 export type Round = {
   roundId?: string;

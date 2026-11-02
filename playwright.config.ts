@@ -2,11 +2,11 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   webServer: {
-    command: "npm run preview -- --port 4181",
-    url: "http://127.0.0.1:4181",
-    reuseExistingServer: true,
+    command: "npm run preview -- --port 4186",
+    url: "http://127.0.0.1:4186",
+    reuseExistingServer: false,
   },
-  use: { channel: "chromium", baseURL: "http://127.0.0.1:4181" },
+  use: { channel: "chromium", baseURL: "http://127.0.0.1:4186" },
   projects: [
     { name: "desktop", use: { viewport: { width: 1440, height: 1000 } } },
     { name: "mobile", use: { viewport: { width: 375, height: 812 } } },

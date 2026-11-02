@@ -1082,3 +1082,32 @@ dialog::backdrop {
     top: 96px;
   }
 }
+
+.bug-form label {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0;
+  font-weight: 600;
+}
+.bug-form input,
+.bug-form select,
+.bug-form textarea {
+  width: 100%;
+  padding: 12px;
+  font: inherit;
+  border: 1px solid var(--line, #ccc);
+  border-radius: 4px;
+  background: white;
+  color: #222;
+}
+.bug-form textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.bug-form .muted {
+  font-size: 12px;
+}
+footer > a {
+  color: inherit;
+  font-size: 12px;
+}

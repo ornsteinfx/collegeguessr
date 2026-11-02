@@ -1,0 +1,9 @@
+{
+  "name": "collegeguessr-admin",
+  "main": "worker.ts",
+  "compatibility_date": "2026-10-30",
+  "durable_objects": {"bindings": [{"name": "STORE", "class_name": "CollegeStore"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["CollegeStore"]}],
+  "vars": {"PUBLIC_ORIGIN": "https://ornsteinfx.github.io"},
+  "observability": {"enabled": true}
+}

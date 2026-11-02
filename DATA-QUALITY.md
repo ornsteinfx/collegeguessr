@@ -1,11 +1,15 @@
 # Data quality report
 
-Active schools: 150. Eligible answers: 150. NCAA Division I only. All five comparison fields complete.
+169 schools: every one of the 149 supplied universities plus 20 liberal arts colleges. Includes Divisions I, II and III.
 
-Ranking: CollegeGuessr Academic Outcomes Index, 2023-v1. Score = 65% six-year bachelor graduation rate (2017 cohort) + 35% full-time retention rate (2023), public NCES data. Ordinal ranks 1–150, selected from 359 uniquely matched D1 institutions with complete metrics. Ties broken by graduation rate, retention, then UNITID. This is a custom academic outcomes index, not US News or a comprehensive measure of academic quality.
+Enrollment: undergraduate only, Fall 2023. Builder requires IPEDS DRVEF2023 EFUG to equal EF2023A EFALEVEL=2 EFTOTLT for every school. Approximate total counts and unsourced ranks in the user input are never used as game metrics.
 
-Enrollment: IPEDS total Fall 2023. Conference: official NCAA institutional membership, 2026–27, not football-only. Missing or ambiguous candidate matches excluded. Four explicit main-campus identifier crosswalks are documented in academicRanking.json. Input checksums and full candidate ordering are recorded there.
+Academic outcomes: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions relative to the selected pool; no numerical ranks or scores shown in gameplay. Not a published national ranking.
 
-Map: 150 NCES campus locations and 336 contextual Natural Earth city labels, with bundled Census/us-atlas boundaries.
+Conference: official NCAA primary all-sports membership, 2026–27. Claremont McKenna and Harvey Mudd share a verified joint athletics program; Pomona uses Pomona-Pitzer membership.
 
-Validation PASS: exactly 150 unique IPEDS/NCAA IDs, verified D1 membership, complete ranks and conferences, recomputed scores match source manifests, selection and frozen schedule validated. State adjacency remains manually encoded and symmetry-tested, with documented water/point boundary conventions.
+365 generated daily answers from November 2, 2026. Each complete 169-school cycle contains every school exactly once. No adjacent repeat across cycle boundaries. Year cycles thereafter; admin date overrides are optional.
+
+Map: all 169 campuses have NCES coordinates.
+
+Validation PASS: pool coverage, undergraduate metric, unique IDs and positions, outcomes scores, conferences, map locations, and annual schedule.

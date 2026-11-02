@@ -7,8 +7,7 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "152080",
@@ -18,8 +17,7 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "215062",
@@ -29,8 +27,7 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "130794",
@@ -40,8 +37,17 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "166683",
+    "ncaaId": "398",
+    "ipedsName": "Massachusetts Institute of Technology",
+    "ncaaName": "Massachusetts Institute of Technology",
+    "division": "III",
+    "conference": "New England Women's and Men's Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "217156",
@@ -51,8 +57,17 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "168342",
+    "ncaaId": "789",
+    "ipedsName": "Williams College",
+    "ncaaName": "Williams College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "186131",
@@ -62,8 +77,17 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "161004",
+    "ncaaId": "69",
+    "ipedsName": "Bowdoin College",
+    "ncaaName": "Bowdoin College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "182670",
@@ -73,8 +97,7 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "227757",
@@ -84,8 +107,17 @@
     "division": "I",
     "conference": "American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "144050",
+    "ncaaId": "137",
+    "ipedsName": "University of Chicago",
+    "ncaaName": "University of Chicago",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "147767",
@@ -95,8 +127,17 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "162928",
+    "ncaaId": "322",
+    "ipedsName": "Johns Hopkins University",
+    "ncaaName": "Johns Hopkins University",
+    "division": "III",
+    "conference": "Centennial Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "190415",
@@ -106,8 +147,7 @@
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "198419",
@@ -117,30 +157,47 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "190150",
     "ncaaId": "158",
-    "ipedsName": "Columbia University in the City of New York",
+    "ipedsName": "Columbia University",
     "ncaaName": "Columbia University-Barnard College",
     "division": "I",
     "conference": "The Ivy League",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "234076",
     "ncaaId": "746",
-    "ipedsName": "University of Virginia-Main Campus",
+    "ipedsName": "University of Virginia",
     "ncaaName": "University of Virginia",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "112260",
+    "ncaaId": "142",
+    "ipedsName": "Claremont McKenna College",
+    "ncaaName": "Claremont McKenna-Harvey Mudd-Scripps Colleges",
+    "division": "III",
+    "conference": "Southern California Intercollegiate Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Reviewed campus/joint-athletics crosswalk"
+  },
+  {
+    "ipedsId": "115409",
+    "ncaaId": "142",
+    "ipedsName": "Harvey Mudd College",
+    "ncaaName": "Claremont McKenna-Harvey Mudd-Scripps Colleges",
+    "division": "III",
+    "conference": "Southern California Intercollegiate Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Reviewed campus/joint-athletics crosswalk"
   },
   {
     "ipedsId": "131496",
@@ -150,19 +207,47 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "216287",
+    "ncaaId": "686",
+    "ipedsName": "Swarthmore College",
+    "ncaaName": "Swarthmore College",
+    "division": "III",
+    "conference": "Centennial Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "234207",
+    "ncaaId": "752",
+    "ipedsName": "Washington and Lee University",
+    "ncaaName": "Washington and Lee University",
+    "division": "III",
+    "conference": "Old Dominion Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "110404",
+    "ncaaId": "89",
+    "ipedsName": "California Institute of Technology",
+    "ncaaName": "California Institute of Technology",
+    "division": "III",
+    "conference": "Southern California Intercollegiate Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "170976",
     "ncaaId": "418",
-    "ipedsName": "University of Michigan-Ann Arbor",
+    "ipedsName": "University of Michigan",
     "ncaaName": "University of Michigan",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "243744",
@@ -172,41 +257,87 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "179867",
+    "ncaaId": "755",
+    "ipedsName": "Washington University in St. Louis",
+    "ncaaName": "Washington University in St. Louis",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110635",
     "ncaaId": "107",
-    "ipedsName": "University of California-Berkeley",
+    "ipedsName": "University of California Berkeley",
     "ncaaName": "University of California, Berkeley",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110662",
     "ncaaId": "110",
-    "ipedsName": "University of California-Los Angeles",
+    "ipedsName": "University of California Los Angeles",
     "ncaaName": "University of California, Los Angeles",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "164465",
+    "ncaaId": "24",
+    "ipedsName": "Amherst College",
+    "ncaaName": "Amherst College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "211440",
+    "ncaaId": "119",
+    "ipedsName": "Carnegie Mellon University",
+    "ncaaName": "Carnegie Mellon University",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "139755",
     "ncaaId": "255",
-    "ipedsName": "Georgia Institute of Technology-Main Campus",
+    "ipedsName": "Georgia Institute of Technology",
     "ncaaName": "Georgia Institute of Technology",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "121345",
+    "ncaaId": "549",
+    "ipedsName": "Pomona College",
+    "ncaaName": "Pomona-Pitzer Colleges",
+    "division": "III",
+    "conference": "Southern California Intercollegiate Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Reviewed campus/joint-athletics crosswalk"
+  },
+  {
+    "ipedsId": "168148",
+    "ncaaId": "717",
+    "ipedsName": "Tufts University",
+    "ncaaName": "Tufts University",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "221999",
@@ -216,8 +347,7 @@
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "123961",
@@ -227,30 +357,37 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "199120",
     "ncaaId": "457",
-    "ipedsName": "University of North Carolina at Chapel Hill",
+    "ipedsName": "University of North Carolina Chapel Hill",
     "ncaaName": "University of North Carolina, Chapel Hill",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
-    "ipedsId": "164155",
-    "ncaaId": "726",
-    "ipedsName": "United States Naval Academy",
-    "ncaaName": "U.S. Naval Academy",
-    "division": "I",
-    "conference": "Patriot League",
+    "ipedsId": "139658",
+    "ncaaId": "217",
+    "ipedsName": "Emory University",
+    "ncaaName": "Emory University",
+    "division": "III",
+    "conference": "University Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "230959",
+    "ncaaId": "420",
+    "ipedsName": "Middlebury College",
+    "ncaaName": "Middlebury College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "134130",
@@ -260,8 +397,17 @@
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "130697",
+    "ncaaId": "764",
+    "ipedsName": "Wesleyan University",
+    "ncaaName": "Wesleyan University (Connecticut)",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "198385",
@@ -271,8 +417,7 @@
     "division": "I",
     "conference": "Atlantic 10 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "216597",
@@ -282,8 +427,7 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "167358",
@@ -293,8 +437,37 @@
     "division": "I",
     "conference": "Coastal Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "168218",
+    "ncaaId": "760",
+    "ipedsName": "Wellesley College",
+    "ncaaName": "Wellesley College",
+    "division": "III",
+    "conference": "New England Women's and Men's Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "173258",
+    "ncaaId": "118",
+    "ipedsName": "Carleton College",
+    "ncaaName": "Carleton College",
+    "division": "III",
+    "conference": "Minnesota Intercollegiate Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "191515",
+    "ncaaId": "267",
+    "ipedsName": "Hamilton College",
+    "ncaaName": "Hamilton College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "164924",
@@ -304,8 +477,7 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "199847",
@@ -315,19 +487,27 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "231624",
     "ncaaId": "786",
-    "ipedsName": "William & Mary",
+    "ipedsName": "William and Mary",
     "ncaaName": "William & Mary",
     "division": "I",
     "conference": "Coastal Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "160977",
+    "ncaaId": "50",
+    "ipedsName": "Bates College",
+    "ncaaName": "Bates College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "164988",
@@ -337,8 +517,7 @@
     "division": "I",
     "conference": "Patriot League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "190099",
@@ -348,74 +527,87 @@
     "division": "I",
     "conference": "Patriot League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "193900",
+    "ncaaId": "479",
+    "ipedsName": "New York University",
+    "ncaaName": "New York University",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "186867",
+    "ncaaId": "679",
+    "ipedsName": "Stevens Institute of Technology",
+    "ncaaName": "Stevens Institute of Technology",
+    "division": "III",
+    "conference": "Middle Atlantic Conference Freedom",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "240444",
     "ncaaId": "796",
-    "ipedsName": "University of Wisconsin-Madison",
+    "ipedsName": "University of Wisconsin Madison",
     "ncaaName": "University of Wisconsin-Madison",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "166124",
-    "ncaaId": "285",
-    "ipedsName": "College of the Holy Cross",
-    "ncaaName": "College of the Holy Cross",
-    "division": "I",
-    "conference": "Patriot League",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "128328",
-    "ncaaId": "721",
-    "ipedsName": "United States Air Force Academy",
-    "ncaaName": "U.S. Air Force Academy",
-    "division": "I",
-    "conference": "Mountain West Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "163286",
     "ncaaId": "392",
-    "ipedsName": "University of Maryland-College Park",
+    "ipedsName": "University of Maryland College Park",
     "ncaaName": "University of Maryland, College Park",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "228778",
     "ncaaId": "703",
-    "ipedsName": "The University of Texas at Austin",
+    "ipedsName": "University of Texas at Austin",
     "ncaaName": "University of Texas at Austin",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "160755",
     "ncaaId": "718",
-    "ipedsName": "Tulane University of Louisiana",
+    "ipedsName": "Tulane University",
     "ncaaName": "Tulane University",
     "division": "I",
     "conference": "American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "197133",
+    "ncaaId": "737",
+    "ipedsName": "Vassar College",
+    "ncaaName": "Vassar College",
+    "division": "III",
+    "conference": "Liberty League",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "212911",
+    "ncaaId": "276",
+    "ipedsName": "Haverford College",
+    "ncaaName": "Haverford College",
+    "division": "III",
+    "conference": "Centennial Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "213543",
@@ -425,19 +617,27 @@
     "division": "I",
     "conference": "Patriot League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "161086",
+    "ncaaId": "151",
+    "ipedsName": "Colby College",
+    "ncaaName": "Colby College",
+    "division": "III",
+    "conference": "New England Small College Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110680",
     "ncaaId": "112",
-    "ipedsName": "University of California-San Diego",
+    "ipedsName": "University of California San Diego",
     "ncaaName": "University of California, San Diego",
     "division": "I",
     "conference": "Big West Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "122931",
@@ -447,19 +647,27 @@
     "division": "I",
     "conference": "West Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "168421",
+    "ncaaId": "808",
+    "ipedsName": "Worcester Polytechnic Institute",
+    "ncaaName": "Worcester Polytechnic Institute",
+    "division": "III",
+    "conference": "New England Women's and Men's Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "204796",
     "ncaaId": "518",
-    "ipedsName": "Ohio State University-Main Campus",
+    "ipedsName": "Ohio State University",
     "ncaaName": "The Ohio State University",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "139959",
@@ -469,8 +677,7 @@
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "217882",
@@ -480,30 +687,7 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "233374",
-    "ncaaId": "575",
-    "ipedsName": "University of Richmond",
-    "ncaaName": "University of Richmond",
-    "division": "I",
-    "conference": "Atlantic 10 Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "211291",
-    "ncaaId": "83",
-    "ipedsName": "Bucknell University",
-    "ncaaName": "Bucknell University",
-    "division": "I",
-    "conference": "Patriot League",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "235316",
@@ -513,63 +697,37 @@
     "division": "I",
     "conference": "Pac-12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
-    "ipedsId": "213385",
-    "ncaaId": "342",
-    "ipedsName": "Lafayette College",
-    "ncaaName": "Lafayette College",
-    "division": "I",
-    "conference": "Patriot League",
+    "ipedsId": "153384",
+    "ncaaId": "264",
+    "ipedsName": "Grinnell College",
+    "ncaaName": "Grinnell College",
+    "division": "III",
+    "conference": "Midwest Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "217402",
-    "ncaaId": "556",
-    "ipedsName": "Providence College",
-    "ncaaName": "Providence College",
-    "division": "I",
-    "conference": "BIG EAST Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "197036",
-    "ncaaId": "725",
-    "ipedsName": "United States Military Academy",
-    "ncaaName": "U.S. Military Academy",
-    "division": "I",
-    "conference": "Patriot League",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110653",
     "ncaaId": "109",
-    "ipedsName": "University of California-Irvine",
+    "ipedsName": "University of California Irvine",
     "ncaaName": "University of California, Irvine",
     "division": "I",
     "conference": "Big West Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
-    "ipedsId": "110422",
-    "ncaaId": "90",
-    "ipedsName": "California Polytechnic State University-San Luis Obispo",
-    "ncaaName": "California Polytechnic State University",
-    "division": "I",
-    "conference": "Big West Conference",
+    "ipedsId": "201645",
+    "ncaaId": "122",
+    "ipedsName": "Case Western Reserve University",
+    "ncaaName": "Case Western Reserve University",
+    "division": "III",
+    "conference": "University Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "145637",
@@ -579,8 +737,7 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "228875",
@@ -590,74 +747,77 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "214777",
     "ncaaId": "539",
-    "ipedsName": "Pennsylvania State University-Main Campus",
+    "ipedsName": "Pennsylvania State University",
     "ncaaName": "Pennsylvania State University",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "233921",
     "ncaaId": "742",
-    "ipedsName": "Virginia Polytechnic Institute and State University",
+    "ipedsName": "Virginia Tech",
     "ncaaName": "Virginia Polytechnic Institute and State University",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "236948",
     "ncaaId": "756",
-    "ipedsName": "University of Washington-Seattle Campus",
+    "ipedsName": "University of Washington",
     "ncaaName": "University of Washington",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110644",
     "ncaaId": "108",
-    "ipedsName": "University of California-Davis",
+    "ipedsName": "University of California Davis",
     "ncaaName": "University of California, Davis",
     "division": "I",
     "conference": "Mountain West Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "186380",
     "ncaaId": "587",
-    "ipedsName": "Rutgers University-New Brunswick",
+    "ipedsName": "Rutgers University New Brunswick",
     "ncaaName": "Rutgers, The State University of New Jersey, New Brunswick",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Reviewed main-campus NCES/NCAA identifier crosswalk",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Reviewed campus/joint-athletics crosswalk"
+  },
+  {
+    "ipedsId": "197708",
+    "ncaaId": "814",
+    "ipedsName": "Yeshiva University",
+    "ncaaName": "Yeshiva University",
+    "division": "III",
+    "conference": "Skyline Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "199193",
     "ncaaId": "490",
-    "ipedsName": "North Carolina State University at Raleigh",
+    "ipedsName": "North Carolina State University",
     "ncaaName": "North Carolina State University",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "134097",
@@ -667,30 +827,27 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "228723",
     "ncaaId": "697",
-    "ipedsName": "Texas A & M University-College Station",
+    "ipedsName": "Texas A&M University",
     "ncaaName": "Texas A&M University, College Station",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110705",
     "ncaaId": "104",
-    "ipedsName": "University of California-Santa Barbara",
+    "ipedsName": "University of California Santa Barbara",
     "ncaaName": "University of California, Santa Barbara",
     "division": "I",
     "conference": "Big West Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "131469",
@@ -700,19 +857,37 @@
     "division": "I",
     "conference": "Atlantic 10 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "165015",
+    "ncaaId": "73",
+    "ipedsName": "Brandeis University",
+    "ncaaName": "Brandeis University",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "195030",
+    "ncaaId": "581",
+    "ipedsName": "University of Rochester",
+    "ncaaName": "University of Rochester",
+    "division": "III",
+    "conference": "University Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "174066",
     "ncaaId": "428",
-    "ipedsName": "University of Minnesota-Twin Cities",
+    "ipedsName": "University of Minnesota Twin Cities",
     "ncaaName": "University of Minnesota, Twin Cities",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "135726",
@@ -722,19 +897,17 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "215293",
     "ncaaId": "545",
-    "ipedsName": "University of Pittsburgh-Pittsburgh Campus",
+    "ipedsName": "University of Pittsburgh",
     "ncaaName": "University of Pittsburgh",
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "129020",
@@ -744,41 +917,27 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "243780",
     "ncaaId": "559",
-    "ipedsName": "Purdue University-Main Campus",
+    "ipedsName": "Purdue University",
     "ncaaName": "Purdue University",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "129242",
-    "ncaaId": "220",
-    "ipedsName": "Fairfield University",
-    "ncaaName": "Fairfield University",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "166629",
     "ncaaId": "400",
-    "ipedsName": "University of Massachusetts-Amherst",
+    "ipedsName": "University of Massachusetts Amherst",
     "ncaaName": "University of Massachusetts, Amherst",
     "division": "I",
     "conference": "Mid-American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "171100",
@@ -788,8 +947,7 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "198516",
@@ -799,8 +957,7 @@
     "division": "I",
     "conference": "Coastal Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "228246",
@@ -810,8 +967,7 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "196079",
@@ -821,8 +977,7 @@
     "division": "I",
     "conference": "America East Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "121150",
@@ -832,8 +987,17 @@
     "division": "I",
     "conference": "West Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "194824",
+    "ncaaId": "570",
+    "ipedsName": "Rensselaer Polytechnic Institute",
+    "ncaaName": "Rensselaer Polytechnic Institute",
+    "division": "III",
+    "conference": "Liberty League",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "122436",
@@ -843,30 +1007,27 @@
     "division": "I",
     "conference": "West Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "204024",
     "ncaaId": "414",
-    "ipedsName": "Miami University-Oxford",
+    "ipedsName": "Miami University",
     "ncaaName": "Miami University (Ohio)",
     "division": "I",
     "conference": "Mid-American Conference",
     "academicYear": 2027,
-    "match": "Reviewed main-campus NCES/NCAA identifier crosswalk",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Reviewed campus/joint-athletics crosswalk"
   },
   {
     "ipedsId": "151351",
     "ncaaId": "306",
-    "ipedsName": "Indiana University-Bloomington",
+    "ipedsName": "Indiana University Bloomington",
     "ncaaName": "Indiana University, Bloomington",
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "196413",
@@ -876,30 +1037,7 @@
     "division": "I",
     "conference": "Atlantic Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "218070",
-    "ncaaId": "244",
-    "ipedsName": "Furman University",
-    "ncaaName": "Furman University",
-    "division": "I",
-    "conference": "Southern Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "202480",
-    "ncaaId": "175",
-    "ipedsName": "University of Dayton",
-    "ncaaName": "University of Dayton",
-    "division": "I",
-    "conference": "Atlantic 10 Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "230038",
@@ -909,8 +1047,7 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "181002",
@@ -920,8 +1057,7 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "130943",
@@ -931,19 +1067,7 @@
     "division": "I",
     "conference": "Conference USA",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "218973",
-    "ncaaId": "2915",
-    "ipedsName": "Wofford College",
-    "ncaaName": "Wofford College",
-    "division": "I",
-    "conference": "Southern Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "232423",
@@ -953,8 +1077,7 @@
     "division": "I",
     "conference": "Sun Belt Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "100858",
@@ -964,8 +1087,17 @@
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "126775",
+    "ncaaId": "155",
+    "ipedsName": "Colorado School of Mines",
+    "ncaaName": "Colorado School of Mines",
+    "division": "II",
+    "conference": "Rocky Mountain Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "223232",
@@ -975,8 +1107,7 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "239105",
@@ -986,8 +1117,17 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "111948",
+    "ncaaId": "134",
+    "ipedsName": "Chapman University",
+    "ncaaName": "Chapman University",
+    "division": "III",
+    "conference": "Southern California Intercollegiate Athletic Conf.",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "179159",
@@ -997,52 +1137,7 @@
     "division": "I",
     "conference": "Atlantic 10 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "192819",
-    "ncaaId": "386",
-    "ipedsName": "Marist College",
-    "ncaaName": "Marist University",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "217165",
-    "ncaaId": "81",
-    "ipedsName": "Bryant University",
-    "ncaaName": "Bryant University",
-    "division": "I",
-    "conference": "America East Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "102049",
-    "ncaaId": "625",
-    "ipedsName": "Samford University",
-    "ncaaName": "Samford University",
-    "division": "I",
-    "conference": "Southern Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "117946",
-    "ncaaId": "370",
-    "ipedsName": "Loyola Marymount University",
-    "ncaaName": "Loyola Marymount University",
-    "division": "I",
-    "conference": "West Coast Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "191241",
@@ -1052,52 +1147,17 @@
     "division": "I",
     "conference": "Atlantic 10 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "215770",
-    "ncaaId": "606",
-    "ipedsName": "Saint Joseph's University",
-    "ncaaName": "Saint Joseph's University",
-    "division": "I",
-    "conference": "Atlantic 10 Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "234085",
-    "ncaaId": "741",
-    "ipedsName": "Virginia Military Institute",
-    "ncaaName": "Virginia Military Institute",
-    "division": "I",
-    "conference": "Southern Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "218663",
     "ncaaId": "648",
-    "ipedsName": "University of South Carolina-Columbia",
+    "ipedsName": "University of South Carolina",
     "ncaaName": "University of South Carolina, Columbia",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "167996",
-    "ncaaId": "682",
-    "ipedsName": "Stonehill College",
-    "ncaaName": "Stonehill College",
-    "division": "I",
-    "conference": "Northeast Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "122409",
@@ -1107,8 +1167,7 @@
     "division": "I",
     "conference": "Pac-12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "150163",
@@ -1118,8 +1177,7 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "231174",
@@ -1129,19 +1187,7 @@
     "division": "I",
     "conference": "America East Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "163046",
-    "ncaaId": "369",
-    "ipedsName": "Loyola University Maryland",
-    "ncaaName": "Loyola University Maryland",
-    "division": "I",
-    "conference": "Patriot League",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "196097",
@@ -1151,8 +1197,7 @@
     "division": "I",
     "conference": "Coastal Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "212054",
@@ -1162,8 +1207,7 @@
     "division": "I",
     "conference": "Coastal Athletic Association",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "127060",
@@ -1173,30 +1217,17 @@
     "division": "I",
     "conference": "West Coast Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "178396",
     "ncaaId": "434",
-    "ipedsName": "University of Missouri-Columbia",
+    "ipedsName": "University of Missouri",
     "ncaaName": "University of Missouri, Columbia",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "209825",
-    "ncaaId": "551",
-    "ipedsName": "University of Portland",
-    "ncaaName": "University of Portland",
-    "division": "I",
-    "conference": "West Coast Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "132903",
@@ -1206,19 +1237,17 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "110671",
     "ncaaId": "111",
-    "ipedsName": "University of California-Riverside",
+    "ipedsName": "University of California Riverside",
     "ncaaName": "University of California, Riverside",
     "division": "I",
     "conference": "Big West Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "131159",
@@ -1228,8 +1257,7 @@
     "division": "I",
     "conference": "Patriot League",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "137351",
@@ -1239,19 +1267,7 @@
     "division": "I",
     "conference": "American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "130226",
-    "ncaaId": "562",
-    "ipedsName": "Quinnipiac University",
-    "ncaaName": "Quinnipiac University",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "133951",
@@ -1261,30 +1277,7 @@
     "division": "I",
     "conference": "Conference USA",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "174914",
-    "ncaaId": "620",
-    "ipedsName": "University of St Thomas",
-    "ncaaName": "University of St. Thomas (Minnesota)",
-    "division": "I",
-    "conference": "The Summit League",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "183044",
-    "ncaaId": "469",
-    "ipedsName": "University of New Hampshire-Main Campus",
-    "ncaaName": "University of New Hampshire",
-    "division": "I",
-    "conference": "America East Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "126614",
@@ -1294,19 +1287,27 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "207500",
     "ncaaId": "522",
-    "ipedsName": "University of Oklahoma-Norman Campus",
+    "ipedsName": "University of Oklahoma",
     "ncaaName": "University of Oklahoma",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "110714",
+    "ncaaId": "113",
+    "ipedsName": "University of California Santa Cruz",
+    "ncaaName": "University of California, Santa Cruz",
+    "division": "III",
+    "conference": "Coast-To-Coast Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "153603",
@@ -1316,19 +1317,7 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "153269",
-    "ncaaId": "189",
-    "ipedsName": "Drake University",
-    "ncaaName": "Drake University",
-    "division": "I",
-    "conference": "Missouri Valley Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "185828",
@@ -1338,52 +1327,17 @@
     "division": "I",
     "conference": "America East Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "221759",
     "ncaaId": "694",
-    "ipedsName": "The University of Tennessee-Knoxville",
+    "ipedsName": "University of Tennessee Knoxville",
     "ncaaName": "University of Tennessee, Knoxville",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "212106",
-    "ncaaId": "194",
-    "ipedsName": "Duquesne University",
-    "ncaaName": "Duquesne University",
-    "division": "I",
-    "conference": "Atlantic 10 Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "146719",
-    "ncaaId": "371",
-    "ipedsName": "Loyola University Chicago",
-    "ncaaName": "Loyola University Chicago",
-    "division": "I",
-    "conference": "Atlantic 10 Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "195474",
-    "ncaaId": "639",
-    "ipedsName": "Siena College",
-    "ncaaName": "Siena University",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "153658",
@@ -1393,41 +1347,27 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
-    "ipedsId": "217864",
-    "ncaaId": "141",
-    "ipedsName": "Citadel Military College of South Carolina",
-    "ncaaName": "The Citadel",
-    "division": "I",
-    "conference": "Southern Conference",
+    "ipedsId": "195003",
+    "ncaaId": "580",
+    "ipedsName": "Rochester Institute of Technology",
+    "ncaaName": "Rochester Institute of Technology",
+    "division": "III",
+    "conference": "Liberty League",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "100751",
     "ncaaId": "8",
-    "ipedsName": "The University of Alabama",
+    "ipedsName": "University of Alabama",
     "ncaaName": "University of Alabama",
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "130253",
-    "ncaaId": "590",
-    "ipedsName": "Sacred Heart University",
-    "ncaaName": "Sacred Heart University",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "216339",
@@ -1437,30 +1377,7 @@
     "division": "I",
     "conference": "American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "215743",
-    "ncaaId": "600",
-    "ipedsName": "Saint Francis University",
-    "ncaaName": "Saint Francis University ",
-    "division": "I",
-    "conference": "Presidents' Athletic Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "197869",
-    "ncaaId": "27",
-    "ipedsName": "Appalachian State University",
-    "ncaaName": "Appalachian State University",
-    "division": "I",
-    "conference": "Sun Belt Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "207971",
@@ -1470,19 +1387,7 @@
     "division": "I",
     "conference": "American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "236595",
-    "ncaaId": "1356",
-    "ipedsName": "Seattle University",
-    "ncaaName": "Seattle University",
-    "division": "I",
-    "conference": "West Coast Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "196088",
@@ -1492,8 +1397,7 @@
     "division": "I",
     "conference": "Mid-American Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "209542",
@@ -1503,19 +1407,7 @@
     "division": "I",
     "conference": "Pac-12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "140447",
-    "ncaaId": "406",
-    "ipedsName": "Mercer University",
-    "ncaaName": "Mercer University",
-    "division": "I",
-    "conference": "Southern Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "131520",
@@ -1525,52 +1417,17 @@
     "division": "I",
     "conference": "Mid-Eastern Athletic Conf.",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "201885",
     "ncaaId": "140",
-    "ipedsName": "University of Cincinnati-Main Campus",
+    "ipedsName": "University of Cincinnati",
     "ncaaName": "University of Cincinnati",
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique exact website host",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "143358",
-    "ncaaId": "72",
-    "ipedsName": "Bradley University",
-    "ncaaName": "Bradley University",
-    "division": "I",
-    "conference": "Missouri Valley Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "166850",
-    "ncaaId": "410",
-    "ipedsName": "Merrimack College",
-    "ncaaName": "Merrimack College",
-    "division": "I",
-    "conference": "Metro Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "219709",
-    "ncaaId": "14927",
-    "ipedsName": "Belmont University",
-    "ncaaName": "Belmont University",
-    "division": "I",
-    "conference": "Missouri Valley Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "144740",
@@ -1580,8 +1437,7 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "155399",
@@ -1591,8 +1447,7 @@
     "division": "I",
     "conference": "Big 12 Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "157085",
@@ -1602,19 +1457,7 @@
     "division": "I",
     "conference": "Southeastern Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "163268",
-    "ncaaId": "391",
-    "ipedsName": "University of Maryland-Baltimore County",
-    "ncaaName": "University of Maryland, Baltimore County",
-    "division": "I",
-    "conference": "America East Conference",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "186584",
@@ -1624,19 +1467,7 @@
     "division": "I",
     "conference": "BIG EAST Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
-  },
-  {
-    "ipedsId": "199218",
-    "ncaaId": "460",
-    "ipedsName": "University of North Carolina Wilmington",
-    "ncaaName": "University of North Carolina Wilmington",
-    "division": "I",
-    "conference": "Coastal Athletic Association",
-    "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
   },
   {
     "ipedsId": "209551",
@@ -1646,7 +1477,216 @@
     "division": "I",
     "conference": "Big Ten Conference",
     "academicYear": 2027,
-    "match": "Same state + unique normalized exact name",
-    "source": "https://web3.ncaa.org/directory/api/directory/memberList?type=1"
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "106397",
+    "ncaaId": "31",
+    "ipedsName": "University of Arkansas",
+    "ncaaName": "University of Arkansas, Fayetteville",
+    "division": "I",
+    "conference": "Southeastern Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "176017",
+    "ncaaId": "433",
+    "ipedsName": "University of Mississippi",
+    "ncaaName": "University of Mississippi",
+    "division": "I",
+    "conference": "Southeastern Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "155317",
+    "ncaaId": "328",
+    "ipedsName": "University of Kansas",
+    "ncaaName": "University of Kansas",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "104151",
+    "ncaaId": "28",
+    "ipedsName": "Arizona State University",
+    "ncaaName": "Arizona State University",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "199139",
+    "ncaaId": "458",
+    "ipedsName": "University of North Carolina Charlotte",
+    "ncaaName": "The University of North Carolina at Charlotte",
+    "division": "I",
+    "conference": "American Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "445188",
+    "ncaaId": "30266",
+    "ipedsName": "University of California Merced",
+    "ncaaName": "University of California, Merced",
+    "division": "II",
+    "conference": "California Collegiate Athletic Association",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "104179",
+    "ncaaId": "29",
+    "ipedsName": "University of Arizona",
+    "ncaaName": "University of Arizona",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "159391",
+    "ncaaId": "365",
+    "ipedsName": "Louisiana State University",
+    "ncaaName": "Louisiana State University",
+    "division": "I",
+    "conference": "Southeastern Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "186399",
+    "ncaaId": "589",
+    "ipedsName": "Rutgers University Newark",
+    "ncaaName": "Rutgers, The State Univ. of New Jersey, Newark",
+    "division": "III",
+    "conference": "New Jersey Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "126818",
+    "ncaaId": "156",
+    "ipedsName": "Colorado State University",
+    "ncaaName": "Colorado State University",
+    "division": "I",
+    "conference": "Pac-12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "122755",
+    "ncaaId": "630",
+    "ipedsName": "San Jose State University",
+    "ncaaName": "San Jose State University",
+    "division": "I",
+    "conference": "Mountain West Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "225511",
+    "ncaaId": "288",
+    "ipedsName": "University of Houston",
+    "ncaaName": "University of Houston",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "181464",
+    "ncaaId": "463",
+    "ipedsName": "University of Nebraska Lincoln",
+    "ncaaName": "University of Nebraska-Lincoln",
+    "division": "I",
+    "conference": "Big Ten Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "195809",
+    "ncaaId": "603",
+    "ipedsName": "St. John's University",
+    "ncaaName": "St. John's University (New York)",
+    "division": "I",
+    "conference": "BIG EAST Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "186371",
+    "ncaaId": "588",
+    "ipedsName": "Rutgers University Camden",
+    "ncaaName": "Rutgers, The State Univ. of New Jersey, Camden",
+    "division": "III",
+    "conference": "New Jersey Athletic Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "229115",
+    "ncaaId": "700",
+    "ipedsName": "Texas Tech University",
+    "ncaaName": "Texas Tech University",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "230764",
+    "ncaaId": "732",
+    "ipedsName": "University of Utah",
+    "ncaaName": "University of Utah",
+    "division": "I",
+    "conference": "Big 12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "100663",
+    "ncaaId": "9",
+    "ipedsName": "University of Alabama at Birmingham",
+    "ncaaName": "University of Alabama at Birmingham",
+    "division": "I",
+    "conference": "American Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "236939",
+    "ncaaId": "754",
+    "ipedsName": "Washington State University",
+    "ncaaName": "Washington State University",
+    "division": "I",
+    "conference": "Pac-12 Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "157289",
+    "ncaaId": "367",
+    "ipedsName": "University of Louisville",
+    "ncaaName": "University of Louisville",
+    "division": "I",
+    "conference": "Atlantic Coast Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
+  },
+  {
+    "ipedsId": "145600",
+    "ncaaId": "302",
+    "ipedsName": "University of Illinois Chicago",
+    "ncaaName": "University of Illinois Chicago",
+    "division": "I",
+    "conference": "Missouri Valley Conference",
+    "academicYear": 2027,
+    "match": "Same state and unique name or website"
   }
 ]

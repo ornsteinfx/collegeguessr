@@ -17,7 +17,7 @@ export function Board({
     <div className="board">
       <div className="board-head">
         <span>COLLEGE</span>
-        {["STATE", "TYPE", "STUDENTS", "ACADEMIC RANK", "CONFERENCE"].map(
+        {["STATE", "TYPE", "UNDERGRADS", "ACADEMIC RANK", "CONFERENCE"].map(
           (x) => (
             <span key={x}>{x}</span>
           ),
@@ -43,7 +43,7 @@ export function Board({
                       [
                         "State",
                         "Type",
-                        "Students",
+                        "Undergrads",
                         "Academic rank",
                         "Conference",
                       ][i]
@@ -60,7 +60,7 @@ export function Board({
       ) : (
         <div className="empty">
           <p>Your first clue starts with a college.</p>
-          <span>Search any school in the 150-college pool.</span>
+          <span>Search any school in the 169-college pool.</span>
         </div>
       )}
     </div>

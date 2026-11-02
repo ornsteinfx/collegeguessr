@@ -74,13 +74,13 @@ describe("comparison boundaries", () => {
     expect(compare(a(), { ...a(), conference: "B" })[4].color).toBe("gray");
     expect(compare({ ...a(), conference: null }, a())[4].color).toBe("neutral");
   });
-  it("all 150 schools are D1 and have comparable ranks", () => {
-    expect(colleges).toHaveLength(150);
-    expect(new Set(colleges.map((c) => c.rank)).size).toBe(150);
+  it("all requested schools and liberal arts colleges have comparable ranks", () => {
+    expect(colleges).toHaveLength(169);
+    expect(new Set(colleges.map((c) => c.rank)).size).toBe(169);
     for (const c of colleges) {
-      expect(c.ncaaDivision).toBe("I");
+      expect(["I", "II", "III"]).toContain(c.ncaaDivision);
       expect(c.rank).toBeGreaterThan(0);
-      expect(c.rank).toBeLessThanOrEqual(150);
+      expect(c.rank).toBeLessThanOrEqual(169);
       expect(compare(c, colleges[0])[3].color).not.toBe("neutral");
       expect(compare(c, colleges[0])).toHaveLength(5);
     }
@@ -141,7 +141,9 @@ describe("no exact numerical giveaways", () => {
       { ...a(), enrollment: 30000 },
       { ...a(), enrollment: 34219 },
     );
-    expect(r[2].hint).toBe("Enrollment More than 2,500 and within 10,000");
+    expect(r[2].hint).toBe(
+      "Undergraduate enrollment More than 2,500 and within 10,000",
+    );
     expect(r[2].hint).not.toContain("4,219");
   });
   it("rank clues never show either school rank or exact gap", () => {
@@ -154,5 +156,21 @@ describe("no exact numerical giveaways", () => {
     const r = numeric(10000, 10000, 2500, 10000);
     expect(r.hint).toBe("Within 2,500");
     expect(r.arrow).toBe("");
+  });
+});
+
+import schedule from "../src/data/schedule-requested-v1.json";
+describe("annual schedule", () => {
+  it("covers 365 days with a full pool before repeats", () => {
+    expect(schedule).toHaveLength(365);
+    for (let start = 0; start < 338; start += 169)
+      expect(new Set(schedule.slice(start, start + 169)).size).toBe(169);
+    for (let i = 1; i < 365; i++) expect(schedule[i]).not.toBe(schedule[i - 1]);
+    for (let i = 0; i < 365; i++) {
+      const date = new Date(Date.UTC(2026, 10, 2 + i))
+        .toISOString()
+        .slice(0, 10);
+      expect(dailyAnswer(date).id).toBe(schedule[i]);
+    }
   });
 });

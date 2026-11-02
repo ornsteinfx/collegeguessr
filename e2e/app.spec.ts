@@ -6,6 +6,11 @@ const dataset = JSON.parse(
   ),
 ) as { id: string; name: string }[];
 import { test, expect } from "@playwright/test";
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/config", (route) =>
+    route.fulfill({ json: { corrections: {} } }),
+  );
+});
 test("home, guess, persistence, settings and modal", async ({ page }) => {
   await page.goto("/");
   await expect(
@@ -49,8 +54,12 @@ test("home, guess, persistence, settings and modal", async ({ page }) => {
 
 test("exact answer wins, statistics and practice restart", async ({ page }) => {
   await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
   const answer = await page.evaluate(
-    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+    () =>
+      JSON.parse(localStorage.getItem("cg-requested-ug-v1-practice")!).answer,
   );
   const data = { default: dataset };
   const school = data.default.find((c) => c.id === answer)!;
@@ -69,15 +78,19 @@ test("exact answer wins, statistics and practice restart", async ({ page }) => {
   await expect(page.locator(".guess-row")).toHaveCount(0);
   expect(
     await page.evaluate(
-      () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+      () =>
+        JSON.parse(localStorage.getItem("cg-requested-ug-v1-practice")!).answer,
     ),
   ).not.toBe(answer);
 });
 test("daily loss reveals answer", async ({ page }) => {
   await page.goto("/#daily");
+  await expect(
+    page.getByRole("heading", { name: "Guess the college." }),
+  ).toBeVisible();
   await page.evaluate(() => {
     const key = Object.keys(localStorage).find((k) =>
-      /^cg-d1-2023-v1-\d{4}-/.test(k),
+      /^cg-requested-ug-v1-\d{4}-/.test(k),
     )!;
     const r = JSON.parse(localStorage.getItem(key)!);
     (window as unknown as { savedRound: unknown }).savedRound = r;
@@ -91,7 +104,7 @@ test("daily loss reveals answer", async ({ page }) => {
   await page.evaluate(
     ({ r, ids }) => {
       localStorage.setItem(
-        "cg-d1-2023-v1-" + r.date,
+        "cg-requested-ug-v1-" + r.date,
         JSON.stringify({ ...r, mode: "daily", guesses: ids }),
       );
     },
@@ -121,8 +134,12 @@ test("new clues flip in order, saved rows remain revealed", async ({
   page,
 }) => {
   await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
   const answerId = await page.evaluate(
-    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+    () =>
+      JSON.parse(localStorage.getItem("cg-requested-ug-v1-practice")!).answer,
   );
   const incorrectSchool = dataset.find((c) => c.id !== answerId)!;
   await page.getByRole("combobox").fill(incorrectSchool.name);
@@ -153,6 +170,9 @@ test("new clues flip in order, saved rows remain revealed", async ({
 test("reduced motion reveals clues immediately", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
   await page.getByRole("combobox").fill("Harvard");
   await page.getByRole("option").first().click();
   await page.getByRole("button", { name: /Submit Guess/ }).click();
@@ -167,9 +187,13 @@ test("white background, five clues and functional academic rank", async ({
   page,
 }) => {
   await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
   await page.emulateMedia({ reducedMotion: "reduce" });
   const answerId = await page.evaluate(
-    () => JSON.parse(localStorage.getItem("cg-d1-2023-v1-practice")!).answer,
+    () =>
+      JSON.parse(localStorage.getItem("cg-requested-ug-v1-practice")!).answer,
   );
   const school = dataset.find((c) => c.id !== answerId)!;
   await page.getByRole("combobox").fill(school.name);
@@ -185,14 +209,17 @@ test("white background, five clues and functional academic rank", async ({
     ),
   ).toBe("rgb(255, 255, 255)");
   await page.getByRole("button", { name: "Sources & methodology" }).click();
-  await page.getByRole("button", { name: "View all 150 schools" }).click();
-  await expect(page.locator(".pool-list>div")).toHaveCount(150);
+  await page.getByRole("button", { name: "View all 169 schools" }).click();
+  await expect(page.locator(".pool-list>div")).toHaveCount(169);
 });
 
 test("map search zooms, shows city labels and chooses a real school", async ({
   page,
 }) => {
   await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Search the map", exact: true })
     .click();
@@ -227,7 +254,7 @@ test("school list is alphabetical without ranks or academic scores", async ({
 }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Sources & methodology" }).click();
-  await page.getByRole("button", { name: "View all 150 schools" }).click();
+  await page.getByRole("button", { name: "View all 169 schools" }).click();
   await expect(page.locator(".pool-list")).not.toContainText(
     /Index score|#[0-9]+/,
   );
@@ -237,4 +264,38 @@ test("school list is alphabetical without ranks or academic scores", async ({
       els.map((el) => el.childNodes[0].textContent!.trim()),
     );
   expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+});
+
+test("liberal arts and undergraduate counts, report submission and retry", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("combobox").fill("Williams");
+  await expect(
+    page.getByRole("option").filter({ hasText: "Williams College" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Report a bug", exact: true }).click();
+  await page.getByLabel("Title", { exact: true }).fill("Map test report");
+  await page
+    .getByLabel("What went wrong?")
+    .fill("A test report with enough detail to reproduce.");
+  await page.route("**/api/reports", async (route) => {
+    const body = route.request().postDataJSON();
+    expect(body.context).not.toHaveProperty("answer");
+    expect(body.context).not.toHaveProperty("guesses");
+    await route.fulfill({
+      status: 503,
+      json: { error: "Temporarily unavailable" },
+    });
+  });
+  await page.getByRole("button", { name: "Send bug report" }).click();
+  await expect(page.getByRole("alert")).toContainText("not been sent");
+  await expect(page.getByLabel("Title", { exact: true })).toHaveValue(
+    "Map test report",
+  );
+  await page.route("**/api/reports", (route) =>
+    route.fulfill({ status: 201, json: { ok: true, id: "test-reference" } }),
+  );
+  await page.getByRole("button", { name: "Send bug report" }).click();
+  await expect(page.getByRole("status")).toContainText("received");
 });

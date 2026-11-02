@@ -146,24 +146,24 @@ test("new clues flip in order, saved rows remain revealed", async ({
   await page.getByRole("option").first().click();
   await page.getByRole("button", { name: /Submit Guess/ }).click();
   const tiles = page.locator(".guess-row").first().locator(".comparison-flip");
-  await expect(tiles).toHaveCount(5);
+  await expect(tiles).toHaveCount(6);
   await expect(tiles.last()).toHaveAttribute(
     "aria-label",
-    "Revealing Conference clue",
+    "Revealing Distance clue",
   );
   await expect(page.getByRole("combobox")).toBeDisabled();
   await expect(tiles.first()).toHaveAttribute("aria-label", /^State:/);
   await expect(tiles.last()).toHaveAttribute(
     "aria-label",
-    "Revealing Conference clue",
+    "Revealing Distance clue",
   );
-  await expect(tiles.last()).toHaveAttribute("aria-label", /^Conference:/);
+  await expect(tiles.last()).toHaveAttribute("aria-label", /^Distance:/);
   await expect(page.getByRole("combobox")).toBeEnabled();
   await page.reload();
   await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
   await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
     "aria-label",
-    /^Conference:/,
+    /^Distance:/,
   );
 });
 
@@ -179,11 +179,11 @@ test("reduced motion reveals clues immediately", async ({ page }) => {
   await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
   await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
     "aria-label",
-    /^Conference:/,
+    /^Distance:/,
   );
 });
 
-test("white background, five clues and functional academic rank", async ({
+test("white background, six clues and functional academic rank", async ({
   page,
 }) => {
   await page.goto("/#practice");
@@ -199,10 +199,16 @@ test("white background, five clues and functional academic rank", async ({
   await page.getByRole("combobox").fill(school.name);
   await page.getByRole("option").first().click();
   await page.getByRole("button", { name: /Submit Guess/ }).click();
-  await expect(page.locator(".comparison-flip")).toHaveCount(5);
+  await expect(page.locator(".comparison-flip")).toHaveCount(6);
   const rank = page.getByRole("button", { name: /^Academic rank:/ });
-  await expect(rank).not.toHaveAttribute("aria-label", /#[0-9]+/);
+  await expect(rank).toHaveAttribute("aria-label", /#[0-9]+/);
   await expect(rank).not.toHaveAttribute("aria-label", /N\/A/);
+  await expect(
+    page.getByRole("button", { name: /^Distance:/ }),
+  ).toHaveAttribute("aria-label", /mi [↑↗→↘↓↙←↖] (N|NE|E|SE|S|SW|W|NW)/);
+  await expect(
+    page.getByRole("button", { name: /^Distance:/ }),
+  ).toHaveAttribute("aria-label", /[0-9,]+ mi.*straight-line campus-to-campus/);
   expect(
     await page.evaluate(
       () => getComputedStyle(document.documentElement).backgroundColor,
@@ -286,17 +292,15 @@ test("map search zooms, shows city labels and chooses a real school", async ({
   await expect(page.locator(".guess-row")).toHaveCount(1);
   await expect(
     page.getByRole("button", { name: /^Academic rank:/ }),
-  ).not.toHaveAttribute("aria-label", /#[0-9]+|Difference:/);
+  ).toHaveAttribute("aria-label", /#[0-9]+/);
 });
 
-test("school list is alphabetical without ranks or academic scores", async ({
-  page,
-}) => {
+test("school list is alphabetical with academic ranks", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Sources & methodology" }).click();
   await page.getByRole("button", { name: "View all 169 schools" }).click();
-  await expect(page.locator(".pool-list")).not.toContainText(
-    /Index score|#[0-9]+/,
+  await expect(page.locator(".pool-list")).toContainText(
+    /Academic rank #[0-9]+/,
   );
   const names = await page
     .locator(".pool-list>div>span")

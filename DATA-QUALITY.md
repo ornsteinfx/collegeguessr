@@ -4,7 +4,7 @@
 
 Enrollment: undergraduate only, Fall 2023. Builder requires IPEDS DRVEF2023 EFUG to equal EF2023A EFALEVEL=2 EFTOTLT for every school. Approximate total counts and unsourced ranks in the user input are never used as game metrics.
 
-Academic outcomes: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions relative to the selected pool; no numerical ranks or scores shown in gameplay. Not a published national ranking.
+Academic outcomes: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions relative to the selected pool; guessed ranks displayed, raw scores omitted. Not a published national ranking.
 
 Conference: official NCAA primary all-sports membership, 2026–27. Claremont McKenna and Harvey Mudd share a verified joint athletics program; Pomona uses Pomona-Pitzer membership.
 

@@ -17,11 +17,16 @@ export function Board({
     <div className="board">
       <div className="board-head">
         <span>COLLEGE</span>
-        {["STATE", "TYPE", "UNDERGRADS", "ACADEMIC RANK", "CONFERENCE"].map(
-          (x) => (
-            <span key={x}>{x}</span>
-          ),
-        )}
+        {[
+          "STATE",
+          "TYPE",
+          "UNDERGRADS",
+          "ACADEMIC RANK",
+          "CONFERENCE",
+          "DISTANCE",
+        ].map((x) => (
+          <span key={x}>{x}</span>
+        ))}
       </div>
       {ids.length ? (
         ids.map((id, index) => {
@@ -46,11 +51,12 @@ export function Board({
                         "Undergrads",
                         "Academic rank",
                         "Conference",
+                        "Distance",
                       ][i]
                     }
                     index={i}
                     animate={id === revealId}
-                    onComplete={i === 4 ? onRevealComplete : undefined}
+                    onComplete={i === 5 ? onRevealComplete : undefined}
                   />
                 ))}
               </div>

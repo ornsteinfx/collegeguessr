@@ -3,7 +3,7 @@
   "total": 169,
   "eligible": 169,
   "selection": "All 149 supplied universities plus 20 liberal arts colleges. Includes NCAA Divisions I, II and III. The supplied approximate total enrollments and unsourced ranking numbers are retained only as input provenance, not used in gameplay.",
-  "ranking": "CollegeGuessr Academic Outcomes Index: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions are relative to this selected pool, not a published national ranking. Exact positions are hidden in gameplay.",
+  "ranking": "CollegeGuessr Academic Outcomes Index: 65% six-year bachelor graduation rate + 35% full-time retention rate. Ordinal positions are relative to this selected pool, not a published national ranking. The guessed college’s ordinal position is displayed in gameplay.",
   "enrollment": "Undergraduate enrollment only, Fall 2023: IPEDS DRVEF2023 EFUG, independently cross-checked against EF2023A EFALEVEL=2 EFTOTLT for every school",
   "graduation": "IPEDS DRVGR2023 GBA6RTT: six-year bachelor graduation rate",
   "retention": "IPEDS DRVEF2023 RET_PCF: full-time retention rate",

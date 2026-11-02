@@ -82,7 +82,7 @@ describe("comparison boundaries", () => {
       expect(c.rank).toBeGreaterThan(0);
       expect(c.rank).toBeLessThanOrEqual(169);
       expect(compare(c, colleges[0])[3].color).not.toBe("neutral");
-      expect(compare(c, colleges[0])).toHaveLength(5);
+      expect(compare(c, colleges[0])).toHaveLength(6);
     }
   });
   it("state map symmetric", () => {
@@ -117,11 +117,11 @@ describe("rounds", () => {
     for (const c of colleges.slice(1, 12)) r = guess(r, c.id);
     expect(status(r)).toBe("playing");
   });
-  it("share conceals answer and has five tiles", () => {
+  it("share conceals answer and has six tiles", () => {
     const r = guess(round(), colleges[1].id);
     const s = share(r);
     expect(s).not.toContain(colleges[0].name);
-    expect([...s.split("\n")[2]].length).toBe(5);
+    expect([...s.split("\n")[2]].length).toBe(6);
   });
   it("daily deterministic", () =>
     expect(dailyAnswer("2026-10-30")).toEqual(dailyAnswer("2026-10-30")));
@@ -146,11 +146,11 @@ describe("no exact numerical giveaways", () => {
     );
     expect(r[2].hint).not.toContain("4,219");
   });
-  it("rank clues never show either school rank or exact gap", () => {
+  it("rank clues show the guessed rank without exposing the answer rank or gap", () => {
     const r = compare({ ...a(), rank: 53 }, { ...a(), rank: 71 });
-    expect(r[3].value).toBe("Near ↑");
+    expect(r[3].value).toBe("#53 ↑");
     expect(r[3].hint).toContain("within 25");
-    expect(r[3].hint).not.toMatch(/53|71|18/);
+    expect(r[3].hint).not.toMatch(/71|18/);
   });
   it("the exact-equality case remains a range, not a zero-difference giveaway", () => {
     const r = numeric(10000, 10000, 2500, 10000);

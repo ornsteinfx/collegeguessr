@@ -319,7 +319,7 @@ mark {
 }
 .board-head {
   display: grid;
-  grid-template-columns: 2fr 0.6fr 0.85fr 1fr 0.9fr 1.25fr;
+  grid-template-columns: 1.7fr 0.6fr 0.8fr 1fr 0.9fr 1.15fr 1.3fr;
   gap: 7px;
   font-size: 9px;
   letter-spacing: 0.5px;
@@ -333,7 +333,7 @@ mark {
 }
 .guess-row {
   display: grid;
-  grid-template-columns: 2fr 4.6fr;
+  grid-template-columns: 1.7fr 5.75fr;
   gap: 7px;
   padding: 12px 0;
   border-bottom: 1px solid #eee;
@@ -352,7 +352,7 @@ mark {
 }
 .tiles {
   display: grid;
-  grid-template-columns: 0.6fr 0.85fr 1fr 0.9fr 1.25fr;
+  grid-template-columns: 0.6fr 0.8fr 1fr 0.9fr 1.15fr 1.3fr;
   gap: 7px;
 }
 .comparison-flip {
@@ -762,9 +762,6 @@ dialog::backdrop {
   }
   .comparison-flip {
     grid-column: span 2;
-  }
-  .comparison-flip:nth-last-child(-n + 2) {
-    grid-column: span 3;
   }
   .flip-face small {
     display: block;

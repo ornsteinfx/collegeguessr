@@ -1,3 +1,4 @@
+import { distanceBetween } from "./geography";
 import { conferenceName } from "./conference";
 import { configuredAnswer } from "../service";
 import raw from "../data/colleges.json";
@@ -118,6 +119,7 @@ export function numeric(
   };
 }
 export function compare(a: College, b: College, hard = false): Tile[] {
+  const distance = distanceBetween(a.id, b.id);
   const en = numeric(a.enrollment, b.enrollment, 2500, 10000);
   const rankOK =
     !!a.rankSource &&
@@ -169,12 +171,10 @@ export function compare(a: College, b: College, hard = false): Tile[] {
       hint: `Undergraduate enrollment ${en.hint}`,
     },
     {
-      value: rankOK
-        ? `${rk.color === "green" ? "Close" : rk.color === "yellow" ? "Near" : "Far"} ${hard ? "" : rk.arrow}`
-        : "N/A",
+      value: rankOK ? `#${a.rank} ${hard ? "" : rk.arrow}` : "N/A",
       color: rk.color,
       hint: rankOK
-        ? `Academic ranking: ${rk.hint.toLowerCase()} places; exact ranks are hidden`
+        ? `Academic ranking: ${rk.hint.toLowerCase()} places; rank shown is your guessed college’s position in our selected-pool index`
         : "Comparable verified rankings unavailable",
     },
     {
@@ -191,6 +191,21 @@ export function compare(a: College, b: College, hard = false): Tile[] {
           : a.conference === b.conference && sameDivision
             ? "Same athletic conference"
             : "Different athletic conferences",
+    },
+    {
+      value: distance
+        ? `${distance.miles.toLocaleString()} mi${!hard && distance.direction ? ` ${distance.arrow} ${distance.direction}` : ""}`
+        : "N/A",
+      color: distance
+        ? distance.miles <= 100
+          ? "green"
+          : distance.miles <= 500
+            ? "yellow"
+            : "gray"
+        : "neutral",
+      hint: distance
+        ? `${distance.miles.toLocaleString()} miles straight-line campus-to-campus${!hard && distance.direction ? `; the answer is ${({ N: "north", NE: "northeast", E: "east", SE: "southeast", S: "south", SW: "southwest", W: "west", NW: "northwest" } as Record<string, string>)[distance.direction]} of your guess` : ""}. Green: within 100 miles; yellow: within 500 miles.`
+        : "Verified campus coordinates unavailable",
     },
   ];
 }

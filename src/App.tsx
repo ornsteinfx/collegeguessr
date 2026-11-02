@@ -437,23 +437,25 @@ export function App() {
               <p>
                 <b>✓ Green:</b> same state or type; undergraduate enrollment
                 within 2,500; comparable rank within 10; same primary
-                conference.
+                conference; distance within 100 miles.
               </p>
               <p>
                 <b>≈ Gold:</b> neighboring states; undergraduate enrollment
-                within 10,000; academic rank within 25. Different conferences
-                are gray.
+                within 10,000; academic rank within 25; distance within 500
+                miles. Different conferences are gray.
               </p>
               <p>
                 <b>× Gray:</b> farther away or different. <b>— Neutral:</b>{" "}
                 verified data unavailable or incompatible rankings.
               </p>
               <p>
-                Clue explanations show threshold ranges, never exact
-                differences. Academic rank numbers and scores stay hidden.
-                Arrows point toward the answer’s number: ↑ means more students
-                or a higher (worse) rank. The tile displays your guessed
-                college’s value. Tap a tile for an explanation.
+                Enrollment and rank explanations use threshold ranges. The rank
+                tile shows your guessed college’s position in our selected-pool
+                index. Distance shows rounded straight-line miles between
+                campuses, with a compass arrow pointing from your guess toward
+                the answer. Arrows point toward the answer’s number: ↑ means
+                more students or a higher (worse) rank. The tile displays your
+                guessed college’s value. Tap a tile for an explanation.
               </p>
               <p>
                 Daily gives you eight attempts, resetting at midnight Eastern.
@@ -598,8 +600,8 @@ export function App() {
           {modal === "pool" && (
             <div className="pool-list">
               <p className="muted">
-                The college pool, listed alphabetically. Academic ranks and
-                scores are hidden.
+                The college pool, listed alphabetically. Ranks are positions in
+                our selected-pool Academic Outcomes Index.
               </p>
               {[...colleges]
                 .sort((a, b) => a.name.localeCompare(b.name))
@@ -608,7 +610,8 @@ export function App() {
                     <span>
                       {c.name}
                       <small>
-                        {c.city}, {c.state} · {c.conference}
+                        {c.city}, {c.state} · {c.conference} · Academic rank #
+                        {c.rank}
                       </small>
                     </span>
                   </div>
@@ -636,7 +639,10 @@ export function App() {
                   2023
                 </p>
                 <p>{answer.conference}</p>
-                <p className="muted">CollegeGuessr Academic Outcomes Index</p>
+                <p className="muted">
+                  Academic rank #{answer.rank} · CollegeGuessr Academic Outcomes
+                  Index
+                </p>
                 <a
                   href={answer.officialWebsite}
                   target="_blank"

@@ -1,40 +1,679 @@
-# College Guessr
-
-[Play CollegeGuessr](https://ornsteinfx.github.io/collegeguessr/) · [Admin](https://collegeguessr-admin.pickle-pal-online.workers.dev/admin)
-
-169 universities and liberal arts colleges: all 149 user-requested universities plus 20 liberal arts colleges. White background, original red academic crest, vibrant clue colors, staggered flip reveals, and an interactive US campus map. Enrollment means **undergraduate students only**.
-
-## Development
-
-Node 24 recommended. Run `npm ci`, `npm run dev`. Verify with `npm test`, `npm run audit:data`, `npm run test:e2e`, and `npx tsc -p server/tsconfig.json`. Install the browser with `npx playwright install chromium`. `npm run build -- --base=/collegeguessr/` produces GitHub Pages assets. The main-branch Pages workflow tests, audits, builds and publishes automatically.
-
-## Data
-
-The pool includes NCAA Divisions I, II and III. Supplied approximate total enrollments and unsourced rank numbers are retained in `requestedColleges.json` as provenance only; they are not gameplay values.
-
-- Undergraduate enrollment: [NCES DRVEF2023](https://nces.ed.gov/ipeds/datacenter/data/DRVEF2023.zip), EFUG. The importer independently requires equality with [EF2023A](https://nces.ed.gov/ipeds/datacenter/data/EF2023A.zip), EFALEVEL=2, EFTOTLT, for every school. This is a pinned Fall 2023 snapshot; records may include NCES imputations.
-- Academic outcomes: user-approved CollegeGuessr index, 65% six-year bachelor graduation rate ([DRVGR2023](https://nces.ed.gov/ipeds/datacenter/data/DRVGR2023.zip), GBA6RTT, 2017 entering cohort) + 35% full-time retention (DRVEF2023, RET_PCF). Descending score, graduation rate, retention rate, then UNITID determines ordinal position within this selected pool. This is not a published national ranking or a comprehensive measure of academic quality. Guessed ranks are displayed; raw index scores are not.
-- Identity and coordinates: [HD2023](https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip), matched to individual campuses by UNITID.
-- Conferences: [official NCAA directory](https://web3.ncaa.org/directory/api/directory/memberList?type=1), academicYear 2027, primary all-sports membership for 2026–27. Explicit crosswalks document jointly operated Claremont-Mudd-Scripps and Pomona-Pitzer athletics. Football-only conference names are not substituted for primary membership.
-
-Reproduce using `python3 scripts/build-requested-pool.py` and `python3 scripts/build-map-data.py`. The first script needs the four official source archives and NCAA snapshot in ignored `scripts/cache` (hd.zip, ef.zip, retention.zip, graduation.zip, ncaa-members.json); source URLs and hashes are recorded in the manifests. Preserve published editions and schedules when refreshing data. `npm run audit:data` checks all requested schools, liberal arts additions, metric definitions, rankings, athletics, map coverage and schedule integrity.
-
-## Gameplay and schedule
-
-Daily: eight guesses, resets at midnight Eastern. Practice: unlimited guesses. Six clues: state, institution type, undergraduate enrollment, academic rank, primary conference, and campus distance. Green enrollment is within 2,500; yellow is over 2,500 and within 10,000. Academic proximity thresholds are 10 and 25 positions. Same conference and division is green, different is gray. Guessed ranks are visible; enrollment and rank differences use threshold bands. Distance is rounded great-circle miles (mean Earth radius 3,958.7613 miles), with an eight-point compass arrow from the guess toward the answer. Distance is green within 100 miles, yellow within 500 miles, gray beyond that. Hard mode hides compass arrows and direction text while keeping miles. Shared grids contain six color tiles per guess. Reduced motion reveals immediately; other guesses flip sequentially.
-
-`schedule-requested-v1.json` contains **365 frozen generated daily answers**, starting November 1, 2026. Each full 169-school shuffled cycle uses every school once; adjacent repeats across cycles are prevented. Schools necessarily recur in a year because the pool has 169 members. The annual schedule cycles automatically afterward. Admin overrides are optional, persisted by date and can be restored to the generated answer. Existing started rounds retain their answer, preserving their clues and progress. Public configuration returns today's selection only, never future overrides. The bundled static schedule remains inspectable; this game is not cheat-proof.
-
-This dataset edition uses `cg-requested-ug-v1-*` browser storage. Older edition progress remains isolated. Browser storage failure does not prevent session play. Concurrent tabs use last-write-wins. Daily/practice statistics remain local to each browser.
-
-Map search uses gray Census/us-atlas state boundaries, white water, red campus pins/clusters, state names and contextual Natural Earth city labels on zoom. Pin selection fills the guess input without submitting. All 169 campus coordinates and geographic assets are bundled; no tile service or key is needed. Keyboard name search and map pin selection are supported. Data attribution and checksums are in `mapManifest.json`; the us-atlas license is in `public/map`.
-
-## Bug reports and private administration
-
-A separate Cloudflare Worker and SQLite-backed Durable Object power the bug inbox, college corrections and daily overrides. This does not modify PicklePal. Deploy backend code with `npx wrangler deploy --config server/wrangler.jsonc`. Configure `ADMIN_PASSWORD` and `SESSION_SECRET` with `npx wrangler secret put NAME --config server/wrangler.jsonc`. Never commit passwords or dev-vars. The frontend API URL defaults to the deployed service; `VITE_API_URL` can replace it for local development.
-
-The admin panel has a password login and signed 24-hour Secure, HttpOnly, SameSite=Strict cookie. Admin mutations require same-origin JSON requests. Login attempts and report submissions are rate-limited, report sizes are bounded, and all displayed report text is treated as text. Bug reports include title, description, category, date, game mode, browser and viewport; guesses and target IDs are excluded. Submission errors preserve the draft and never claim successful delivery. Reports can be resolved, reopened, deleted and exported. No email or account is required.
-
-College corrections allow Fall 2023 undergraduate count, city and primary conference with a required HTTPS source URL. Changes load before gameplay, with a cached fallback; the verified bundled dataset and generated schedule remain playable when the backend is unavailable. Correct the pinned metric rather than mixing enrollment years. Changes do not alter academic outcomes or pool membership. Backend changes are deployed separately from GitHub Pages. Runtime state persists across deployments in the Durable Object. Admin passwords are not recoverable from the frontend; rotate through Wrangler secrets.
-
-Original branding is inspired by academic design and does not use Cornell's crest. Independent; not affiliated with any university, NCES, conference or ranking publisher.
+import { useEffect, useState } from "react";
+import {
+  BarChart3,
+  Settings,
+  HelpCircle,
+  CalendarDays,
+  Infinity as InfinityIcon,
+} from "lucide-react";
+import { BugReport } from "./components/BugReport";
+import { API_URL, initializeService, configuredAnswer, recordPlay } from "./service";
+import { Board } from "./components/Board";
+import { Search } from "./components/Search";
+import { Modal } from "./components/Modal";
+import {
+  colleges,
+  answerPool,
+  dailyAnswer,
+  dateKey,
+  puzzleNumber,
+  guess,
+  status,
+  share,
+  load,
+  save,
+  type Round,
+} from "./game/engine";
+import manifest from "./data/dataManifest.json";
+type SettingsType = { motion: boolean; hard: boolean };
+const defaultSettings = {
+  motion: !matchMedia("(prefers-reduced-motion: reduce)").matches,
+  hard: false,
+};
+const validRound = (v: unknown): v is Round => {
+  const r = v as Round;
+  return (
+    !!r &&
+    answerPool.some((c) => c.id === r.answer) &&
+    Array.isArray(r.guesses) &&
+    r.guesses.every((id) => colleges.some((c) => c.id === id)) &&
+    new Set(r.guesses).size === r.guesses.length &&
+    ["daily", "practice"].includes(r.mode) &&
+    typeof r.date === "string" &&
+    /^\d{4}-\d{2}-\d{2}$/.test(r.date) &&
+    Number.isFinite(Date.parse(r.date)) &&
+    (r.mode === "practice" || r.guesses.length <= 8)
+  );
+};
+function fresh(mode: "daily" | "practice", previous = ""): Round {
+  const pool = answerPool.filter((c) => c.id !== previous);
+  return {
+    roundId:
+      globalThis.crypto?.randomUUID?.() ??
+      `round-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    mode,
+    date: dateKey(),
+    answer:
+      mode === "daily"
+        ? dailyAnswer().id
+        : pool[Math.floor(Math.random() * pool.length)].id,
+    guesses: [],
+  };
+}
+export function App() {
+  const [page, setPage] = useState(
+    location.hash === "#practice" ? "practice" : "daily",
+  );
+  const [modal, setModal] = useState("");
+  const [revealingId, setRevealingId] = useState<string | null>(null);
+  const [settings, setSettings] = useState(() =>
+    load<SettingsType>(
+      "cg-requested-ug-v1-settings",
+      defaultSettings,
+      (v) =>
+        !!v &&
+        typeof (v as SettingsType).motion === "boolean" &&
+        typeof (v as SettingsType).hard === "boolean",
+    ),
+  );
+  const [round, setRound] = useState(() =>
+    load<Round>(
+      `cg-requested-ug-v1-${page === "practice" ? "practice" : dateKey()}`,
+      fresh(page === "practice" ? "practice" : "daily"),
+      validRound,
+    ),
+  );
+  const [history, setHistory] = useState(() =>
+    load<Record<string, Round>>(
+      "cg-requested-ug-v1-history",
+      {},
+      (v) => !!v && typeof v === "object" && Object.values(v).every(validRound),
+    ),
+  );
+  const [notice, setNotice] = useState("");
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.theme = "light";
+    document.documentElement.dataset.motion = settings.motion ? "on" : "off";
+    save("cg-requested-ug-v1-settings", settings);
+  }, [settings]);
+  useEffect(() => {
+    save(
+      `cg-requested-ug-v1-${round.mode === "daily" ? round.date : "practice"}`,
+      round,
+    );
+    if (status(round) !== "playing") {
+      setHistory((h) => {
+        const next = {
+          ...h,
+          [round.mode === "daily"
+            ? round.date
+            : `practice-${round.roundId ?? round.answer + "-" + round.date + "-" + round.guesses.join(".")}`]:
+            round,
+        };
+        save("cg-requested-ug-v1-history", next);
+        return next;
+      });
+    }
+  }, [round]);
+  useEffect(() => {
+    const sync = (e: StorageEvent) => {
+      if (
+        e.key ===
+          `cg-requested-ug-v1-${round.mode === "daily" ? round.date : "practice"}` &&
+        e.newValue
+      ) {
+        try {
+          const r = JSON.parse(e.newValue);
+          if (validRound(r)) setRound(r);
+        } catch {}
+      }
+      if (e.key === "cg-requested-ug-v1-history")
+        setHistory(
+          load(
+            "cg-requested-ug-v1-history",
+            {},
+            (v) =>
+              !!v &&
+              typeof v === "object" &&
+              Object.values(v).every(validRound),
+          ),
+        );
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, [round.mode, round.date]);
+  useEffect(() => {
+    let active = true;
+    if (round.mode === "daily" && round.date !== dateKey(new Date(now))) {
+      initializeService().then(() => {
+        if (active)
+          setRound(
+            load(`cg-requested-ug-v1-${dateKey()}`, fresh("daily"), validRound),
+          );
+      });
+    }
+    return () => {
+      active = false;
+    };
+  }, [dateKey(new Date(now)), round.mode, round.date]);
+  async function navigate(p: string) {
+    if (p === "daily" && !configuredAnswer(dateKey()))
+      await initializeService();
+    setRevealingId(null);
+    setPage(p);
+    location.hash = p === "home" ? "" : p;
+    if (p === "daily" || p === "practice") {
+      const r = load<Round>(
+        `cg-requested-ug-v1-${p === "daily" ? dateKey() : "practice"}`,
+        fresh(p),
+        validRound,
+      );
+      setRound(r);
+    }
+    setModal("");
+  }
+  useEffect(() => {
+    if (revealingId && !settings.motion) {
+      setRevealingId(null);
+      if (status(round) !== "playing") setModal("result");
+    }
+  }, [settings.motion, revealingId, round]);
+  const answer = colleges.find((c) => c.id === round.answer)!;
+  const end = status(round);
+  const records = Object.values(history).filter((r) => r.mode === "daily");
+  const wins = records.filter((r) => status(r) === "won");
+  const practice = Object.values(history).filter(
+    (r) => r.mode === "practice" && status(r) === "won",
+  ).length;
+  const dates = wins.map((r) => r.date).sort();
+  let longest = 0,
+    run = 0,
+    prev = "";
+  for (const d of dates) {
+    run = Date.parse(d) - Date.parse(prev) === 86400000 ? run + 1 : 1;
+    longest = Math.max(longest, run);
+    prev = d;
+  }
+  let streak = 0;
+  let cursor = Date.parse(dateKey());
+  if (!dates.includes(dateKey())) cursor -= 86400000;
+  while (dates.includes(new Date(cursor).toISOString().slice(0, 10))) {
+    streak++;
+    cursor -= 86400000;
+  }
+  // Advance the calendar date, then find the next Eastern midnight using Intl offset iteration (DST safe).
+  const today = dateKey(new Date(now));
+  let midnight = Date.parse(today + "T00:00:00Z") + 86400000 + 4 * 3600000;
+  for (let i = 0; i < 3; i++) {
+    const eastern = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "America/New_York",
+      hourCycle: "h23",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(new Date(midnight));
+    const [h, m, s] = eastern.split(":").map(Number);
+    midnight -= (h * 3600 + m * 60 + s) * 1000;
+    if (midnight <= now) midnight += 86400000;
+  }
+  const remaining = Math.max(0, Math.floor((midnight - now) / 1000));
+  const countdown = [
+    Math.floor(remaining / 3600),
+    Math.floor(remaining / 60) % 60,
+    remaining % 60,
+  ]
+    .map((n) => String(n).padStart(2, "0"))
+    .join(":");
+  async function copy() {
+    const text = share(round);
+    try {
+      if (navigator.share) await navigator.share({ text });
+      else await navigator.clipboard.writeText(text);
+      setNotice("Results shared.");
+    } catch {
+      try {
+        await navigator.clipboard.writeText(text);
+        setNotice("Results copied.");
+      } catch {
+        setNotice(text);
+      }
+    }
+  }
+  function newPractice() {
+    setRevealingId(null);
+    setRound(fresh("practice", round.answer));
+    setModal("");
+  }
+  return (
+    <>
+      <header>
+        <button className="brand" onClick={() => navigate("daily")}>
+          <img
+            src={`${import.meta.env.BASE_URL}branding/crest.svg`}
+            alt="CollegeGuessr crest"
+          />
+          <span>College Guessr</span>
+        </button>
+        <nav aria-label="Main navigation">
+          <button
+            className={page === "daily" ? "selected" : ""}
+            onClick={() => navigate("daily")}
+          >
+            Daily puzzle
+          </button>
+          <button
+            className={page === "practice" ? "selected" : ""}
+            onClick={() => navigate("practice")}
+          >
+            Practice
+          </button>
+          <span className="nav-divider" />
+          <button aria-label="How to play" onClick={() => setModal("rules")}>
+            <HelpCircle size={19} />
+          </button>
+          <button aria-label="Statistics" onClick={() => setModal("stats")}>
+            <BarChart3 size={19} />
+          </button>
+          <button aria-label="Settings" onClick={() => setModal("settings")}>
+            <Settings size={19} />
+          </button>
+        </nav>
+      </header>
+      <main>
+        <>
+          <section className="game-heading">
+            <div className="eyebrow">
+              {page === "daily"
+                ? `DAILY No. ${String(puzzleNumber()).padStart(3, "0")}`
+                : "UNLIMITED PRACTICE"}
+            </div>
+            <h1>
+              {page === "daily"
+                ? "Guess the college."
+                : "Practice your college knowledge."}
+            </h1>
+            <p>
+              {page === "daily"
+                ? "169 colleges. Eight guesses. A new college every day."
+                : "Universities and liberal arts colleges. Unlimited guesses."}
+            </p>
+          </section>
+          <section className="game-card">
+            <div className="game-toolbar">
+              <span>
+                {page === "daily" ? (
+                  <CalendarDays size={16} />
+                ) : (
+                  <InfinityIcon size={18} />
+                )}{" "}
+                {page === "daily"
+                  ? `Guess ${Math.min(round.guesses.length + 1, 8)} of 8`
+                  : `${round.guesses.length} ${round.guesses.length === 1 ? "guess" : "guesses"}`}
+              </span>
+              <div className="progress">
+                {page === "daily" &&
+                  Array.from({ length: 8 }, (_, i) => (
+                    <i
+                      key={i}
+                      className={i < round.guesses.length ? "filled" : ""}
+                    />
+                  ))}
+              </div>
+              {page === "practice" && (
+                <button onClick={newPractice}>New College ↻</button>
+              )}
+            </div>
+            <Search
+              excluded={round.guesses}
+              disabled={end !== "playing" || revealingId !== null}
+              onGuess={(id) => {
+                const r = guess(round, id);
+                if (r === round) return;
+                r.roundId ||= crypto.randomUUID();
+                void recordPlay(r.mode, r.roundId);
+                const animate =
+                  settings.motion &&
+                  !matchMedia("(prefers-reduced-motion: reduce)").matches;
+                setRevealingId(animate ? id : null);
+                setRound(r);
+                if (!animate && status(r) !== "playing") setModal("result");
+              }}
+            />
+            <div className="legend">
+              <span>
+                <i className="dot green" />
+                Match / close
+              </span>
+              <span>
+                <i className="dot yellow" />
+                Close
+              </span>
+              <span>
+                <i className="dot gray" />
+                Far away
+              </span>
+              <span>↑ Higher · ↓ Lower</span>
+            </div>
+            <Board
+              key={
+                round.roundId ?? `${round.mode}-${round.date}-${round.answer}`
+              }
+              ids={round.guesses}
+              answer={answer}
+              hard={settings.hard}
+              revealId={settings.motion ? revealingId : null}
+              onRevealComplete={() => {
+                setRevealingId(null);
+                if (status(round) !== "playing") setModal("result");
+              }}
+            />
+            {end !== "playing" && !revealingId && (
+              <div className="completed">
+                <strong>
+                  {end === "won" ? "You found it!" : "Better luck tomorrow."}{" "}
+                  {answer.name}
+                </strong>
+                <button className="primary" onClick={() => setModal("result")}>
+                  View results
+                </button>
+              </div>
+            )}
+          </section>
+          <div className="game-bottom">
+            <button onClick={() => setModal("rules")}>
+              ⓘ A little help with the clues
+            </button>
+            {page === "daily" && (
+              <span>
+                Next college in <b>{countdown}</b> ET
+              </span>
+            )}
+          </div>
+        </>
+      </main>
+      <footer>
+        <span>
+          169 universities & liberal arts colleges · Undergraduate enrollment
+        </span>
+        <button onClick={() => setModal("data")}>Sources & methodology</button>
+        <button onClick={() => setModal("bug")}>Report a bug</button>
+        <a href={API_URL + "/admin"} target="_blank" rel="noreferrer">
+          Admin
+        </a>
+        <small>Independent. Not affiliated with any university.</small>
+      </footer>
+      {modal && (
+        <Modal
+          title={
+            modal === "bug"
+              ? "Report a bug"
+              : modal === "rules"
+                ? "An educated guess starts here."
+                : modal === "stats"
+                  ? "Your college record"
+                  : modal === "settings"
+                    ? "Make yourself at home"
+                    : modal === "data"
+                      ? "Sources & academic rankings"
+                      : modal === "pool"
+                        ? "The 169-college pool"
+                        : end === "won"
+                          ? "You found it!"
+                          : "Better luck tomorrow."
+          }
+          onClose={() => setModal("")}
+        >
+          {modal === "bug" && <BugReport mode={round.mode} date={round.date} />}
+          {modal === "rules" && (
+            <div className="prose">
+              <p>
+                Search for a college, choose a suggestion, and submit your
+                guess. Identify the exact school to win; matching clues alone
+                doesn’t win.
+              </p>
+              <p>
+                <b>✓ Green:</b> same state or type; undergraduate enrollment
+                within 2,500; comparable rank within 10; same primary
+                conference; distance within 100 miles.
+              </p>
+              <p>
+                <b>≈ Gold:</b> neighboring states; undergraduate enrollment
+                within 10,000; academic rank within 25; distance within 500
+                miles. Different conferences are gray.
+              </p>
+              <p>
+                <b>× Gray:</b> farther away or different. <b>— Neutral:</b>{" "}
+                verified data unavailable or incompatible rankings.
+              </p>
+              <p>
+                Enrollment and rank explanations use threshold ranges. The rank
+                tile shows your guessed college’s position in our selected-pool
+                index. Distance shows rounded straight-line miles between
+                campuses, with a compass arrow pointing from your guess toward
+                the answer. Arrows point toward the answer’s number: ↑ means
+                more students or a higher (worse) rank. The tile displays your
+                guessed college’s value. Tap a tile for an explanation.
+              </p>
+              <p>
+                Daily gives you eight attempts, resetting at midnight Eastern.
+                Practice has unlimited attempts. The 169-school pool is ranked
+                by the CollegeGuessr Academic Outcomes Index: 65% six-year
+                graduation rate and 35% full-time retention, using NCES 2023
+                data. This is our index, not a published national ranking.
+              </p>
+              <button
+                className="primary"
+                onClick={() => {
+                  save("cg-onboarded", true);
+                  setModal("");
+                }}
+              >
+                Ready to explore
+              </button>
+            </div>
+          )}
+          {modal === "stats" && (
+            <>
+              <div className="stat-grid">
+                {[
+                  [records.length, "Played"],
+                  [
+                    `${records.length ? Math.round((wins.length / records.length) * 100) : 0}%`,
+                    "Win rate",
+                  ],
+                  [streak, "Current streak"],
+                  [longest, "Best streak"],
+                  [
+                    wins.length
+                      ? (
+                          wins.reduce((s, r) => s + r.guesses.length, 0) /
+                          wins.length
+                        ).toFixed(1)
+                      : "—",
+                    "Average / win",
+                  ],
+                  [practice, "Practice solved"],
+                ].map(([n, l]) => (
+                  <div key={l}>
+                    <b>{n}</b>
+                    <span>{l}</span>
+                  </div>
+                ))}
+              </div>
+              <h3>Guess distribution</h3>
+              {Array.from({ length: 8 }, (_, i) => {
+                const n = wins.filter((r) => r.guesses.length === i + 1).length;
+                return (
+                  <div className="bar-row" key={i}>
+                    <span>{i + 1}</span>
+                    <div
+                      style={{
+                        width: `${Math.max(5, (n / Math.max(1, wins.length)) * 90)}%`,
+                      }}
+                    >
+                      {n}
+                    </div>
+                  </div>
+                );
+              })}
+              <p className="muted">Your statistics are saved on this device.</p>
+            </>
+          )}
+          {modal === "settings" && (
+            <>
+              <div className="settings">
+                {(
+                  [
+                    ["motion", "Reveal animations"],
+                    ["hard", "Hard mode · hide arrows"],
+                  ] as const
+                ).map(([k, l]) => (
+                  <label key={k}>
+                    {l}
+                    <input
+                      type="checkbox"
+                      checked={settings[k]}
+                      onChange={(e) =>
+                        setSettings((s) => ({ ...s, [k]: e.target.checked }))
+                      }
+                    />
+                  </label>
+                ))}
+              </div>
+              <p>Color clues always include symbols for accessibility.</p>
+              <button
+                className="secondary"
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Reset all saved statistics? Current round progress will remain.",
+                    )
+                  ) {
+                    setHistory({});
+                    save("cg-requested-ug-v1-history", {});
+                  }
+                }}
+              >
+                Reset statistics
+              </button>
+            </>
+          )}
+          {modal === "data" && (
+            <div className="prose">
+              <p>
+                <b>169 universities and liberal arts colleges.</b>
+              </p>
+              <p>{manifest.selection}</p>
+              <p>{manifest.ranking}</p>
+              <p>
+                <b>Score = 65% graduation + 35% retention.</b> Both inputs are
+                percentages. Positions are relative to this selected college
+                pool.
+              </p>
+              <p>
+                {manifest.graduation}. {manifest.retention}.
+              </p>
+              <p>
+                {manifest.enrollment}. {manifest.athletics}.
+              </p>
+              <p>{manifest.missing}</p>
+              <p>Play counts use a random browser identifier when you submit a guess. Counting requests contain no college guesses or answer IDs.</p>
+              <button className="secondary" onClick={() => setModal("pool")}>
+                View all 169 schools
+              </button>
+              {manifest.sources.map((s) => (
+                <p key={s}>
+                  <a href={s} target="_blank" rel="noreferrer">
+                    {s.split("/").pop()} ↗
+                  </a>
+                </p>
+              ))}
+              <p>
+                Independently developed. Not affiliated with Cornell or any
+                university, conference, NCES, or ranking publisher. A static
+                game is not cheat-proof.
+              </p>
+            </div>
+          )}
+          {modal === "pool" && (
+            <div className="pool-list">
+              <p className="muted">
+                The college pool, listed alphabetically. Ranks are positions in
+                our selected-pool Academic Outcomes Index.
+              </p>
+              {[...colleges]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((c) => (
+                  <div key={c.id}>
+                    <span>
+                      {c.name}
+                      <small>
+                        {c.city}, {c.state} · {c.conference} · Academic rank #
+                        {c.rank}
+                      </small>
+                    </span>
+                  </div>
+                ))}
+            </div>
+          )}
+          {modal === "result" && (
+            <>
+              <div className="reveal">
+                <img
+                  src={`${import.meta.env.BASE_URL}branding/crest.svg`}
+                  alt=""
+                />
+                <span>
+                  {end === "won"
+                    ? `Solved in ${round.guesses.length} guesses`
+                    : "The mystery college was"}
+                </span>
+                <h3>{answer.name}</h3>
+                <p>
+                  {answer.city}, {answer.state} · {answer.institutionType}
+                </p>
+                <p>
+                  {answer.enrollment.toLocaleString()} undergraduates · Fall
+                  2023
+                </p>
+                <p>{answer.conference}</p>
+                <p className="muted">
+                  Academic rank #{answer.rank} · CollegeGuessr Academic Outcomes
+                  Index
+                </p>
+                <a
+                  href={answer.officialWebsite}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Visit university website ↗
+                </a>
+              </div>
+              <div className="result-actions">
+                <button className="primary" onClick={copy}>
+                  Share Results
+                </button>
+                <button className="secondary" onClick={() => setModal("stats")}>
+                  View Statistics
+                </button>
+                {page === "practice" && (
+                  <button className="secondary" onClick={newPractice}>
+                    Play Again
+                  </button>
+                )}
+              </div>
+              <p role="status" className="share-fallback">
+                {notice}
+              </p>
+            </>
+          )}
+        </Modal>
+      )}
+    </>
+  );
+}

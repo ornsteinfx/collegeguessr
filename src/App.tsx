@@ -7,7 +7,12 @@ import {
   Infinity as InfinityIcon,
 } from "lucide-react";
 import { BugReport } from "./components/BugReport";
-import { API_URL, initializeService, configuredAnswer } from "./service";
+import {
+  API_URL,
+  initializeService,
+  configuredAnswer,
+  recordPlay,
+} from "./service";
 import { Board } from "./components/Board";
 import { Search } from "./components/Search";
 import { Modal } from "./components/Modal";
@@ -334,6 +339,8 @@ export function App() {
               onGuess={(id) => {
                 const r = guess(round, id);
                 if (r === round) return;
+                r.roundId ||= crypto.randomUUID();
+                void recordPlay(r.mode, r.roundId);
                 const animate =
                   settings.motion &&
                   !matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -580,6 +587,11 @@ export function App() {
                 {manifest.enrollment}. {manifest.athletics}.
               </p>
               <p>{manifest.missing}</p>
+              <p>
+                Play counts use a random browser identifier when you submit a
+                guess. Counting requests contain no college guesses or answer
+                IDs.
+              </p>
               <button className="secondary" onClick={() => setModal("pool")}>
                 View all 169 schools
               </button>

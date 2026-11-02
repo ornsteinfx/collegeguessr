@@ -62,3 +62,66 @@ export async function initializeService() {
     /* Bundled schedule and data keep the game playable offline. */
   }
 }
+
+let visitorId = "";
+const pendingPlays = new Set<string>();
+export async function recordPlay(mode: "daily" | "practice", roundId: string) {
+  const day = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const key = day + ":" + roundId;
+  if (pendingPlays.has(key)) return;
+  try {
+    const counted = JSON.parse(
+      localStorage.getItem("cg-counted-plays") || "{}",
+    );
+    if (counted.day === day && counted.rounds?.includes(roundId)) return;
+  } catch {}
+  pendingPlays.add(key);
+  try {
+    if (!visitorId) {
+      try {
+        visitorId = localStorage.getItem("cg-visitor-id") || "";
+      } catch {}
+      if (!/^[0-9a-f-]{36}$/i.test(visitorId)) visitorId = crypto.randomUUID();
+      try {
+        localStorage.setItem("cg-visitor-id", visitorId);
+      } catch {}
+    }
+    const r = await fetch(API_URL + "/api/play", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorId, roundId, mode }),
+      keepalive: true,
+      signal: AbortSignal.timeout(5000),
+    });
+    if (r.ok) {
+      try {
+        const old = JSON.parse(
+          localStorage.getItem("cg-counted-plays") || "{}",
+        );
+        localStorage.setItem(
+          "cg-counted-plays",
+          JSON.stringify({
+            day,
+            rounds: [
+              ...new Set([
+                ...(old.day === day && Array.isArray(old.rounds)
+                  ? old.rounds
+                  : []),
+                roundId,
+              ]),
+            ],
+          }),
+        );
+      } catch {}
+    }
+  } catch {
+    /* Counting must never interrupt gameplay. */
+  } finally {
+    pendingPlays.delete(key);
+  }
+}

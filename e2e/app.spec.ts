@@ -7,6 +7,9 @@ const dataset = JSON.parse(
 ) as { id: string; name: string }[];
 import { test, expect } from "@playwright/test";
 test.beforeEach(async ({ page }) => {
+  await page.route("**/api/play", (route) =>
+    route.fulfill({ json: { ok: true } }),
+  );
   await page.route("**/api/config", (route) =>
     route.fulfill({ json: { corrections: {} } }),
   );
@@ -342,4 +345,31 @@ test("liberal arts and undergraduate counts, report submission and retry", async
   );
   await page.getByRole("button", { name: "Send bug report" }).click();
   await expect(page.getByRole("status")).toContainText("received");
+});
+
+test("only counts a submitted guess, and does not recount a reload", async ({
+  page,
+}) => {
+  let events: unknown[] = [];
+  await page.route("**/api/play", async (route) => {
+    events.push(route.request().postDataJSON());
+    await route.fulfill({ json: { ok: true } });
+  });
+  await page.goto("/#practice");
+  await expect(
+    page.getByRole("heading", { name: "Practice your college knowledge." }),
+  ).toBeVisible();
+  expect(events).toHaveLength(0);
+  await page.getByRole("combobox").fill("Harvard");
+  await page.getByRole("option").first().click();
+  await page.getByRole("button", { name: /Submit Guess/ }).click();
+  await expect.poll(() => events.length).toBe(1);
+  await page.reload();
+  await expect(page.locator(".guess-row")).toHaveCount(1);
+  expect(events).toHaveLength(1);
+  expect(Object.keys(events[0] as object).sort()).toEqual([
+    "mode",
+    "roundId",
+    "visitorId",
+  ]);
 });

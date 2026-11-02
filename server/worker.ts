@@ -1,11 +1,23 @@
 import schools from "../src/data/colleges.json";
 import schedule from "../src/data/schedule-requested-v1.json";
+import { analyticsSchema, analyticsSummary } from "./analytics";
 import { adminHtml } from "./admin";
 interface Env {
   STORE: DurableObjectNamespace;
   ADMIN_PASSWORD: string;
   SESSION_SECRET: string;
   PUBLIC_ORIGIN: string;
+  PUBLIC_ORIGINS?: string;
+}
+function publicOrigin(origin: string | null, env: Env) {
+  return (
+    !!origin &&
+    ([
+      env.PUBLIC_ORIGIN,
+      ...(env.PUBLIC_ORIGINS || "").split(",").map((s) => s.trim()),
+    ].includes(origin) ||
+      /^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
+  );
 }
 type Report = {
   id: string;
@@ -113,9 +125,8 @@ export class CollegeStore {
         return json({ error: "Origin rejected" }, 403);
       if (
         !admin &&
-        p === "/api/reports" &&
-        origin !== this.env.PUBLIC_ORIGIN &&
-        !origin?.match(/^http:\/\/127\.0\.0\.1:\d+$/)
+        ["/api/reports", "/api/play"].includes(p) &&
+        !publicOrigin(origin, this.env)
       )
         return json({ error: "Origin rejected" }, 403);
     }
@@ -157,6 +168,43 @@ export class CollegeStore {
         corrections: (await this.ctx.storage.get("corrections")) || {},
         daily: { date: today, id: overrides[today] || scheduled(today) },
       });
+    }
+    if (p === "/api/play" && req.method === "POST") {
+      if (!(await this.limit(req, "play", 600)))
+        return json({ error: "Rate limit reached" }, 429);
+      const b = await this.body(req),
+        uuid =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (
+        typeof b.visitorId !== "string" ||
+        !uuid.test(b.visitorId) ||
+        typeof b.roundId !== "string" ||
+        !uuid.test(b.roundId) ||
+        !["daily", "practice"].includes(b.mode)
+      )
+        return json({ error: "Invalid play event" }, 400);
+      const today = dayKey(),
+        visitor = await mac(
+          this.env.SESSION_SECRET,
+          today + ":visitor:" + b.visitorId,
+        ),
+        round = await mac(
+          this.env.SESSION_SECRET,
+          today + ":round:" + b.roundId,
+        );
+      analyticsSchema(this.ctx.storage.sql);
+      this.ctx.storage.sql.exec(
+        "INSERT OR IGNORE INTO plays(day,visitor,round,mode) VALUES (?,?,?,?)",
+        today,
+        visitor,
+        round,
+        b.mode,
+      );
+      const cutoff = new Date(Date.parse(today + "T12:00:00Z") - 90 * 86400000)
+        .toISOString()
+        .slice(0, 10);
+      this.ctx.storage.sql.exec("DELETE FROM plays WHERE day < ?", cutoff);
+      return json({ ok: true });
     }
     if (p === "/api/reports" && req.method === "POST") {
       if (!(await this.limit(req, "report", 5)))
@@ -205,6 +253,8 @@ export class CollegeStore {
       await this.ctx.storage.put("reports", reports);
       return json({ ok: true, id: report.id }, 201);
     }
+    if (p === "/api/admin/analytics" && req.method === "GET")
+      return json(analyticsSummary(this.ctx.storage.sql, dayKey()));
     if (p === "/api/admin/state" && req.method === "GET")
       return json({
         reports: (await this.ctx.storage.get("reports")) || [],
@@ -220,6 +270,7 @@ export class CollegeStore {
         schedule,
         epoch: "2026-11-01",
         today: dayKey(),
+        analytics: analyticsSummary(this.ctx.storage.sql, dayKey()),
       });
     if (p === "/api/admin/report" && req.method === "POST") {
       const b = await this.body(req);
@@ -338,11 +389,8 @@ export default {
     headers.set("Referrer-Policy", "no-referrer");
     headers.set("X-Frame-Options", "DENY");
     const origin = req.headers.get("Origin");
-    if (
-      origin === env.PUBLIC_ORIGIN ||
-      origin?.match(/^http:\/\/127\.0\.0\.1:\d+$/)
-    ) {
-      headers.set("Access-Control-Allow-Origin", origin);
+    if (publicOrigin(origin, env)) {
+      headers.set("Access-Control-Allow-Origin", origin!);
       headers.set("Vary", "Origin");
       headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       headers.set("Access-Control-Allow-Headers", "Content-Type");

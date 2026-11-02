@@ -148,7 +148,7 @@ describe("no exact numerical giveaways", () => {
   });
   it("rank clues show the guessed rank without exposing the answer rank or gap", () => {
     const r = compare({ ...a(), rank: 53 }, { ...a(), rank: 71 });
-    expect(r[3].value).toBe("#53 ↑");
+    expect(r[3].value).toBe("#53 ↓");
     expect(r[3].hint).toContain("within 25");
     expect(r[3].hint).not.toMatch(/71|18/);
   });
@@ -174,3 +174,26 @@ describe("annual schedule", () => {
     }
   });
 });
+
+it.each([
+  [3, 25, "↓"],
+  [25, 3, "↑"],
+  [3, 3, ""],
+])(
+  "rank %s toward %s uses academic standing direction",
+  (guessed, target, arrow) => {
+    expect(
+      compare(
+        { ...a(), rank: Number(guessed) },
+        { ...a(), rank: Number(target) },
+      )[3].value.trim(),
+    ).toBe(("#" + guessed + " " + arrow).trim());
+    expect(
+      compare(
+        { ...a(), rank: Number(guessed) },
+        { ...a(), rank: Number(target) },
+        true,
+      )[3].value.trim(),
+    ).toBe("#" + guessed);
+  },
+);

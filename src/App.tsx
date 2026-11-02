@@ -460,10 +460,11 @@ export function App() {
                 tile shows your guessed college’s position in our selected-pool
                 index. The direction clue points from your guess toward the
                 answer. It shows only a distance band: within 150 miles, within
-                300 miles, or outside 300 miles. Exact mileage is hidden. Arrows
-                point toward the answer’s number: ↑ means more students or a
-                higher (worse) rank. The tile displays your guessed college’s
-                value. Tap a tile for an explanation.
+                300 miles, or outside 300 miles. Exact mileage is hidden.
+                Enrollment ↑ means more students. Rank ↑ means a better position
+                (smaller number); rank ↓ means a lower position (larger number).
+                The tile displays your guessed college’s value. Tap a tile for
+                an explanation.
               </p>
               <p>
                 Daily gives you eight attempts, resetting at midnight Eastern.

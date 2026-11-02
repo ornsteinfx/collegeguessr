@@ -172,7 +172,9 @@ export function compare(a: College, b: College, hard = false): Tile[] {
       hint: `Undergraduate enrollment ${en.hint}`,
     },
     {
-      value: rankOK ? `#${a.rank} ${hard ? "" : rk.arrow}` : "N/A",
+      value: rankOK
+        ? `#${a.rank} ${hard ? "" : rk.arrow === "↑" ? "↓" : rk.arrow === "↓" ? "↑" : ""}`
+        : "N/A",
       color: rk.color,
       hint: rankOK
         ? `Academic ranking: ${rk.hint.toLowerCase()} places; rank shown is your guessed college’s position in our selected-pool index`

@@ -444,11 +444,11 @@ export function App() {
               <p>
                 <b>✓ Green:</b> same state or type; undergraduate enrollment
                 within 2,500; comparable rank within 10; same primary
-                conference; distance within 100 miles.
+                conference; distance within 150 miles.
               </p>
               <p>
                 <b>≈ Gold:</b> neighboring states; undergraduate enrollment
-                within 10,000; academic rank within 25; distance within 500
+                within 10,000; academic rank within 25; distance within 300
                 miles. Different conferences are gray.
               </p>
               <p>
@@ -458,11 +458,12 @@ export function App() {
               <p>
                 Enrollment and rank explanations use threshold ranges. The rank
                 tile shows your guessed college’s position in our selected-pool
-                index. Distance shows rounded straight-line miles between
-                campuses, with a compass arrow pointing from your guess toward
-                the answer. Arrows point toward the answer’s number: ↑ means
-                more students or a higher (worse) rank. The tile displays your
-                guessed college’s value. Tap a tile for an explanation.
+                index. The direction clue points from your guess toward the
+                answer. It shows only a distance band: within 150 miles, within
+                300 miles, or outside 300 miles. Exact mileage is hidden. Arrows
+                point toward the answer’s number: ↑ means more students or a
+                higher (worse) rank. The tile displays your guessed college’s
+                value. Tap a tile for an explanation.
               </p>
               <p>
                 Daily gives you eight attempts, resetting at midnight Eastern.

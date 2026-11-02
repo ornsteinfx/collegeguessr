@@ -3,31 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>CollegeGuessr — Guess the school. Decode the clues.</title>
+    <title>CollegeGuessr — Daily College Guessing Game</title>
     <meta
       name="description"
-      content="Guess from 169 universities and liberal arts colleges using undergraduate enrollment and our NCES-based Academic Outcomes Index. Play daily or practice unlimited."
+      content="Play CollegeGuessr, the free daily college guessing game. Use state, enrollment, academic rank, conference and direction clues to find the mystery college in eight guesses."
     />
-    <meta property="og:title" content="CollegeGuessr" />
+    <link rel="canonical" href="https://ornsteinfx.github.io/collegeguessr/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://ornsteinfx.github.io/collegeguessr/"
+    />
+    <meta
+      property="og:title"
+      content="CollegeGuessr — Daily College Guessing Game"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
       property="og:description"
       content="Guess the school. Decode the clues."
     />
-    <meta property="og:image" content="%BASE_URL%og-image.png" />
+    <meta
+      property="og:image"
+      content="https://ornsteinfx.github.io/collegeguessr/og-image.png"
+    />
     <link rel="icon" href="%BASE_URL%branding/favicon.svg" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CollegeGuessr",
+        "url": "https://ornsteinfx.github.io/collegeguessr/",
+        "description": "A free daily college guessing game with eight attempts and unlimited practice.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any web browser",
+        "isAccessibleForFree": true
+      }
+    </script>
   </head>
   <body>
     <div id="root">
-      <p
+      <div
         style="
-          font-family: Georgia, serif;
+          max-width: 560px;
+          margin: 80px auto;
+          padding: 0 24px;
           text-align: center;
-          padding: 80px 24px;
-          color: #b31b1b;
         "
       >
-        Loading College Guessr…
-      </p>
+        <h1
+          style="
+            font:
+              32px Georgia,
+              serif;
+            color: #b31b1b;
+          "
+        >
+          CollegeGuessr
+        </h1>
+        <p style="font: 15px/1.6 system-ui; color: #555">
+          A free daily college guessing game. Find the mystery university or
+          liberal arts college in eight guesses using state, type, undergraduate
+          enrollment, academic rank, conference and direction clues.
+        </p>
+        <p
+          role="status"
+          style="
+            font:
+              14px Georgia,
+              serif;
+            color: #b31b1b;
+          "
+        >
+          Loading today’s puzzle…
+        </p>
+      </div>
     </div>
     <noscript>College Guessr needs JavaScript enabled to play.</noscript>
     <script type="module" src="/src/main.tsx"></script>

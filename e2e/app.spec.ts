@@ -152,21 +152,21 @@ test("new clues flip in order, saved rows remain revealed", async ({
   await expect(tiles).toHaveCount(6);
   await expect(tiles.last()).toHaveAttribute(
     "aria-label",
-    "Revealing Distance clue",
+    "Revealing Direction clue",
   );
   await expect(page.getByRole("combobox")).toBeDisabled();
   await expect(tiles.first()).toHaveAttribute("aria-label", /^State:/);
   await expect(tiles.last()).toHaveAttribute(
     "aria-label",
-    "Revealing Distance clue",
+    "Revealing Direction clue",
   );
-  await expect(tiles.last()).toHaveAttribute("aria-label", /^Distance:/);
+  await expect(tiles.last()).toHaveAttribute("aria-label", /^Direction:/);
   await expect(page.getByRole("combobox")).toBeEnabled();
   await page.reload();
   await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
   await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
     "aria-label",
-    /^Distance:/,
+    /^Direction:/,
   );
 });
 
@@ -182,7 +182,7 @@ test("reduced motion reveals clues immediately", async ({ page }) => {
   await expect(page.locator(".comparison-flip.is-flipping")).toHaveCount(0);
   await expect(page.locator(".comparison-flip").last()).toHaveAttribute(
     "aria-label",
-    /^Distance:/,
+    /^Direction:/,
   );
 });
 
@@ -207,11 +207,14 @@ test("white background, six clues and functional academic rank", async ({
   await expect(rank).toHaveAttribute("aria-label", /#[0-9]+/);
   await expect(rank).not.toHaveAttribute("aria-label", /N\/A/);
   await expect(
-    page.getByRole("button", { name: /^Distance:/ }),
-  ).toHaveAttribute("aria-label", /mi [↑↗→↘↓↙←↖] (N|NE|E|SE|S|SW|W|NW)/);
+    page.getByRole("button", { name: /^Direction:/ }),
+  ).toHaveAttribute("aria-label", /[↑↗→↘↓↙←↖] (N|NE|E|SE|S|SW|W|NW)/);
   await expect(
-    page.getByRole("button", { name: /^Distance:/ }),
-  ).toHaveAttribute("aria-label", /[0-9,]+ mi.*straight-line campus-to-campus/);
+    page.getByRole("button", { name: /^Direction:/ }),
+  ).toHaveAttribute(
+    "aria-label",
+    /(Within 150|Within 300|Outside 300) miles.*straight-line campus-to-campus/,
+  );
   expect(
     await page.evaluate(
       () => getComputedStyle(document.documentElement).backgroundColor,

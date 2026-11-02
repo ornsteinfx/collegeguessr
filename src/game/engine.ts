@@ -1,4 +1,4 @@
-import { distanceBetween } from "./geography";
+import { distanceBetween, distanceBand } from "./geography";
 import { conferenceName } from "./conference";
 import { configuredAnswer } from "../service";
 import raw from "../data/colleges.json";
@@ -120,6 +120,7 @@ export function numeric(
 }
 export function compare(a: College, b: College, hard = false): Tile[] {
   const distance = distanceBetween(a.id, b.id);
+  const band = distance ? distanceBand(distance.miles) : null;
   const en = numeric(a.enrollment, b.enrollment, 2500, 10000);
   const rankOK =
     !!a.rankSource &&
@@ -193,19 +194,15 @@ export function compare(a: College, b: College, hard = false): Tile[] {
             : "Different athletic conferences",
     },
     {
-      value: distance
-        ? `${distance.miles.toLocaleString()} mi${!hard && distance.direction ? ` ${distance.arrow} ${distance.direction}` : ""}`
-        : "N/A",
-      color: distance
-        ? distance.miles <= 100
-          ? "green"
-          : distance.miles <= 500
-            ? "yellow"
-            : "gray"
-        : "neutral",
-      hint: distance
-        ? `${distance.miles.toLocaleString()} miles straight-line campus-to-campus${!hard && distance.direction ? `; the answer is ${({ N: "north", NE: "northeast", E: "east", SE: "southeast", S: "south", SW: "southwest", W: "west", NW: "northwest" } as Record<string, string>)[distance.direction]} of your guess` : ""}. Green: within 100 miles; yellow: within 500 miles.`
-        : "Verified campus coordinates unavailable",
+      value:
+        distance && band
+          ? `${!hard && distance.direction ? `${distance.arrow} ${distance.direction} · ` : ""}${band.label}`
+          : "N/A",
+      color: band?.color ?? "neutral",
+      hint:
+        distance && band
+          ? `${band.hint}, straight-line campus-to-campus${!hard && distance.direction ? `; the answer is ${({ N: "north", NE: "northeast", E: "east", SE: "southeast", S: "south", SW: "southwest", W: "west", NW: "northwest" } as Record<string, string>)[distance.direction]} of your guess` : ""}. Exact mileage is hidden.`
+          : "Verified campus coordinates unavailable",
     },
   ];
 }

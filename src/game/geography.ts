@@ -25,7 +25,7 @@ export function campusDistance(
     360;
   const index = Math.round(bearing / 45) % 8;
   return {
-    miles: Math.round(miles),
+    miles,
     direction:
       miles < 0.01 ? "" : ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][index],
     arrow: miles < 0.01 ? "" : ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"][index],
@@ -35,4 +35,24 @@ export function distanceBetween(from: string, to: string) {
   const a = locations[from as keyof typeof locations],
     b = locations[to as keyof typeof locations];
   return a && b ? campusDistance(a, b) : null;
+}
+
+export function distanceBand(miles: number) {
+  return miles <= 150
+    ? {
+        color: "green" as const,
+        label: "Within 150 miles",
+        hint: "Within 150 miles",
+      }
+    : miles <= 300
+      ? {
+          color: "yellow" as const,
+          label: "Within 300 miles",
+          hint: "More than 150 and within 300 miles",
+        }
+      : {
+          color: "gray" as const,
+          label: "Outside 300 miles",
+          hint: "Outside 300 miles",
+        };
 }

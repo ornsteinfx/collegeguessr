@@ -23,7 +23,7 @@ export function Board({
           "UNDERGRADS",
           "ACADEMIC RANK",
           "CONFERENCE",
-          "DISTANCE",
+          "DIRECTION",
         ].map((x) => (
           <span key={x}>{x}</span>
         ))}
@@ -51,7 +51,7 @@ export function Board({
                         "Undergrads",
                         "Academic rank",
                         "Conference",
-                        "Distance",
+                        "Direction",
                       ][i]
                     }
                     index={i}

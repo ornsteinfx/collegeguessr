@@ -45,7 +45,7 @@ Admin → Players shows today's unique playing browsers, daily players, practice
 
 The client sends only random browser/round identifiers and mode. The server derives the Eastern date and stores day-specific HMACs rather than raw identifiers, guesses, answers or IP addresses in the analytics table. Event records older than 90 days are pruned on new plays and admin reads. Counts require authenticated admin access, refresh every 30 seconds and persist across deployments. Tracking failures never block the game.
 
-Custom domains can keep using GitHub Pages. After a domain is chosen, configure its CNAME/DNS and HTTPS and add its exact HTTPS origin to the backend's comma-separated PUBLIC_ORIGINS variable, keeping the GitHub Pages origin supported. No domain is purchased or configured by this change.
+Production domain: collegeguessr.xyz, registered through Wix and connected to GitHub Pages. The deployment builds at `/`. Wix apex A records target 185.199.108.153, 185.199.109.153, 185.199.110.153 and 185.199.111.153; www uses CNAME ornsteinfx.github.io. Backend PUBLIC_ORIGINS permits both HTTPS custom-domain origins alongside the original GitHub origin. GitHub provisions the HTTPS certificate after public DNS becomes available; enforce HTTPS once certificate issuance completes.
 
 ## Search indexing
 

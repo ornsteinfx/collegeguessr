@@ -1,12 +1,12 @@
 # College Guessr
 
-[Play CollegeGuessr](https://ornsteinfx.github.io/collegeguessr/) · [Admin](https://collegeguessr-admin.pickle-pal-online.workers.dev/admin)
+[Play CollegeGuessr](https://collegeguessr.xyz/) · [Admin](https://collegeguessr-admin.pickle-pal-online.workers.dev/admin)
 
 169 universities and liberal arts colleges: all 149 user-requested universities plus 20 liberal arts colleges. White background, original red academic crest, vibrant clue colors, staggered flip reveals, and an interactive US campus map. Enrollment means **undergraduate students only**.
 
 ## Development
 
-Node 24 recommended. Run `npm ci`, `npm run dev`. Verify with `npm test`, `npm run audit:data`, `npm run test:e2e`, and `npx tsc -p server/tsconfig.json`. Install the browser with `npx playwright install chromium`. `npm run build -- --base=/collegeguessr/` produces GitHub Pages assets. The main-branch Pages workflow tests, audits, builds and publishes automatically.
+Node 24 recommended. Run `npm ci`, `npm run dev`. Verify with `npm test`, `npm run audit:data`, `npm run test:e2e`, and `npx tsc -p server/tsconfig.json`. Install the browser with `npx playwright install chromium`. `npm run build -- --base=/` produces GitHub Pages assets. The main-branch Pages workflow tests, audits, builds and publishes automatically.
 
 ## Data
 
@@ -49,4 +49,4 @@ Custom domains can keep using GitHub Pages. After a domain is chosen, configure 
 
 ## Search indexing
 
-The homepage has descriptive title/description, canonical and social metadata, WebApplication structured data, static introductory content and a one-URL sitemap at `/collegeguessr/sitemap.xml`. Hash-based practice/settings views are not separate indexable pages. No Search Console ownership verification or indexing submission has been performed. After a custom domain is connected, update the absolute URLs in `index.html` and `public/sitemap.xml`, verify the domain in Google Search Console using its supplied DNS TXT record, submit the sitemap, and use URL Inspection → Request indexing for the homepage. Google determines whether and when to index; the sitemap is not a ranking guarantee.
+The homepage has descriptive title/description, canonical and social metadata, WebApplication structured data, static introductory content and a one-URL sitemap at `/sitemap.xml`. Hash-based practice/settings views are not separate indexable pages. No Search Console ownership verification or indexing submission has been performed. After a custom domain is connected, update the absolute URLs in `index.html` and `public/sitemap.xml`, verify the domain in Google Search Console using its supplied DNS TXT record, submit the sitemap, and use URL Inspection → Request indexing for the homepage. Google determines whether and when to index; the sitemap is not a ranking guarantee.

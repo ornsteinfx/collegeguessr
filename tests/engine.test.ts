@@ -167,7 +167,7 @@ describe("annual schedule", () => {
       expect(new Set(schedule.slice(start, start + 169)).size).toBe(169);
     for (let i = 1; i < 365; i++) expect(schedule[i]).not.toBe(schedule[i - 1]);
     for (let i = 0; i < 365; i++) {
-      const date = new Date(Date.UTC(2026, 10, 2 + i))
+      const date = new Date(Date.UTC(2026, 10, 1 + i))
         .toISOString()
         .slice(0, 10);
       expect(dailyAnswer(date).id).toBe(schedule[i]);

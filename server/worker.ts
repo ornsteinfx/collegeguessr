@@ -80,7 +80,7 @@ function validDate(d: string) {
 }
 function scheduled(d: string) {
   const i = Math.floor(
-    (Date.parse(d + "T12:00:00Z") - Date.parse("2026-11-02T12:00:00Z")) /
+    (Date.parse(d + "T12:00:00Z") - Date.parse("2026-11-01T12:00:00Z")) /
       86400000,
   );
   return schedule[((i % schedule.length) + schedule.length) % schedule.length];
@@ -218,7 +218,7 @@ export class CollegeStore {
           conference: c.conference,
         })),
         schedule,
-        epoch: "2026-11-02",
+        epoch: "2026-11-01",
         today: dayKey(),
       });
     if (p === "/api/admin/report" && req.method === "POST") {
@@ -239,7 +239,7 @@ export class CollegeStore {
       const b = await this.body(req);
       if (
         !validDate(b.date) ||
-        b.date < "2026-11-02" ||
+        b.date < "2026-11-01" ||
         b.date > "2036-11-02" ||
         (b.id !== null && !ids.has(b.id))
       )

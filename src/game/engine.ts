@@ -203,7 +203,7 @@ export const dateKey = (d = new Date()) =>
   }).format(d);
 export const puzzleNumber = (date = dateKey()) =>
   Math.floor(
-    (Date.parse(date + "T12:00:00Z") - Date.parse("2026-11-02T12:00:00Z")) /
+    (Date.parse(date + "T12:00:00Z") - Date.parse("2026-11-01T12:00:00Z")) /
       86400000,
   ) + 1;
 // Frozen ID order is committed independently of future dataset ordering.

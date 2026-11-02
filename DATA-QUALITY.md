@@ -8,7 +8,7 @@ Academic outcomes: 65% six-year bachelor graduation rate + 35% full-time retenti
 
 Conference: official NCAA primary all-sports membership, 2026–27. Claremont McKenna and Harvey Mudd share a verified joint athletics program; Pomona uses Pomona-Pitzer membership.
 
-365 generated daily answers from November 2, 2026. Each complete 169-school cycle contains every school exactly once. No adjacent repeat across cycle boundaries. Year cycles thereafter; admin date overrides are optional.
+365 generated daily answers from November 1, 2026. Each complete 169-school cycle contains every school exactly once. No adjacent repeat across cycle boundaries. Year cycles thereafter; admin date overrides are optional.
 
 Map: all 169 campuses have NCES coordinates.
 

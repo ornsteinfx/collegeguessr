@@ -248,6 +248,8 @@ export default function CollegeMap({
     anchor.x <= bounds.width &&
     anchor.y >= 0 &&
     anchor.y <= (svg.current?.clientHeight ?? bounds.height);
+  const mapBottom =
+    matrix && bounds ? matrix.f - bounds.top + H * matrix.d : 300;
   useLayoutEffect(() => {
     if (
       !active.length ||
@@ -259,7 +261,7 @@ export default function CollegeMap({
       return;
     panForPopup.current = false;
     const minimumY = popup.current.getBoundingClientRect().height + 40;
-    const maximumY = (svg.current?.clientHeight ?? 300) - 12;
+    const maximumY = mapBottom - 12;
     const shiftY = Math.max(minimumY, Math.min(maximumY, anchor.y)) - anchor.y;
     const shiftX = bounds
       ? Math.max(24, Math.min(bounds.width - 24, anchor.x)) - anchor.x
@@ -469,10 +471,7 @@ export default function CollegeMap({
             <div
               className="map-selection-list"
               style={{
-                maxHeight: Math.min(
-                  210,
-                  (svg.current?.clientHeight ?? 300) - 115,
-                ),
+                maxHeight: Math.min(210, mapBottom - 120),
               }}
             >
               {activeSchools.map((c) => (

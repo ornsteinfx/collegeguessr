@@ -251,6 +251,26 @@ test("map search zooms, shows city labels and chooses a real school", async ({
   expect(popupBounds!.y + popupBounds!.height).toBeLessThan(
     canvasBounds!.y + anchorY,
   );
+  expect(
+    await popup.evaluate((el) => {
+      const card = el as HTMLElement,
+        canvas = card.closest(".map-canvas")!;
+      const bounds = canvas.getBoundingClientRect();
+      const x =
+        bounds.left +
+        parseFloat(card.style.left) +
+        parseFloat(card.style.getPropertyValue("--pin-offset"));
+      const y = bounds.top + parseFloat(card.style.top) + 32;
+      return [...canvas.querySelectorAll<SVGGElement>(".map-pin")].some(
+        (pin) => {
+          const matrix = pin.getScreenCTM();
+          if (!matrix) return false;
+          const p = new DOMPoint(0, 0).matrixTransform(matrix);
+          return Math.hypot(p.x - x, p.y - y) < 2;
+        },
+      );
+    }),
+  ).toBeTruthy();
   await page.screenshot({
     path: `screenshots/map-popup-${test.info().project.name}.png`,
     fullPage: true,
